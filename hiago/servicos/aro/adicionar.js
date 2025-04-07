@@ -6,18 +6,22 @@ async function executarQuery(sql, params = []) {
     try {
         conexao = await pool.getConnection();
         const [resultado] = await conexao.execute(sql, params);
-        return resultado.length > 0 ? resultado : [];
+        return resultado;
     } catch (error) {
-        console.error('Erro ao executar query:', error);
-        throw error;
+        throw new AppError('Erro ao executar o comando', 500, 'DB_EXEC_ERROR', error.message);
     } finally {
         if (conexao) conexao.release();
     }
 }
 
-async function adicionarCadastro(nome, email, telefone, funcao) {
-    const sql = `INSERT INTO cadastros (nome, email, telefone, funcao) VALUES (?, ?, ?, ?);`;
-    return await executarQuery(sql, [nome, email, telefone, funcao]);
+async function adicionarCadastro(nome) {
+    try{
+        const sql = `INSERT INTO aro (nome) VALUE (?);`;
+        return await executarQuery(sql, [nome]);
+    } catch(error) {
+        throw new AppError('Erro ao executar o comando', 500, 'ERROR', error.message);
+    }
+    
 }
 
 export { adicionarCadastro }
