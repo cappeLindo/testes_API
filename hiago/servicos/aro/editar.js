@@ -8,8 +8,7 @@ async function executarQuery(sql, params = []) {
         const [resultado] = await conexao.execute(sql, params);
         return resultado;
     } catch (error) {
-        console.error('Erro ao executar query:', error);
-        throw error;
+        throw new AppError('Erro ao executar o comando', 500, 'DB_EXEC_ERROR', error.message);
     } finally {
         if (conexao) conexao.release();
     }

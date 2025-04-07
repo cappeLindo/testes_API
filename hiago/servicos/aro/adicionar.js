@@ -14,14 +14,14 @@ async function executarQuery(sql, params = []) {
     }
 }
 
-async function adicionarCadastro(nome) {
+async function adicionarAro(nome) {
     try{
-        const sql = `INSERT INTO aro (nome) VALUE (?);`;
+        const sql = `INSERT INTO aro (nome_aro) VALUE (?);`;
         return await executarQuery(sql, [nome]);
     } catch(error) {
-        throw new AppError('Erro ao executar o comando', 500, 'ERROR', error.message);
+        throw new AppError('ID do aro é invalido', 400, 'ARO_ID_INVALID', error.message);
     }
     
 }
 
-export { adicionarCadastro }
+export { adicionarAro }

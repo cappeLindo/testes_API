@@ -35,10 +35,8 @@ async function apresentarAroPorId(id) {
   const sql = `SELECT * FROM aro WHERE id_aro = ?`;
   try {
     const resultado = await executarQuery(sql, [id]);
-    if (!resultado.length) {
-      throw new AppError('Aro não encontrado', 404, 'ARO_NOT_FOUND');
-    }
-    return resultado[0];
+
+    return resultado;
   } catch (error) {
     if (!(error instanceof AppError)) {
       throw new AppError('Erro ao buscar aro por ID', 500, 'ARO_ID_ERROR', error.message);
@@ -52,13 +50,11 @@ async function apresentarAroPorNome(nome) {
     throw new AppError('Nome do aro é obrigatório', 400, 'MISSING_NAME');
   }
 
-  const sql = `SELECT * FROM aro WHERE nome_aro = ?`;
+  const sql = `SELECT * FROM aro WHERE nome_aro LIKE ?`;
   try {
-    const resultado = await executarQuery(sql, [nome]);
-    if (!resultado.length) {
-      throw new AppError('Aro com esse nome não encontrado', 404, 'ARO_NOT_FOUND');
-    }
-    return resultado[0];
+    const resultado = await executarQuery(sql, [`%${nome}%`]);
+
+    return resultado;
   } catch (error) {
     if (!(error instanceof AppError)) {
       throw new AppError('Erro ao buscar aro por nome', 500, 'ARO_NAME_ERROR', error.message);
