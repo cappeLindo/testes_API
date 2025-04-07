@@ -26,7 +26,6 @@ routerAro.post('/', async (req, res) => {
 });
 
 
-
 routerAro.get('/', async (req, res) => {
     const {nome} = req.query;
     if (nome) {
