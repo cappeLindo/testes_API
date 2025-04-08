@@ -19,9 +19,9 @@ INSERT INTO `Web-Cars`.`cor` (`nome_cor`) VALUES
 
 -- Populating the aro table
 INSERT INTO `Web-Cars`.`aro` (`nome_aro`) VALUES
-('Aro 15'),
-('Aro 16'),
-('Aro 17');
+('15'),
+('16'),
+('17');
 
 -- Populating the categoria table
 INSERT INTO `Web-Cars`.`categoria` (`nome_categoria`) VALUES

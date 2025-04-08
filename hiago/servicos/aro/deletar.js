@@ -5,9 +5,8 @@ async function executarQuery(sql, params = []) {
     let conexao;
     try {
         conexao = await pool.getConnection();
-        console.log('Executando SQL:', sql, 'com params:', params); // DEBUG
+        //console.log('Executando SQL:', sql, 'com params:', params); // DEBUG
         const [resultado] = await conexao.execute(sql, params);
-        console.log(resultado)
         return resultado;
     } catch (error) {
         throw new AppError('Erro ao executar o comando', 500, 'DB_EXEC_ERROR', error.message);
@@ -18,9 +17,8 @@ async function executarQuery(sql, params = []) {
 
 async function deletarAro(id) {
     try {
-        console.log(id)
         id = parseInt(id, 10); // Garantindo que id seja um número inteiro
-        const sql = `DELETE FROM aro WHERE id_aro = ?`;
+        const sql = "DELETE FROM aro WHERE id_aro = ?";
         const resultado = await executarQuery(sql, [id]);
         return resultado;
     } catch (error) {
