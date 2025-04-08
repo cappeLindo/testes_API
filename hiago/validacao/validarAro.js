@@ -1,32 +1,30 @@
-const regexNumeros = /^-?\d+(\.\d+)?$/;
+const regexInteiros = /^\d+$/;
 
 import { apresentarAroPorNome } from '../servicos/aro/apresentar.js';
 
-export async function validarAro(nome) {
-  if (typeof nome !== 'string' || nome.trim() === '') {
-    return { status: false, mensagem: 'Nome inválido. Deve ser uma string não vazia.' };
-  }
-
-  const partes = nome.trim().split(/\s+/);
-  const textoInicial = partes[0]?.toLowerCase();
-  const numeroStr = partes[1]?.replace(',', '.');
-
-  if (
-    partes.length !== 2 ||
-    textoInicial !== 'aro' ||
-    !regexNumeros.test(numeroStr)
-  ) {
+export async function validarAro(valor) {
+  if (typeof valor !== 'string' || valor.trim() === '') {
     return {
       status: false,
-      mensagem: 'Nome inválido. Deve estar no formato "Aro XX", onde XX é um número.',
+      mensagem: 'Valor inválido. Deve ser uma string não vazia.',
     };
   }
 
-  const nomeNormalizado = `Aro ${parseFloat(numeroStr)}`;
-  
-  const aroExistente = await apresentarAroPorNome(nomeNormalizado);
+  const valorLimpo = valor.trim();
 
-  if (aroExistente) {
+  if (!regexInteiros.test(valorLimpo)) {
+    return {
+      status: false,
+      mensagem: 'Valor inválido. Deve conter apenas números inteiros.',
+    };
+  }
+
+  const nomeNormalizado = `${parseInt(valorLimpo, 10)}`;
+
+  const aroExistente = await apresentarAroPorNome(nomeNormalizado);
+  console.log(nomeNormalizado)
+  console.log(aroExistente.length)
+  if (aroExistente.length != 0) {
     return {
       status: false,
       mensagem: `O aro "${nomeNormalizado}" já está cadastrado.`,
