@@ -1,11 +1,10 @@
 import express from "express";
 import cors from "cors";
 
-import "./importRotas.js";
-
 import errorHandler from "./middlevares/errorHandler.js";
 
 import routerAro from "./hiago/rotas/aro.js";
+import routerCambio from "./hiago/rotas/cambio.js";
 
 const porta = 9000;
 const app = express();
@@ -13,11 +12,11 @@ app.use(cors());
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.json('Sei la');
-});
+app.use('/api/aro', routerAro);
 
-app.use('/aro', routerAro);
+app.use('/api/cambio', routerCambio);
+
+
 
 app.use(errorHandler);
 
