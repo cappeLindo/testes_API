@@ -21,7 +21,7 @@ async function apresentarCategoria(req, res, next) {
     return resultado;
   } catch (error) {
     if (!(error instanceof AppError)) {
-      throw new AppError('Erro ao apresentar categoria', 500, 'ARO_LIST_ERROR', error.message);
+      throw new AppError('Erro ao apresentar categoria', 500, 'CATEGORIA_LIST_ERROR', error.message);
     }
     throw error;
   }
