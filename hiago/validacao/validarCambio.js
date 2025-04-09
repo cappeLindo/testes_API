@@ -9,9 +9,9 @@ export async function validarCambio(valor) {
     };
   }
 
-  const aroExistente = await apresentarCambioPorNome(valor);
-  console.log(aroExistente.length)
-  if (aroExistente.length != 0) {
+  const cambioExistente = await apresentarCambioPorNome(valor);
+  console.log(cambioExistente.length)
+  if (cambioExistente.length != 0) {
     return {
       status: false,
       mensagem: `O câmbio "${valor}" já está cadastrado.`,

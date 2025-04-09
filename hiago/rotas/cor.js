@@ -17,7 +17,7 @@ routerCor.put('/:id', async (req, res) => {
         }
     
         if (nome === undefined) {
-            throw new AppError('Nome do cor é obrigatório', 400, 'MISSING_NAME');
+            throw new AppError('Nome da cor é obrigatório', 400, 'MISSING_NAME');
         }
     
         const nomeValido = await validarCor(nome);

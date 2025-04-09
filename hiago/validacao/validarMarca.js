@@ -1,7 +1,7 @@
 // Importando a função apresentarCambioPorNome do serviço de câmbio
-import { apresentarCorPorNome } from '../servicos/cor/apresentar.js';
+import { apresentarMarcaPorNome } from '../servicos/marca/apresentar.js';
 
-export async function validarCor(valor) {
+export async function validarMarca(valor) {
   if (typeof valor !== 'string' || valor.trim() === '') {
     return {
       status: false,
@@ -9,12 +9,12 @@ export async function validarCor(valor) {
     };
   }
 
-  const corExistente = await apresentarCorPorNome(valor);
-  console.log(corExistente.length)
-  if (corExistente.length != 0) {
+  const marcaExistente = await apresentarMarcaPorNome(valor);
+  console.log(marcaExistente.length)
+  if (marcaExistente.length != 0) {
     return {
       status: false,
-      mensagem: `A cor "${valor}" já está cadastrado.`,
+      mensagem: `O marca "${valor}" já está cadastrado.`,
     };
   }
 

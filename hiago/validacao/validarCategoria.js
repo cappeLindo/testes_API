@@ -9,9 +9,9 @@ export async function validarCategoria(valor) {
     };
   }
 
-  const aroExistente = await apresentarCategoriaPorNome(valor);
-  console.log(aroExistente.length)
-  if (aroExistente.length != 0) {
+  const categoriaExistente = await apresentarCategoriaPorNome(valor);
+  console.log(categoriaExistente.length)
+  if (categoriaExistente.length != 0) {
     return {
       status: false,
       mensagem: `A categoria "${valor}" já está cadastrado.`,

@@ -9,9 +9,9 @@ export async function validarCombustivel(valor) {
     };
   }
 
-  const aroExistente = await apresentarCombustivelPorNome(valor);
-  console.log(aroExistente.length)
-  if (aroExistente.length != 0) {
+  const combustivelExistente = await apresentarCombustivelPorNome(valor);
+  console.log(combustivelExistente.length)
+  if (combustivelExistente.length != 0) {
     return {
       status: false,
       mensagem: `O combustível "${valor}" já está cadastrado.`,
