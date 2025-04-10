@@ -9,6 +9,7 @@ import routerCategoria from "./hiago/rotas/categoria.js";
 import routerCombustivel from "./hiago/rotas/combustivel.js";
 import routerCor from "./hiago/rotas/cor.js";
 import routerMarca from "./hiago/rotas/marca.js";
+import routerModelo from "./hiago/rotas/modelo.js";
 
 const porta = 9000;
 const app = express();
@@ -23,7 +24,7 @@ app.use('/api/categoria', routerCategoria);
 app.use('/api/combustivel', routerCombustivel);
 app.use('/api/cor', routerCor);
 app.use('/api/marca', routerMarca);
-
+app.use('/api/modelo', routerModelo);
 
 app.use(errorHandler);
 
