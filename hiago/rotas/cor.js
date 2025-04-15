@@ -9,6 +9,10 @@ import { editarCor } from '../servicos/cor/editar.js';
 const routerCor = express.Router();
 
 routerCor.put('/:id', async (req, res) => {
+    // #swagger.tags = ['Cor']
+    // #swagger.description = 'Edita uma cor pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID da cor', required: true, type: 'integer' }
+    // #swagger.parameters['cor'] = { in: 'body', description: 'Dados da cor', required: true, schema: { $ref: '#/definitions/Cor' } }
     const { id } = req.params;
     const { nome } = req.body;
     try {
@@ -43,6 +47,9 @@ routerCor.put('/:id', async (req, res) => {
 });
 
 routerCor.post('/', async (req, res) => {
+    // #swagger.tags = ['Cor']
+    // #swagger.description = 'Cadastra uma nova cor'
+    // #swagger.parameters['cor'] = { in: 'body', description: 'Dados da cor', required: true, schema: { $ref: '#/definitions/Cor' } }
     const { nome } = req.body;
 
     try {
@@ -69,6 +76,10 @@ routerCor.post('/', async (req, res) => {
 });
 
 routerCor.get('/', async (req, res) => {
+    // #swagger.tags = ['Cor']
+    // #swagger.description = 'Lista todas as cores'
+    // #swagger.parameters['nome'] = { in: 'query', description: 'Nome da cor para busca' }
+
     const { nome } = req.query;
     if (nome) {
         const resultado = await apresentarCorPorNome(nome);
@@ -83,6 +94,9 @@ routerCor.get('/', async (req, res) => {
 });
 
 routerCor.get('/:id', async (req, res) => {
+    // #swagger.tags = ['Cor']
+    // #swagger.description = 'Retorna uma cor pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID da cor', required: true, type: 'integer' }
     const { id } = req.params;
     if (id) {
         const resultado = await apresentarCorPorId(id);
@@ -97,6 +111,9 @@ routerCor.get('/:id', async (req, res) => {
 });
 
 routerCor.delete('/:id', async (req, res) => {
+    // #swagger.tags = ['Cor']
+    // #swagger.description = 'Deleta uma cor pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID da cor', required: true, type: 'integer' }
     const { id } = req.params;
     try {
         const resultado = await deletarCor(id);

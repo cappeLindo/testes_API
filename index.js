@@ -1,6 +1,12 @@
 import express from "express";
 import cors from "cors";
 
+import swaggerUI from "swagger-ui-express";
+import fs from "fs";
+
+const swaggerDocumentation = JSON.parse(fs.readFileSync("./swagger-output.json", "utf-8"));
+
+
 import errorHandler from "./middlevares/errorHandler.js";
 
 import routerAro from "./hiago/rotas/aro.js";
@@ -17,6 +23,13 @@ app.use(cors());
 
 app.use(express.json());
 
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocumentation, {
+    explorer: true,
+    swaggerOptions: {
+        docExpansion: 'none', // ou 'list' ou 'full'
+        defaultModelsExpandDepth: -1, // oculta modelos
+    }
+}));
 
 app.use('/api/aro', routerAro);
 app.use('/api/cambio', routerCambio);

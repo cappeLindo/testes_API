@@ -9,6 +9,11 @@ import { editarModeloParcial, editarModelo } from '../servicos/modelo/editar.js'
 const routerModelo = express.Router();
 
 routerModelo.put('/:id', async (req, res) => {
+    // #swagger.tags = ['Modelo']
+    // #swagger.description = 'Edita um modelo pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID do modelo', required: true, type: 'integer' }
+    // #swagger.parameters['modelo'] = { in: 'body', description: 'Dados do modelo', required: true, schema: { $ref: '#/definitions/Modelo' } }
+
     const { id } = req.params;
     const { nome, id_marca, id_categoria } = req.body;
     try {
@@ -43,6 +48,11 @@ routerModelo.put('/:id', async (req, res) => {
 });
 
 routerModelo.patch('/:id', async (req, res) => {
+    // #swagger.tags = ['Modelo']
+    // #swagger.description = 'Edita parcialmente um modelo pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID do modelo', required: true, type: 'integer' }
+    // #swagger.parameters['modelo'] = { in: 'body', description: 'Dados do modelo', required: true, schema: { $ref: '#/definitions/Modelo' } }
+    
     try {
         const { id } = req.params;
         const { nome, id_marca, id_categoria } = req.body;
@@ -78,6 +88,10 @@ routerModelo.patch('/:id', async (req, res) => {
 
 
 routerModelo.post('/', async (req, res) => {
+    // #swagger.tags = ['Modelo']
+    // #swagger.description = 'Cadastra um modelo'
+    // #swagger.parameters['modelo'] = { in: 'body', description: 'Dados do modelo', required: true, schema: { $ref: '#/definitions/Modelo' } }
+
     const { nome, id_marca, id_categoria } = req.body;
 
     try {
@@ -105,6 +119,10 @@ routerModelo.post('/', async (req, res) => {
 
 
 routerModelo.delete('/:id', async (req, res) => {
+    // #swagger.tags = ['Modelo']
+    // #swagger.description = 'Deleta um modelo pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID do modelo', required: true, type: 'integer' }
+
     const { id } = req.params;
     try {
         const resultado = await deletarModelo(id);
@@ -123,6 +141,9 @@ routerModelo.delete('/:id', async (req, res) => {
 
 
 routerModelo.get('/', async (req, res) => {
+    // #swagger.tags = ['Modelo']
+    // #swagger.description = 'Lista todos os modelos ou busca por nome'
+    // #swagger.parameters['nome'] = { in: 'query', description: 'Nome do modelo', required: false, type: 'string' }
     const { nome } = req.query;
     if (nome) {
         const resultado = await apresentarModeloPorNome(nome);
@@ -137,6 +158,10 @@ routerModelo.get('/', async (req, res) => {
 });
 
 routerModelo.get('/:id', async (req, res) => {
+    // #swagger.tags = ['Modelo']
+    // #swagger.description = 'Lista um modelo pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID do modelo', required: true, type: 'integer' }
+
     const { id } = req.params;
     if (id) {
         const resultado = await apresentarModeloPorId(id);
@@ -151,6 +176,9 @@ routerModelo.get('/:id', async (req, res) => {
 });
 
 routerModelo.get('/marca/', async (req, res) => {
+    // #swagger.tags = ['Modelo']
+    // #swagger.description = 'Lista todos os modelos ou busca por nome da marca'
+    // #swagger.parameters['nome'] = { in: 'query', description: 'Nome da marca', required: false, type: 'string' }
     const { nome } = req.query;
     if (nome) {
         const resultado = await apresentarModeloPorNomeMarca(nome);
@@ -165,6 +193,9 @@ routerModelo.get('/marca/', async (req, res) => {
 });
 
 routerModelo.get('/marca/:id', async (req, res) => {
+    // #swagger.tags = ['Modelo']
+    // #swagger.description = 'Lista um modelo pelo ID da marca'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID da marca', required: true, type: 'integer' }
     const { id } = req.params;
     if (id) {
         const resultado = await apresentarModeloPorIdMarca(id);
@@ -179,6 +210,9 @@ routerModelo.get('/marca/:id', async (req, res) => {
 });
 
 routerModelo.get('/categoria/', async (req, res) => {
+    // #swagger.tags = ['Modelo']
+    // #swagger.description = 'Lista todos os modelos ou busca por nome da categoria'
+    // #swagger.parameters['nome'] = { in: 'query', description: 'Nome da categoria', required: false, type: 'string' }
     const { nome } = req.query;
     if (nome) {
         const resultado = await apresentarModeloPorNomeCategoria(nome);
@@ -193,6 +227,9 @@ routerModelo.get('/categoria/', async (req, res) => {
 });
 
 routerModelo.get('/categoria/:id', async (req, res) => {
+    // #swagger.tags = ['Modelo']
+    // #swagger.description = 'Lista um modelo pelo ID da categoria'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID da categoria', required: true, type: 'integer' }
     const { id } = req.params;
     if (id) {
         const resultado = await apresentarModeloPorIdCategoria(id);

@@ -9,6 +9,10 @@ import { editarCambio } from '../servicos/cambio/editar.js';
 const routerCambio = express.Router();
 
 routerCambio.put('/:id', async (req, res) => {
+    // #swagger.tags = ['Câmbio']
+    // #swagger.description = 'Edita um câmbio pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID do câmbio', required: true, type: 'integer' }
+
     const { id } = req.params;
     const { nome } = req.body;
     try {
@@ -43,6 +47,9 @@ routerCambio.put('/:id', async (req, res) => {
 });
 
 routerCambio.post('/', async (req, res) => {
+    // #swagger.tags = ['Câmbio']
+    // #swagger.description = 'Cadastra um câmbio'
+    // #swagger.parameters['cambio'] = { in: 'body', description: 'Dados do câmbio', required: true, schema: { $ref: '#/definitions/Cambio' } }
     const { nome } = req.body;
 
     try {
@@ -69,6 +76,9 @@ routerCambio.post('/', async (req, res) => {
 });
 
 routerCambio.get('/', async (req, res) => {
+    // #swagger.tags = ['Câmbio']
+    // #swagger.description = 'Lista todos os câmbios e caso tenha o parâmetro nome, lista o câmbio pelo nome'
+    // #swagger.parameters['nome'] = { in: 'query', description: 'Nome do câmbio', required: false, type: 'string' }
     const { nome } = req.query;
     if (nome) {
         const resultado = await apresentarCambioPorNome(nome);
@@ -83,6 +93,9 @@ routerCambio.get('/', async (req, res) => {
 });
 
 routerCambio.get('/:id', async (req, res) => {
+    // #swagger.tags = ['Câmbio']
+    // #swagger.description = 'Lista um câmbio pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID do câmbio', required: true, type: 'integer' }
     const { id } = req.params;
     if (id) {
         const resultado = await apresentarCambioPorId(id);
@@ -97,6 +110,9 @@ routerCambio.get('/:id', async (req, res) => {
 });
 
 routerCambio.delete('/:id', async (req, res) => {
+    // #swagger.tags = ['Câmbio']
+    // #swagger.description = 'Deleta um câmbio pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID do câmbio', required: true, type: 'integer' }
     const { id } = req.params;
     try {
         const resultado = await deletarCambio(id);

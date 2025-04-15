@@ -9,6 +9,9 @@ import { editarCategoria } from '../servicos/categoria/editar.js';
 const routerCategoria = express.Router();
 
 routerCategoria.put('/:id', async (req, res) => {
+    //#swagger.tags = ['Categoria']
+    //#swegger.description = 'Atualiza uma categoria com base no ID fornecido. Retorna um erro se o ID não for válido ou se a categoria não for encontrada.'
+    //#swegger.parameters['id'] = { in: 'path', description: 'ID da categoria', required: true, type: 'integer' }
     const { id } = req.params;
     const { nome } = req.body;
     try {
@@ -43,6 +46,9 @@ routerCategoria.put('/:id', async (req, res) => {
 });
 
 routerCategoria.post('/', async (req, res) => {
+    //#swagger.tags = ['Categoria']
+    //#swegger.description = 'Cadastra uma nova categoria. Retorna um erro se o nome não for fornecido ou se o valor for inválido.'
+    //#swegger.parameters['nome'] = { in: 'body', description: 'Dados da categoria', required: true, schema: { $ref: '#/definitions/Categoria' } }
     const { nome } = req.body;
 
     try {
@@ -69,6 +75,9 @@ routerCategoria.post('/', async (req, res) => {
 });
 
 routerCategoria.get('/', async (req, res) => {
+    //#swagger.tags = ['Categoria']
+    //#swegger.description = 'Retorna todas as categorias. Se um nome for fornecido, retorna apenas a categoria correspondente.'
+    //#swegger.parameters['nome'] = { in: 'query', description: 'Nome da categoria', required: false, type: 'string' }
     const { nome } = req.query;
     if (nome) {
         const resultado = await apresentarCategoriaPorNome(nome);
@@ -83,6 +92,9 @@ routerCategoria.get('/', async (req, res) => {
 });
 
 routerCategoria.get('/:id', async (req, res) => {
+    //#swagger.tags = ['Categoria']
+    //#swegger.description = 'Retorna uma categoria com base no ID fornecido. Retorna um erro se o ID não for válido ou se a categoria não for encontrada.'
+    //#swegger.parameters['id'] = { in: 'path', description: 'ID da categoria', required: true, type: 'integer' }
     const { id } = req.params;
     if (id) {
         const resultado = await apresentarCategoriaPorId(id);
@@ -97,6 +109,9 @@ routerCategoria.get('/:id', async (req, res) => {
 });
 
 routerCategoria.delete('/:id', async (req, res) => {
+    //#swagger.tags = ['Categoria']
+    //#swegger.description = 'Deleta uma categoria com base no ID fornecido. Retorna um erro se o ID não for válido ou se a categoria não for encontrada.'
+    //#swegger.parameters['id'] = { in: 'path', description: 'ID da categoria', required: true, type: 'integer' }
     const { id } = req.params;
     try {
         const resultado = await deletarCategoria(id);

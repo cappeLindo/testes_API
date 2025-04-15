@@ -9,6 +9,9 @@ import { editarMarca } from '../servicos/marca/editar.js';
 const routerMarca = express.Router();
 
 routerMarca.put('/:id', async (req, res) => {
+    // #swagger.tags = ['Marca']
+    // #swagger.description = 'Edita uma marca pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID da marca', required: true, type: 'integer' }
     const { id } = req.params;
     const { nome } = req.body;
     try {
@@ -43,6 +46,9 @@ routerMarca.put('/:id', async (req, res) => {
 });
 
 routerMarca.post('/', async (req, res) => {
+    // #swagger.tags = ['Marca']
+    // #swagger.description = 'Cadastra uma marca'
+    // #swagger.parameters['marca'] = { in: 'body', description: 'Dados da marca', required: true, schema: { $ref: '#/definitions/Marca' } }
     const { nome } = req.body;
 
     try {
@@ -69,6 +75,9 @@ routerMarca.post('/', async (req, res) => {
 });
 
 routerMarca.get('/', async (req, res) => {
+    // #swagger.tags = ['Marca']
+    // #swagger.description = 'Lista todas as marcas ou busca por nome'
+    // #swagger.parameters['nome'] = { in: 'query', description: 'Nome da marca para busca', required: false, type: 'string' }
     const { nome } = req.query;
     if (nome) {
         const resultado = await apresentarMarcaPorNome(nome);
@@ -83,6 +92,9 @@ routerMarca.get('/', async (req, res) => {
 });
 
 routerMarca.get('/:id', async (req, res) => {
+    // #swagger.tags = ['Marca']
+    // #swagger.description = 'Lista uma marca pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID da marca', required: true, type: 'integer' }
     const { id } = req.params;
     if (id) {
         const resultado = await apresentarMarcaPorId(id);
@@ -97,6 +109,9 @@ routerMarca.get('/:id', async (req, res) => {
 });
 
 routerMarca.delete('/:id', async (req, res) => {
+    // #swagger.tags = ['Marca']
+    // #swagger.description = 'Deleta uma marca pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID da marca', required: true, type: 'integer' }
     const { id } = req.params;
     try {
         const resultado = await deletarMarca(id);

@@ -9,6 +9,9 @@ import { editarCombustivel } from '../servicos/combustivel/editar.js';
 const routerCombustivel = express.Router();
 
 routerCombustivel.put('/:id', async (req, res) => {
+    //#swagger.tags = ['Combustível']
+    //#swagger.description = 'Edita um combustível pelo ID'
+    //#swagger.parameters['id'] = { in: 'path', description: 'ID do combustível', required: true, type: 'integer' }
     const { id } = req.params;
     const { nome } = req.body;
     try {
@@ -43,6 +46,9 @@ routerCombustivel.put('/:id', async (req, res) => {
 });
 
 routerCombustivel.post('/', async (req, res) => {
+    //#swagger.tags = ['Combustível']
+    //#swagger.description = 'Cadastra um combustível'
+    //#swagger.parameters['combustivel'] = { in: 'body', description: 'Dados do combustível', required: true, schema: { $ref: '#/definitions/Combustivel' } }
     const { nome } = req.body;
 
     try {
@@ -69,6 +75,9 @@ routerCombustivel.post('/', async (req, res) => {
 });
 
 routerCombustivel.get('/', async (req, res) => {
+    //#swagger.tags = ['Combustível']
+    //#swagger.description = 'Lista todos os combustíveis'
+    //#swagger.parameters['nome'] = { in: 'query', description: 'Nome do combustível', required: false, type: 'string' }
     const { nome } = req.query;
     if (nome) {
         const resultado = await apresentarCombustivelPorNome(nome);
@@ -83,6 +92,9 @@ routerCombustivel.get('/', async (req, res) => {
 });
 
 routerCombustivel.get('/:id', async (req, res) => {
+    //#swagger.tags = ['Combustível']
+    //#swagger.description = 'Lista um combustível pelo ID'
+    //#swagger.parameters['id'] = { in: 'path', description: 'ID do combustível', required: true, type: 'integer' }
     const { id } = req.params;
     if (id) {
         const resultado = await apresentarCombustivelPorId(id);
@@ -97,6 +109,9 @@ routerCombustivel.get('/:id', async (req, res) => {
 });
 
 routerCombustivel.delete('/:id', async (req, res) => {
+    //#swagger.tags = ['Combustível']
+    //#swagger.description = 'Deleta um combustível pelo ID'
+    //#swagger.parameters['id'] = { in: 'path', description: 'ID do combustível', required: true, type: 'integer' }
     const { id } = req.params;
     try {
         const resultado = await deletarCombustivel(id);

@@ -1,0 +1,977 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API Veículos",
+    "description": "API do projeto de fabrica de software WEBCARS",
+    "termsOfService": "https://webcars.dev.vilhena.ifro.edu.br/"
+  },
+  "host": "localhost:9000",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "Aro",
+      "description": "Rotas para gerenciamento de aros"
+    },
+    {
+      "name": "Câmbio",
+      "description": "Rotas para gerenciamento de câmbios"
+    },
+    {
+      "name": "Categoria",
+      "description": "Rotas para gerenciamento de categorias"
+    },
+    {
+      "name": "Combustível",
+      "description": "Rotas para gerenciamento de combustíveis"
+    },
+    {
+      "name": "Cor",
+      "description": "Rotas para gerenciamento de cores"
+    },
+    {
+      "name": "Marca",
+      "description": "Rotas para gerenciamento de marcas"
+    },
+    {
+      "name": "Modelo",
+      "description": "Rotas para gerenciamento de modelos"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/api/aro/{id}": {
+      "put": {
+        "tags": [
+          "Aro"
+        ],
+        "description": "Edita um aro pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do aro"
+          },
+          {
+            "name": "aro",
+            "in": "body",
+            "description": "Dados do aro",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Aro"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Aro"
+        ],
+        "description": "Retorna o aro pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do aro"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Aro"
+        ],
+        "description": "Deleta o aro pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do aro"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/aro/": {
+      "post": {
+        "tags": [
+          "Aro"
+        ],
+        "description": "Cadastra um aro",
+        "parameters": [
+          {
+            "name": "aro",
+            "in": "body",
+            "description": "Dados do aro",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Aro"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Aro"
+        ],
+        "description": "Retorna todos os aros e caso tenha o parâmetro nome, lista o câmbio pelo nome",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "description": "Nome do aro para filtrar",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/cambio/{id}": {
+      "put": {
+        "tags": [
+          "Câmbio"
+        ],
+        "description": "Edita um câmbio pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do câmbio"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Câmbio"
+        ],
+        "description": "Lista um câmbio pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do câmbio"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Câmbio"
+        ],
+        "description": "Deleta um câmbio pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do câmbio"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/cambio/": {
+      "post": {
+        "tags": [
+          "Câmbio"
+        ],
+        "description": "Cadastra um câmbio",
+        "parameters": [
+          {
+            "name": "cambio",
+            "in": "body",
+            "description": "Dados do câmbio",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Cambio"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Câmbio"
+        ],
+        "description": "Lista todos os câmbios e caso tenha o parâmetro nome, lista o câmbio pelo nome",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "description": "Nome do câmbio",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/categoria/{id}": {
+      "put": {
+        "tags": [
+          "Categoria"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Categoria"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Categoria"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/categoria/": {
+      "post": {
+        "tags": [
+          "Categoria"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Categoria"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/combustivel/{id}": {
+      "put": {
+        "tags": [
+          "Combustível"
+        ],
+        "description": "Edita um combustível pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do combustível"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Combustível"
+        ],
+        "description": "Lista um combustível pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do combustível"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Combustível"
+        ],
+        "description": "Deleta um combustível pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do combustível"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/combustivel/": {
+      "post": {
+        "tags": [
+          "Combustível"
+        ],
+        "description": "Cadastra um combustível",
+        "parameters": [
+          {
+            "name": "combustivel",
+            "in": "body",
+            "description": "Dados do combustível",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Combustivel"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Combustível"
+        ],
+        "description": "Lista todos os combustíveis",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "description": "Nome do combustível",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/cor/{id}": {
+      "put": {
+        "tags": [
+          "Cor"
+        ],
+        "description": "Edita uma cor pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da cor"
+          },
+          {
+            "name": "cor",
+            "in": "body",
+            "description": "Dados da cor",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Cor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Cor"
+        ],
+        "description": "Retorna uma cor pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da cor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cor"
+        ],
+        "description": "Deleta uma cor pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da cor"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/cor/": {
+      "post": {
+        "tags": [
+          "Cor"
+        ],
+        "description": "Cadastra uma nova cor",
+        "parameters": [
+          {
+            "name": "cor",
+            "in": "body",
+            "description": "Dados da cor",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Cor"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Cor"
+        ],
+        "description": "Lista todas as cores",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "description": "Nome da cor para busca",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/marca/{id}": {
+      "put": {
+        "tags": [
+          "Marca"
+        ],
+        "description": "Edita uma marca pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da marca"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Marca"
+        ],
+        "description": "Lista uma marca pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da marca"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Marca"
+        ],
+        "description": "Deleta uma marca pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da marca"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/marca/": {
+      "post": {
+        "tags": [
+          "Marca"
+        ],
+        "description": "Cadastra uma marca",
+        "parameters": [
+          {
+            "name": "marca",
+            "in": "body",
+            "description": "Dados da marca",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Marca"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Marca"
+        ],
+        "description": "Lista todas as marcas ou busca por nome",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "description": "Nome da marca para busca",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/modelo/{id}": {
+      "put": {
+        "tags": [
+          "Modelo"
+        ],
+        "description": "Edita um modelo pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do modelo"
+          },
+          {
+            "name": "modelo",
+            "in": "body",
+            "description": "Dados do modelo",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Modelo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Modelo"
+        ],
+        "description": "Edita parcialmente um modelo pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do modelo"
+          },
+          {
+            "name": "modelo",
+            "in": "body",
+            "description": "Dados do modelo",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Modelo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Modelo"
+        ],
+        "description": "Deleta um modelo pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do modelo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Modelo"
+        ],
+        "description": "Lista um modelo pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do modelo"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/modelo/": {
+      "post": {
+        "tags": [
+          "Modelo"
+        ],
+        "description": "Cadastra um modelo",
+        "parameters": [
+          {
+            "name": "modelo",
+            "in": "body",
+            "description": "Dados do modelo",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Modelo"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Modelo"
+        ],
+        "description": "Lista todos os modelos ou busca por nome",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "description": "Nome do modelo",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/modelo/marca/": {
+      "get": {
+        "tags": [
+          "Modelo"
+        ],
+        "description": "Lista todos os modelos ou busca por nome da marca",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "description": "Nome da marca",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/modelo/marca/{id}": {
+      "get": {
+        "tags": [
+          "Modelo"
+        ],
+        "description": "Lista um modelo pelo ID da marca",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da marca"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/modelo/categoria/": {
+      "get": {
+        "tags": [
+          "Modelo"
+        ],
+        "description": "Lista todos os modelos ou busca por nome da categoria",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "description": "Nome da categoria",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/modelo/categoria/{id}": {
+      "get": {
+        "tags": [
+          "Modelo"
+        ],
+        "description": "Lista um modelo pelo ID da categoria",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID da categoria"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
+}

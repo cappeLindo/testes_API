@@ -9,6 +9,10 @@ import { editarAro } from '../servicos/aro/editar.js';
 const routerAro = express.Router();
 
 routerAro.put('/:id', async (req, res) => {
+    // #swagger.tags = ['Aro']
+    // #swagger.description = 'Edita um aro pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID do aro', required: true, type: 'integer' }
+    // #swagger.parameters['aro'] = { in: 'body', description: 'Dados do aro', required: true, schema: { $ref: '#/definitions/Aro' } }
     const { id } = req.params;
     const { nome } = req.body;
     try {
@@ -43,6 +47,10 @@ routerAro.put('/:id', async (req, res) => {
 });
 
 routerAro.post('/', async (req, res) => {
+    // #swagger.tags = ['Aro']
+    // #swagger.description = 'Cadastra um aro'
+    // #swagger.parameters['aro'] = { in: 'body', description: 'Dados do aro', required: true, schema: { $ref: '#/definitions/Aro' } }
+
     const { nome } = req.body;
 
     try {
@@ -69,6 +77,10 @@ routerAro.post('/', async (req, res) => {
 });
 
 routerAro.get('/', async (req, res) => {
+    // #swagger.tags = ['Aro']
+    // #swagger.description = 'Retorna todos os aros e caso tenha o parâmetro nome, lista o câmbio pelo nome'
+    // #swagger.parameters['nome'] = { in: 'query', description: 'Nome do aro para filtrar', required: false, type: 'string' }
+
     const { nome } = req.query;
     if (nome) {
         const resultado = await apresentarAroPorNome(nome);
@@ -83,6 +95,10 @@ routerAro.get('/', async (req, res) => {
 });
 
 routerAro.get('/:id', async (req, res) => {
+    // #swagger.tags = ['Aro']
+    // #swagger.description = 'Retorna o aro pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID do aro', required: true, type: 'integer' }
+
     const { id } = req.params;
     if (id) {
         const resultado = await apresentarAroPorId(id);
@@ -97,6 +113,10 @@ routerAro.get('/:id', async (req, res) => {
 });
 
 routerAro.delete('/:id', async (req, res) => {
+    // #swagger.tags = ['Aro']
+    // #swagger.description = 'Deleta o aro pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID do aro', required: true, type: 'integer' }
+
     const { id } = req.params;
     try {
         const resultado = await deletarAro(id);
