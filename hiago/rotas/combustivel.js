@@ -2,7 +2,7 @@ import express from 'express';
 import { apresentarCombustivel, apresentarCombustivelPorId, apresentarCombustivelPorNome } from '../servicos/combustivel/apresentar.js';
 import { adicionarCombustivel } from '../servicos/combustivel/adicionar.js';
 import AppError from '../utils/AppError.js';
-import { validarCombustivel } from '../validacao/validarCombustivel.js';
+import { validarCombustivel, validarCombustivelParcial } from '../validacao/validarCombustivel.js';
 import { deletarCombustivel } from '../servicos/combustivel/deletar.js';
 import { editarCombustivel } from '../servicos/combustivel/editar.js';
 
@@ -20,7 +20,7 @@ routerCombustivel.put('/:id', async (req, res) => {
             throw new AppError('Nome do combustível é obrigatório', 400, 'MISSING_NAME');
         }
     
-        const nomeValido = await validarCombustivel(nome);
+        const nomeValido = await validarCombustivelParcial(nome);
 
         if (!nomeValido.status) {
             throw new AppError('O valor é inválido.', 400, 'INVALID_VALUE', nomeValido.mensagem);

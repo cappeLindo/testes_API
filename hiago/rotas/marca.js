@@ -2,7 +2,7 @@ import express from 'express';
 import { apresentarMarca, apresentarMarcaPorId, apresentarMarcaPorNome } from '../servicos/marca/apresentar.js';
 import { adicionarMarca } from '../servicos/marca/adicionar.js';
 import AppError from '../utils/AppError.js';
-import { validarMarca } from '../validacao/validarMarca.js';
+import { validarMarca, validarMarcaParcial } from '../validacao/validarMarca.js';
 import { deletarMarca } from '../servicos/marca/deletar.js';
 import { editarMarca } from '../servicos/marca/editar.js';
 
@@ -20,7 +20,7 @@ routerMarca.put('/:id', async (req, res) => {
             throw new AppError('Nome da marca é obrigatório', 400, 'MISSING_NAME');
         }
     
-        const nomeValido = await validarMarca(nome);
+        const nomeValido = await validarMarcaParcial(nome);
 
         if (!nomeValido.status) {
             throw new AppError('O valor é inválido.', 400, 'INVALID_VALUE', nomeValido.mensagem);

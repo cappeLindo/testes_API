@@ -2,7 +2,7 @@ import express from 'express';
 import { apresentarCategoria, apresentarCategoriaPorId, apresentarCategoriaPorNome } from '../servicos/categoria/apresentar.js';
 import { adicionarCategoria } from '../servicos/categoria/adicionar.js';
 import AppError from '../utils/AppError.js';
-import { validarCategoria } from '../validacao/validarCategoria.js';
+import { validarCategoria, validarCategoriaParcial } from '../validacao/validarCategoria.js';
 import { deletarCategoria } from '../servicos/categoria/deletar.js';
 import { editarCategoria } from '../servicos/categoria/editar.js';
 
@@ -20,7 +20,7 @@ routerCategoria.put('/:id', async (req, res) => {
             throw new AppError('Nome da categoria é obrigatório', 400, 'MISSING_NAME');
         }
     
-        const nomeValido = await validarCategoria(nome);
+        const nomeValido = await validarCategoriaParcial(nome);
 
         if (!nomeValido.status) {
             throw new AppError('O valor é inválido.', 400, 'INVALID_VALUE', nomeValido.mensagem);

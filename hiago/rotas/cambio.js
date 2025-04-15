@@ -2,7 +2,7 @@ import express from 'express';
 import { apresentarCambio, apresentarCambioPorId, apresentarCambioPorNome } from '../servicos/cambio/apresentar.js';
 import { adicionarCambio } from '../servicos/cambio/adicionar.js';
 import AppError from '../utils/AppError.js';
-import { validarCambio } from '../validacao/validarCambio.js';
+import { validarCambio, validarCambioParcial } from '../validacao/validarCambio.js';
 import { deletarCambio } from '../servicos/cambio/deletar.js';
 import { editarCambio } from '../servicos/cambio/editar.js';
 
@@ -20,7 +20,7 @@ routerCambio.put('/:id', async (req, res) => {
             throw new AppError('Nome do câmbio é obrigatório', 400, 'MISSING_NAME');
         }
     
-        const nomeValido = await validarCambio(nome);
+        const nomeValido = await validarCambioParcial(nome);
 
         if (!nomeValido.status) {
             throw new AppError('O valor é inválido.', 400, 'INVALID_VALUE', nomeValido.mensagem);

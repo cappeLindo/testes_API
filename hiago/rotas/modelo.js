@@ -4,7 +4,7 @@ import { adicionarModelo } from '../servicos/modelo/adicionar.js';
 import AppError from '../utils/AppError.js';
 import {  validarModelo, validarModeloParcial } from '../validacao/validarModelo.js';
 import { deletarModelo } from '../servicos/modelo/deletar.js';
-import { editarModeloParcial } from '../servicos/modelo/editar.js';
+import { editarModeloParcial, editarModelo } from '../servicos/modelo/editar.js';
 
 const routerModelo = express.Router();
 
@@ -12,7 +12,7 @@ routerModelo.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { nome, id_marca, id_categoria } = req.body;
     try {
-        if (isNaN(id)) {
+        if (isNaN(id) || !nome || !id_marca || !id_categoria) {
             throw new AppError('ID inválido', 400, 'INVALID_ID');
         }
     
@@ -26,7 +26,7 @@ routerModelo.put('/:id', async (req, res) => {
             throw new AppError('O valor é inválido.', 400, 'INVALID_VALUE', nomeValido.mensagem);
         }
 
-        const resultado = await editarMarca(id, nome);
+        const resultado = await editarModelo(id, nome, id_marca, id_categoria);
 
         if (resultado.affectedRows === 0) {
             throw new AppError('Marca não encontrada', 404, 'MODELO_NOT_FOUND');
@@ -81,7 +81,7 @@ routerModelo.post('/', async (req, res) => {
     const { nome, id_marca, id_categoria } = req.body;
 
     try {
-        if (!nome) {
+        if (!nome || !id_marca || !id_categoria) {  
             throw new AppError('Nome e valor da modelo é obrigatório.', 400, 'MISSING_DATA');
         }
         

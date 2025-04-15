@@ -2,7 +2,7 @@ import express from 'express';
 import { apresentarCor, apresentarCorPorId, apresentarCorPorNome } from '../servicos/cor/apresentar.js';
 import { adicionarCor } from '../servicos/cor/adicionar.js';
 import AppError from '../utils/AppError.js';
-import { validarCor } from '../validacao/validarCor.js';
+import { validarCor, validarCorParcial } from '../validacao/validarCor.js';
 import { deletarCor } from '../servicos/cor/deletar.js';
 import { editarCor } from '../servicos/cor/editar.js';
 
@@ -20,7 +20,7 @@ routerCor.put('/:id', async (req, res) => {
             throw new AppError('Nome da cor é obrigatório', 400, 'MISSING_NAME');
         }
     
-        const nomeValido = await validarCor(nome);
+        const nomeValido = await validarCorParcial(nome);
 
         if (!nomeValido.status) {
             throw new AppError('O valor é inválido.', 400, 'INVALID_VALUE', nomeValido.mensagem);

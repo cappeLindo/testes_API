@@ -2,7 +2,7 @@ import express from 'express';
 import { apresentarAro, apresentarAroPorId, apresentarAroPorNome } from '../servicos/aro/apresentar.js';
 import { adicionarAro } from '../servicos/aro/adicionar.js';
 import AppError from '../utils/AppError.js';
-import { validarAro } from '../validacao/validarAro.js';
+import { validarAro, validarAroParcial } from '../validacao/validarAro.js';
 import { deletarAro } from '../servicos/aro/deletar.js';
 import { editarAro } from '../servicos/aro/editar.js';
 
@@ -20,7 +20,7 @@ routerAro.put('/:id', async (req, res) => {
             throw new AppError('Nome do aro é obrigatório', 400, 'MISSING_NAME');
         }
     
-        const nomeValido = await validarAro(nome);
+        const nomeValido = await validarAroParcial(nome);
 
         if (!nomeValido.status) {
             throw new AppError('O valor é inválido.', 400, 'INVALID_VALUE', nomeValido.mensagem);
