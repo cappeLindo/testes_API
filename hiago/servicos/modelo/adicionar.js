@@ -14,14 +14,14 @@ async function executarQuery(sql, params = []) {
     }
 }
 
-async function adicionarCombustivel(nome) {
+async function adicionarModelo(nome, id_marca, id_categoria) {
     try{
-        const sql = `INSERT INTO combustivel (nome_combustivel) VALUE (?);`;
-        return await executarQuery(sql, [nome]);
+        const sql = `INSERT INTO modelo (nome_modelo, marca_id_marca, categoria_id_categoria) VALUE (?, ?, ?);`;
+        return await executarQuery(sql, [nome, id_marca, id_categoria]);
     } catch(error) {
-        throw new AppError('ID do combustível é invalido', 400, 'COMBUSTIVEL_ID_INVALID', error.message);
+        throw new AppError('Valores são invalidos', 400, 'MODELO_VALUE_INVALID', error.message);
     }
     
 }
 
-export { adicionarCombustivel }
+export { adicionarModelo }

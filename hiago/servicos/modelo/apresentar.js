@@ -70,7 +70,7 @@ async function apresentarModeloPorIdCategoria(id) {
     throw new AppError('ID da categoria do modelo é obrigatório', 400, 'MISSING_ID_CATEGORIA');
   }
 
-  const sql = `${sqlpadrao} WHERE modelo.id_categoria = ?`;
+  const sql = `${sqlpadrao} WHERE modelo.categoria_id_categoria = ?`;
   try {
     const resultado = await executarQuery(sql, [id]);
 

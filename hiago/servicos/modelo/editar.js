@@ -14,18 +14,13 @@ async function executarQuery(sql, params = []) {
     }
   }
 
-async function editarCombustivel(id, nome) {
-    try {
-        id = parseInt(id, 10); // Garantindo que id seja um número inteiro
-        if (!nome) {
-            throw new AppError('Nome do combustível é obrigatório', 400, 'MISSING_NAME');
-        }
-        const sql = "UPDATE combustivel SET nome_combustivel = ? WHERE id_combustivel = ?";
-        const resultado = await executarQuery(sql, [nome, id]);
-        return resultado;
-    } catch (error) {
-        throw new AppError('Erro ao editar combustível', 400, 'COMBUSTIVEL_EDIT_ERROR', error.message);
-    }
+  async function editarModeloParcial(id, campos) {
+    const colunas = Object.keys(campos).map(campo => `${campo} = ?`).join(", ");
+    const valores = Object.values(campos);
+    const sql = `UPDATE modelo SET ${colunas} WHERE id_modelo = ?`
+    valores.push(id);
+    return await executarQuery(sql, valores);
 }
 
-export { editarCombustivel }
+
+export { editarModeloParcial }

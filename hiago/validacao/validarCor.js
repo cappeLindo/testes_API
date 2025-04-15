@@ -1,7 +1,7 @@
 // Importando a função apresentarCambioPorNome do serviço de câmbio
 import { apresentarCorPorNome } from '../servicos/cor/apresentar.js';
 
-export async function validarCor(valor) {
+async function validarCor(valor) {
   if (typeof valor !== 'string' || valor.trim() === '') {
     return {
       status: false,
@@ -20,3 +20,17 @@ export async function validarCor(valor) {
 
   return { status: true, mensagem: '' };
 }
+
+async function validarCorParcial(valor) {
+  if (typeof valor !== 'string' || valor.trim() === '') {
+    return {
+      status: false,
+      mensagem: 'Valor inválido. Deve ser uma string não vazia.',
+    };
+  }
+
+  return { status: true, mensagem: '' };
+}
+
+
+export { validarCor, validarCorParcial }

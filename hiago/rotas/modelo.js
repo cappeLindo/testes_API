@@ -1,16 +1,16 @@
 import express from 'express';
 import { apresentarModelo, apresentarModeloPorId, apresentarModeloPorNome, apresentarModeloPorIdCategoria, apresentarModeloPorIdMarca, apresentarModeloPorNomeCategoria, apresentarModeloPorNomeMarca } from '../servicos/modelo/apresentar.js';
-//import { adicionarModelo } from '../servicos/modelo/adicionar.js';
+import { adicionarModelo } from '../servicos/modelo/adicionar.js';
 import AppError from '../utils/AppError.js';
-//import { validarModelo } from '../validacao/validarModelo.js';
-//import { deletarModelo } from '../servicos/modelo/deletar.js';
-//import { editarModelo } from '../servicos/modelo/editar.js';
+import {  validarModelo, validarModeloParcial } from '../validacao/validarModelo.js';
+import { deletarModelo } from '../servicos/modelo/deletar.js';
+import { editarModeloParcial } from '../servicos/modelo/editar.js';
 
 const routerModelo = express.Router();
 
-/*routerModelo.put('/:id', async (req, res) => {
+routerModelo.put('/:id', async (req, res) => {
     const { id } = req.params;
-    const { nome } = req.body;
+    const { nome, id_marca, id_categoria } = req.body;
     try {
         if (isNaN(id)) {
             throw new AppError('ID inválido', 400, 'INVALID_ID');
@@ -20,16 +20,16 @@ const routerModelo = express.Router();
             throw new AppError('Nome do modelo é obrigatório', 400, 'MISSING_NAME');
         }
     
-        const nomeValido = await validarModelo(nome);
+        const nomeValido = await validarModeloParcial(nome, id_marca, id_categoria);
 
         if (!nomeValido.status) {
             throw new AppError('O valor é inválido.', 400, 'INVALID_VALUE', nomeValido.mensagem);
         }
 
-        const resultado = await editarModelo(id, nome);
+        const resultado = await editarMarca(id, nome);
 
         if (resultado.affectedRows === 0) {
-            throw new AppError('Modelo não encontrado', 404, 'MODELO_NOT_FOUND');
+            throw new AppError('Marca não encontrada', 404, 'MODELO_NOT_FOUND');
         }
 
         return res.status(200).send("Modelo editado com sucesso!");
@@ -42,21 +42,56 @@ const routerModelo = express.Router();
     }
 });
 
+routerModelo.patch('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { nome, id_marca, id_categoria } = req.body;
+        const camposAtualizar = {};
+        if (nome) camposAtualizar.nome_modelo = nome;
+        if (id_marca) camposAtualizar.marca_id_marca = id_marca;
+        if (id_categoria) camposAtualizar.categoria_id_categoria = id_categoria;
+
+        if (Object.keys(camposAtualizar).length === 0) {
+            throw new AppError('O valor é inválido.', 400, 'MISSING_DATA');
+        }
+
+        const modeloValido = await validarModeloParcial(nome, id_marca, id_categoria)
+
+        if (!modeloValido.status) {
+            throw new AppError('O valor é inválido.', 400, 'INVALID_VALUE', modeloValido.mensagem);
+        }
+
+        const resultado = await editarModeloParcial(id, camposAtualizar)
+        if (resultado.affectedRows > 0) {
+            return res.status(200).send("Registro atualizado com sucesso.")
+        } else {
+            throw new AppError('MODELO não encontrado', 404, 'MODELO_NOT_FOUND');
+        }
+    } catch (error) {
+        if (error instanceof AppError) {
+            throw error;
+        }
+
+        throw new AppError('Erro interno do servidor.', 500, 'INTERNAL_ERROR', error.message);
+    }
+});
+
+
 routerModelo.post('/', async (req, res) => {
-    const { nome } = req.body;
+    const { nome, id_marca, id_categoria } = req.body;
 
     try {
         if (!nome) {
             throw new AppError('Nome e valor da modelo é obrigatório.', 400, 'MISSING_DATA');
         }
-    
-        const nomeValido = await validarModelo(nome);
+        
+        const modeloValido = await validarModelo(nome, id_marca, id_categoria);
 
-        if (!nomeValido.status) {
-            throw new AppError('O valor é inválido.', 400, 'INVALID_VALUE', nomeValido.mensagem);
+        if (!modeloValido.status) {
+            throw new AppError('O valor é inválido.', 400, 'INVALID_VALUE', modeloValido.mensagem);
         }
 
-        await adicionarModelo(nome);
+        await adicionarModelo(nome, id_marca, id_categoria);
 
         return res.status(201).send("Modelo cadastrado com sucesso!");
     } catch (error) {
@@ -67,6 +102,7 @@ routerModelo.post('/', async (req, res) => {
         throw new AppError('Erro interno do servidor.', 500, 'INTERNAL_ERROR', error.message);
     }
 });
+
 
 routerModelo.delete('/:id', async (req, res) => {
     const { id } = req.params;
@@ -84,7 +120,7 @@ routerModelo.delete('/:id', async (req, res) => {
     }
 
 });
-*/
+
 
 routerModelo.get('/', async (req, res) => {
     const { nome } = req.query;

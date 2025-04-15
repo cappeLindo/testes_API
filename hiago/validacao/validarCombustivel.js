@@ -1,7 +1,7 @@
 // Importando a função apresentarCambioPorNome do serviço de câmbio
 import { apresentarCombustivelPorNome } from '../servicos/combustivel/apresentar.js';
 
-export async function validarCombustivel(valor) {
+async function validarCombustivel(valor) {
   if (typeof valor !== 'string' || valor.trim() === '') {
     return {
       status: false,
@@ -20,3 +20,17 @@ export async function validarCombustivel(valor) {
 
   return { status: true, mensagem: '' };
 }
+
+async function validarCombustivelParcial(valor) {
+  if (typeof valor !== 'string' || valor.trim() === '') {
+    return {
+      status: false,
+      mensagem: 'Valor inválido. Deve ser uma string não vazia.',
+    };
+  }
+
+  return { status: true, mensagem: '' };
+}
+
+
+export { validarCombustivel, validarCombustivelParcial }

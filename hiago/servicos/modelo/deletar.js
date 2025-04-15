@@ -26,15 +26,14 @@ async function executarQuery(sql, params = []) {
     }
 }
 
-async function deletarCombustivel(id) {
+async function deletarModelo(id) {
     try {
-        id = parseInt(id, 10); // Garantindo que id seja um número inteiro
-        const sql = "DELETE FROM combustivel WHERE id_combustivel = ?";
+        const sql = "DELETE FROM modelo WHERE id_modelo = ?";
         const resultado = await executarQuery(sql, [id]);
         return resultado;
     } catch (error) {
-        throw new AppError('Erro ao deletar combustível', codigoErro, 'COMBUSTIVEL_DELETE_ERROR', error.message);
+        throw new AppError('Erro ao deletar modelo', codigoErro, 'MODELO_DELETE_ERROR', error.message);
     }
 }
 
-export { deletarCombustivel }
+export { deletarModelo }

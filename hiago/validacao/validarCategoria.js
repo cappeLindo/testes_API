@@ -1,7 +1,7 @@
 // Importando a função apresentarCambioPorNome do serviço de câmbio
 import { apresentarCategoriaPorNome } from '../servicos/categoria/apresentar.js';
 
-export async function validarCategoria(valor) {
+async function validarCategoria(valor) {
   if (typeof valor !== 'string' || valor.trim() === '') {
     return {
       status: false,
@@ -20,3 +20,17 @@ export async function validarCategoria(valor) {
 
   return { status: true, mensagem: '' };
 }
+
+async function validarCategoriaParcial(valor) {
+  if (typeof valor !== 'string' || valor.trim() === '') {
+    return {
+      status: false,
+      mensagem: 'Valor inválido. Deve ser uma string não vazia.',
+    };
+  }
+
+  return { status: true, mensagem: '' };
+}
+
+
+export { validarCategoria, validarCategoriaParcial }

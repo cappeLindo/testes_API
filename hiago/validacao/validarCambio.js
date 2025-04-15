@@ -1,7 +1,7 @@
 // Importando a função apresentarCambioPorNome do serviço de câmbio
 import { apresentarCambioPorNome } from '../servicos/cambio/apresentar.js';
 
-export async function validarCambio(valor) {
+async function validarCambio(valor) {
   if (typeof valor !== 'string' || valor.trim() === '') {
     return {
       status: false,
@@ -20,3 +20,18 @@ export async function validarCambio(valor) {
 
   return { status: true, mensagem: '' };
 }
+
+async function validarCambioParcial(valor) {
+  if (typeof valor !== 'string' || valor.trim() === '') {
+    return {
+      status: false,
+      mensagem: 'Valor inválido. Deve ser uma string não vazia.',
+    };
+  }
+
+
+  return { status: true, mensagem: '' };
+}
+
+
+export { validarCambio, validarCambioParcial }
