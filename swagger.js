@@ -8,7 +8,6 @@ const doc = {
         version: '1.0.0',
         title: 'API Veículos',
         description: 'API do projeto de fabrica de software WEBCARS',
-        termsOfService: 'https://webcars.dev.vilhena.ifro.edu.br/',
     },
     host: 'localhost:9000',
     basePath: '/api',
