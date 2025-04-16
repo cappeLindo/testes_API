@@ -17,6 +17,10 @@
       "description": "Rotas para gerenciamento de câmbios"
     },
     {
+      "name": "Carro",
+      "description": "Rotas para gerenciamento de carros"
+    },
+    {
       "name": "Categoria",
       "description": "Rotas para gerenciamento de categorias"
     },
@@ -963,6 +967,50 @@
             "required": true,
             "type": "integer",
             "description": "ID da categoria"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/carro/": {
+      "get": {
+        "tags": [
+          "Carro"
+        ],
+        "description": "Lista todos os carros ou busca por nome",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "description": "Nome do carro",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/carro/{id}": {
+      "get": {
+        "tags": [
+          "Carro"
+        ],
+        "description": "Lista todos os carros ou busca por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "ID do carro"
           }
         ],
         "responses": {

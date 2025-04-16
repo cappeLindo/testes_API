@@ -22,6 +22,10 @@ const doc = {
             description: 'Rotas para gerenciamento de câmbios',
         },
         {
+            name: 'Carro',
+            description: 'Rotas para gerenciamento de carros',
+        },
+        {
             name: 'Categoria',
             description: 'Rotas para gerenciamento de categorias',
         },
