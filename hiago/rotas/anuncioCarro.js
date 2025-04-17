@@ -1,9 +1,18 @@
 import express from 'express';
 import AppError from '../utils/AppError.js';
+import upload from '../upload/multerConfig.js';
 
 import { apresentarCarro, apresentarCarroPorNome, apresentarCarroPorID } from '../servicos/anuncioCarro/apresentar.js';
 
 const routeAnuncioCarro = express.Router();
+
+routeAnuncioCarro.post('/', upload.array('imagensCarro', 7), async (req, res) => {
+    const { nomeCarro, anoCarro, condicaoCarro, valorCarro, ipvaPago, dataIpva, dataCompra, detalhesVeiculo, blindagem, idCambio, idCategoria, idCor, idAro, idMarca, idModelo, idCombustivel, idConcessionaria } = req.body;
+    const imagensCarro = req.files.map(file => file.filename);
+
+    
+});
+
 
 routeAnuncioCarro.get('/', async (req, res) => {
     // #swagger.tags = ['Carro']
