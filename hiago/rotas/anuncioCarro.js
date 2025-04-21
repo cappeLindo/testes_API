@@ -23,6 +23,27 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res) => {
+    // #swagger.tags = ['Carro']
+    // #swagger.description = 'Atualiza um carro pelo ID'
+    // #swagger.parameters['id'] = { in: 'path', description: 'ID do carro', required: true, type: 'integer' }
+    // #swagger.parameters['imagensCarro'] = { in: 'formData', type: 'file', required: true, description: 'Imagens do carro' }
+    // #swagger.parameters['nomeCarro'] = { in: 'formData', type: 'string', required: true, description: 'Nome do carro' }
+    // #swagger.parameters['anoCarro'] = { in: 'formData', type: 'integer', required: true, description: 'Ano do carro' }
+    // #swagger.parameters['condicaoCarro'] = { in: 'formData', type: 'string', required: true, description: 'Condição do carro' }
+    // #swagger.parameters['valorCarro'] = { in: 'formData', type: 'number', required: true, description: 'Valor do carro' }
+    // #swagger.parameters['ipvaPago'] = { in: 'formData', type: 'boolean', required: true, description: 'IPVA pago' }
+    // #swagger.parameters['dataIpva'] = { in: 'formData', type: 'string', required: true, description: 'Data do IPVA' }
+    // #swagger.parameters['dataCompra'] = { in: 'formData', type: 'string', required: true, description: 'Data da compra' }
+    // #swagger.parameters['detalhesVeiculo'] = { in: 'formData', type: 'string', required: true, description: 'Detalhes do veículo' }
+    // #swagger.parameters['blindagem'] = { in: 'formData', type: 'boolean', required: true, description: 'Blindagem' }
+    // #swagger.parameters['idCor'] = { in: 'formData', type: 'integer', required: true, description: 'ID da cor' }
+    // #swagger.parameters['idAro'] = { in: 'formData', type: 'integer', required: true, description: 'ID do aro' }
+    // #swagger.parameters['idCategoria'] = { in: 'formData', type: 'integer', required: true, description: 'ID da categoria' }
+    // #swagger.parameters['idMarca'] = { in: 'formData', type: 'integer', required: true, description: 'ID da marca' }
+    // #swagger.parameters['idModelo'] = { in: 'formData', type: 'integer', required: true, description: 'ID do modelo' }
+    // #swagger.parameters['idCombustivel'] = { in: 'formData', type: 'integer', required: true, description: 'ID do combustível' }
+    // #swagger.parameters['idCambio'] = { in: 'formData', type: 'integer', required: true, description: 'ID do câmbio' }
+    // #swagger.parameters['idConcessionaria'] = { in: 'formData', type: 'integer', required: true, description: 'ID da concessionária' }
 
 
     const { id } = req.params;

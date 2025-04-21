@@ -976,6 +976,470 @@
         }
       }
     },
+    "/api/carro/{id}": {
+      "put": {
+        "tags": [
+          "Carro"
+        ],
+        "description": "Atualiza um carro pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do carro"
+          },
+          {
+            "name": "imagensCarro",
+            "in": "formData",
+            "type": "file",
+            "required": true,
+            "description": "Imagens do carro"
+          },
+          {
+            "name": "nomeCarro",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "Nome do carro"
+          },
+          {
+            "name": "anoCarro",
+            "in": "formData",
+            "type": "integer",
+            "required": true,
+            "description": "Ano do carro"
+          },
+          {
+            "name": "condicaoCarro",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "Condição do carro"
+          },
+          {
+            "name": "valorCarro",
+            "in": "formData",
+            "type": "number",
+            "required": true,
+            "description": "Valor do carro"
+          },
+          {
+            "name": "ipvaPago",
+            "in": "formData",
+            "type": "boolean",
+            "required": true,
+            "description": "IPVA pago"
+          },
+          {
+            "name": "dataIpva",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "Data do IPVA"
+          },
+          {
+            "name": "dataCompra",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "Data da compra"
+          },
+          {
+            "name": "detalhesVeiculo",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "description": "Detalhes do veículo"
+          },
+          {
+            "name": "blindagem",
+            "in": "formData",
+            "type": "boolean",
+            "required": true,
+            "description": "Blindagem"
+          },
+          {
+            "name": "idCor",
+            "in": "formData",
+            "type": "integer",
+            "required": true,
+            "description": "ID da cor"
+          },
+          {
+            "name": "idAro",
+            "in": "formData",
+            "type": "integer",
+            "required": true,
+            "description": "ID do aro"
+          },
+          {
+            "name": "idCategoria",
+            "in": "formData",
+            "type": "integer",
+            "required": true,
+            "description": "ID da categoria"
+          },
+          {
+            "name": "idMarca",
+            "in": "formData",
+            "type": "integer",
+            "required": true,
+            "description": "ID da marca"
+          },
+          {
+            "name": "idModelo",
+            "in": "formData",
+            "type": "integer",
+            "required": true,
+            "description": "ID do modelo"
+          },
+          {
+            "name": "idCombustivel",
+            "in": "formData",
+            "type": "integer",
+            "required": true,
+            "description": "ID do combustível"
+          },
+          {
+            "name": "idCambio",
+            "in": "formData",
+            "type": "integer",
+            "required": true,
+            "description": "ID do câmbio"
+          },
+          {
+            "name": "idConcessionaria",
+            "in": "formData",
+            "type": "integer",
+            "required": true,
+            "description": "ID da concessionária"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nomeCarro": {
+                  "example": "any"
+                },
+                "anoCarro": {
+                  "example": "any"
+                },
+                "condicaoCarro": {
+                  "example": "any"
+                },
+                "valorCarro": {
+                  "example": "any"
+                },
+                "ipvaPago": {
+                  "example": "any"
+                },
+                "dataIpva": {
+                  "example": "any"
+                },
+                "dataCompra": {
+                  "example": "any"
+                },
+                "detalhesVeiculo": {
+                  "example": "any"
+                },
+                "blindagem": {
+                  "example": "any"
+                },
+                "idCor": {
+                  "example": "any"
+                },
+                "idAro": {
+                  "example": "any"
+                },
+                "idCategoria": {
+                  "example": "any"
+                },
+                "idMarca": {
+                  "example": "any"
+                },
+                "idModelo": {
+                  "example": "any"
+                },
+                "idCombustivel": {
+                  "example": "any"
+                },
+                "idCambio": {
+                  "example": "any"
+                },
+                "idConcessionaria": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Carro"
+        ],
+        "description": "Atualiza um carro pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do carro"
+          },
+          {
+            "name": "imagensCarro",
+            "in": "formData",
+            "type": "file",
+            "required": false,
+            "description": "Imagens do carro"
+          },
+          {
+            "name": "nomeCarro",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "description": "Nome do carro"
+          },
+          {
+            "name": "anoCarro",
+            "in": "formData",
+            "type": "integer",
+            "required": false,
+            "description": "Ano do carro"
+          },
+          {
+            "name": "condicaoCarro",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "description": "Condição do carro"
+          },
+          {
+            "name": "valorCarro",
+            "in": "formData",
+            "type": "number",
+            "required": false,
+            "description": "Valor do carro"
+          },
+          {
+            "name": "ipvaPago",
+            "in": "formData",
+            "type": "boolean",
+            "required": false,
+            "description": "IPVA pago"
+          },
+          {
+            "name": "dataIpva",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "description": "Data do IPVA"
+          },
+          {
+            "name": "dataCompra",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "description": "Data da compra"
+          },
+          {
+            "name": "detalhesVeiculo",
+            "in": "formData",
+            "type": "string",
+            "required": false,
+            "description": "Detalhes do veículo"
+          },
+          {
+            "name": "blindagem",
+            "in": "formData",
+            "type": "boolean",
+            "required": false,
+            "description": "Blindagem"
+          },
+          {
+            "name": "idCor",
+            "in": "formData",
+            "type": "integer",
+            "required": false,
+            "description": "ID da cor"
+          },
+          {
+            "name": "idAro",
+            "in": "formData",
+            "type": "integer",
+            "required": false,
+            "description": "ID do aro"
+          },
+          {
+            "name": "idCategoria",
+            "in": "formData",
+            "type": "integer",
+            "required": false,
+            "description": "ID da categoria"
+          },
+          {
+            "name": "idMarca",
+            "in": "formData",
+            "type": "integer",
+            "required": false,
+            "description": "ID da marca"
+          },
+          {
+            "name": "idModelo",
+            "in": "formData",
+            "type": "integer",
+            "required": false,
+            "description": "ID do modelo"
+          },
+          {
+            "name": "idCombustivel",
+            "in": "formData",
+            "type": "integer",
+            "required": false,
+            "description": "ID do combustível"
+          },
+          {
+            "name": "idCambio",
+            "in": "formData",
+            "type": "integer",
+            "required": false,
+            "description": "ID do câmbio"
+          },
+          {
+            "name": "idConcessionaria",
+            "in": "formData",
+            "type": "integer",
+            "required": false,
+            "description": "ID da concessionária"
+          },
+          {
+            "name": "imagensExcluidas",
+            "in": "formData",
+            "type": "integer",
+            "required": false,
+            "description": "ID da imagem a ser excluída"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "imagensExcluidas": {
+                  "example": "any"
+                },
+                "nomeCarro": {
+                  "example": "any"
+                },
+                "anoCarro": {
+                  "example": "any"
+                },
+                "condicaoCarro": {
+                  "example": "any"
+                },
+                "valorCarro": {
+                  "example": "any"
+                },
+                "ipvaPago": {
+                  "example": "any"
+                },
+                "dataIpva": {
+                  "example": "any"
+                },
+                "dataCompra": {
+                  "example": "any"
+                },
+                "detalhesVeiculo": {
+                  "example": "any"
+                },
+                "blindagem": {
+                  "example": "any"
+                },
+                "idCor": {
+                  "example": "any"
+                },
+                "idAro": {
+                  "example": "any"
+                },
+                "idCategoria": {
+                  "example": "any"
+                },
+                "idMarca": {
+                  "example": "any"
+                },
+                "idModelo": {
+                  "example": "any"
+                },
+                "idCombustivel": {
+                  "example": "any"
+                },
+                "idCambio": {
+                  "example": "any"
+                },
+                "idConcessionaria": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Carro"
+        ],
+        "description": "Deleta um carro pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID do carro"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Carro"
+        ],
+        "description": "Lista todos os carros ou busca por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "description": "ID do carro"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/carro/": {
       "post": {
         "tags": [
@@ -1188,28 +1652,6 @@
             "description": "Nome do carro",
             "required": false,
             "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/carro/{id}": {
-      "get": {
-        "tags": [
-          "Carro"
-        ],
-        "description": "Lista todos os carros ou busca por ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "description": "ID do carro"
           }
         ],
         "responses": {
