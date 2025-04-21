@@ -6,14 +6,14 @@ import fs from 'fs/promises';
 import { dirname } from "path";
 import { fileURLToPath } from 'url';
 
-import { validarCarro} from '../validacao/validarCarro.js';
+import { validarCarro } from '../validacao/validarCarro.js';
 
 import { apresentarCarro, apresentarCarroPorNome, apresentarCarroPorID } from '../servicos/anuncioCarro/apresentar.js';
 import { adicionarCarro } from '../servicos/anuncioCarro/adicionar.js';
 import { deletarAnuncioCarro } from '../servicos/anuncioCarro/deletar.js';
 import { editarAnuncioCarro, editarAnuncioCarroParcial } from '../servicos/anuncioCarro/editar.js';
 
-import { deletarImagemAnuncio } from '../servicos/imagensCarro/deletar.js';
+import { deletarImagemAnuncio, deletarImagem } from '../servicos/imagensCarro/deletar.js';
 import { adicionarImagem } from '../servicos/imagensCarro/adicionar.js';
 import { apresentarImagemPorId, apresentarImagemPorNome, apresentarImagemPorIdAnuncio } from '../servicos/imagensCarro/apresentar.js';
 
@@ -22,12 +22,118 @@ const routeAnuncioCarro = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res) => {
+
+
+    const { id } = req.params;
+
+    const {
+        nomeCarro, anoCarro, condicaoCarro, valorCarro,
+        ipvaPago, dataIpva, dataCompra, detalhesVeiculo, blindagem,
+        idCor, idAro, idCategoria, idMarca, idModelo,
+        idCombustivel, idCambio, idConcessionaria
+    } = req.body;
+
+    const arquivosRecebidos = req.files;
+
+    try {
+        // Verificação de campos obrigatórios
+        if (
+            !nomeCarro || !anoCarro || !condicaoCarro || !valorCarro ||
+            ipvaPago === undefined || !dataIpva || !dataCompra || !detalhesVeiculo ||
+            blindagem === undefined || !idCor || !idAro || !idCategoria ||
+            !idMarca || !idModelo || !idCombustivel || !idCambio || !idConcessionaria
+        ) {
+            throw new AppError('Todos os campos são obrigatórios.', 400, 'MISSING_DATA');
+        }
+
+        // Verificação de imagens
+        if (!arquivosRecebidos || arquivosRecebidos.length < 1) {
+            throw new AppError('É necessário pelo menos uma imagem.', 400, 'MIN_IMAGES_REQUIRED');
+        }
+
+        if (arquivosRecebidos.length > 7) {
+            throw new AppError('Número máximo de imagens é 7.', 400, 'MAX_IMAGES_EXCEEDED');
+        }
+
+        // Insere o carro no banco
+
+        const validacao = await validarCarro(
+            nomeCarro, anoCarro, condicaoCarro, valorCarro,
+            ipvaPago, dataIpva, dataCompra, detalhesVeiculo, blindagem,
+            idCor, idAro, idCategoria, idMarca, idModelo,
+            idCombustivel, idCambio
+        );
+        if (!validacao.status) {
+            throw new AppError(validacao.mensagem, 400, 'VALIDATION_ERROR');
+        }
+
+        const resultado = await editarAnuncioCarro(
+            nomeCarro, anoCarro, condicaoCarro, valorCarro,
+            ipvaPago, dataIpva, dataCompra, detalhesVeiculo, blindagem,
+            idCor, idAro, idCategoria, idMarca, idModelo,
+            idCombustivel, idCambio, idConcessionaria, id
+        );
+
+        if (resultado.affectedRows === 0) {
+            console.log(resultado);
+            throw new AppError('Erro ao editar carro', 404, 'CARRO_NOT_FOUND');
+        }
+
+        // Salva as imagens no disco após sucesso no banco
+        const imagensSalvas = [];
+
+        for (let i = 0; i < arquivosRecebidos.length; i++) {
+            const file = arquivosRecebidos[i];
+            const nomeFinal = `${Date.now()}-${i}-${file.originalname}`;
+            const caminhoFinal = path.join(__dirname, '..', 'uploads', nomeFinal);
+
+            await fs.writeFile(caminhoFinal, file.buffer);
+            imagensSalvas.push(nomeFinal);
+        }
+
+        
+        const resultadoExluindoImagens = await deletarImagemAnuncio(id);
+        if (resultadoExluindoImagens.affectedRows === 0) {
+            throw new AppError('Carro não encontrado', 404, 'CARRO_NOT_FOUND');
+        }
+
+        imagensSalvas.map(async (imagem) => {
+            await adicionarImagem(imagem, id);
+        })
+        
+        return res.status(200).send("Registro atualizado com sucesso.")
+
+    } catch (error) {
+        throw new AppError('Erro ao editar carro', 500, 'CARRO_PUT_ERROR', error.message);
+    }
+});
+
+
 routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res) => {
     // #swagger.tags = ['Carro']
     // #swagger.description = 'Atualiza um carro pelo ID'
     // #swagger.parameters['id'] = { in: 'path', description: 'ID do carro', required: true, type: 'integer' }
     // #swagger.parameters['imagensCarro'] = { in: 'formData', type: 'file', required: false, description: 'Imagens do carro' }
     // #swagger.parameters['nomeCarro'] = { in: 'formData', type: 'string', required: false, description: 'Nome do carro' }
+    // #swagger.parameters['anoCarro'] = { in: 'formData', type: 'integer', required: false, description: 'Ano do carro' }
+    // #swagger.parameters['condicaoCarro'] = { in: 'formData', type: 'string', required: false, description: 'Condição do carro' }
+    // #swagger.parameters['valorCarro'] = { in: 'formData', type: 'number', required: false, description: 'Valor do carro' }
+    // #swagger.parameters['ipvaPago'] = { in: 'formData', type: 'boolean', required: false, description: 'IPVA pago' }
+    // #swagger.parameters['dataIpva'] = { in: 'formData', type: 'string', required: false, description: 'Data do IPVA' }
+    // #swagger.parameters['dataCompra'] = { in: 'formData', type: 'string', required: false, description: 'Data da compra' }
+    // #swagger.parameters['detalhesVeiculo'] = { in: 'formData', type: 'string', required: false, description: 'Detalhes do veículo' }
+    // #swagger.parameters['blindagem'] = { in: 'formData', type: 'boolean', required: false, description: 'Blindagem' }
+    // #swagger.parameters['idCor'] = { in: 'formData', type: 'integer', required: false, description: 'ID da cor' }
+    // #swagger.parameters['idAro'] = { in: 'formData', type: 'integer', required: false, description: 'ID do aro' }
+    // #swagger.parameters['idCategoria'] = { in: 'formData', type: 'integer', required: false, description: 'ID da categoria' }
+    // #swagger.parameters['idMarca'] = { in: 'formData', type: 'integer', required: false, description: 'ID da marca' }
+    // #swagger.parameters['idModelo'] = { in: 'formData', type: 'integer', required: false, description: 'ID do modelo' }
+    // #swagger.parameters['idCombustivel'] = { in: 'formData', type: 'integer', required: false, description: 'ID do combustível' }
+    // #swagger.parameters['idCambio'] = { in: 'formData', type: 'integer', required: false, description: 'ID do câmbio' }
+    // #swagger.parameters['idConcessionaria'] = { in: 'formData', type: 'integer', required: false, description: 'ID da concessionária' }
+    // #swagger.parameters['imagensExcluidas'] = { in: 'formData', type: 'array', required: false, description: 'Imagens a serem excluídas' }
+    // #swagger.parameters['imagensExcluidas[].id'] = { in: 'formData', type: 'integer', required: false, description: 'ID da imagem a ser excluída' }
 
     try {
         const { id } = req.params;
@@ -39,6 +145,12 @@ routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res
 
         const arquivosRecebidos = req.files;
         const camposAtualizar = {};
+
+        const imagensExcluidas = req.body.imagensExcluidas ? JSON.parse(req.body.imagensExcluidas) : [];
+
+
+        //console.log(imagensExcluidas);
+
         if (nomeCarro) camposAtualizar.nome_anuncioCarro = nomeCarro;
         if (anoCarro) camposAtualizar.ano = anoCarro;
         if (condicaoCarro) camposAtualizar.condicao = condicaoCarro;
@@ -75,7 +187,13 @@ routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res
 
         const resultado = await editarAnuncioCarroParcial(id, camposAtualizar)
         if (resultado.affectedRows > 0) {
-            await deletarImagemAnuncio(id);
+            if (imagensExcluidas.length > 0) {
+                for (let i = 0; i < imagensExcluidas.length; i++) {
+                    const imagem = imagensExcluidas[i];
+                    await deletarImagem(imagem);
+                }
+            }
+
 
             const imagensSalvas = [];
 
@@ -83,16 +201,16 @@ routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res
                 const file = arquivosRecebidos[i];
                 const nomeFinal = `${Date.now()}-${i}-${file.originalname}`;
                 const caminhoFinal = path.join(__dirname, '..', 'uploads', nomeFinal);
-    
+
                 await fs.writeFile(caminhoFinal, file.buffer);
                 imagensSalvas.push(nomeFinal);
             }
-    
+
             imagensSalvas.map(async (imagem) => {
                 await adicionarImagem(imagem, id);
             })
             return res.status(200).send("Registro atualizado com sucesso.")
-            
+
         } else {
             throw new AppError('anuncio não encontrado', 404, 'MODELO_NOT_FOUND');
         }
@@ -103,9 +221,11 @@ routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res
 
         throw new AppError('Erro interno do servidor.', 500, 'INTERNAL_ERROR', error.message);
     }
+
+
 })
 
-routeAnuncioCarro.delete('/:id', async (req, res) => { 
+routeAnuncioCarro.delete('/:id', async (req, res) => {
     // #swagger.tags = ['Carro']
     // #swagger.description = 'Deleta um carro pelo ID'
     // #swagger.parameters['id'] = { in: 'path', description: 'ID do carro', required: true, type: 'integer' }
@@ -119,7 +239,7 @@ routeAnuncioCarro.delete('/:id', async (req, res) => {
         if (resultado.affectedRows === 0) {
             throw new AppError('Carro não encontrado', 404, 'CARRO_NOT_FOUND');
         }
-        
+
         res.status(200).json({ message: 'Carro deletado com sucesso!' });
     } catch (error) {
         if (!(error instanceof AppError)) {
@@ -150,7 +270,7 @@ routeAnuncioCarro.post('/', upload.array('imagensCarro', 7), async (req, res, ne
     // #swagger.parameters['idCombustivel'] = { in: 'formData', type: 'integer', required: true, description: 'ID do combustível' }
     // #swagger.parameters['idCambio'] = { in: 'formData', type: 'integer', required: true, description: 'ID do câmbio' }
     // #swagger.parameters['idConcessionaria'] = { in: 'formData', type: 'integer', required: true, description: 'ID da concessionária' }
-    
+
     const {
         nomeCarro, anoCarro, condicaoCarro, valorCarro,
         ipvaPago, dataIpva, dataCompra, detalhesVeiculo, blindagem,
@@ -218,13 +338,15 @@ routeAnuncioCarro.post('/', upload.array('imagensCarro', 7), async (req, res, ne
         imagensSalvas.map(async (imagem) => {
             await adicionarImagem(imagem, resultado.insertId);
         })
-        
 
-        res.status(201).json({
+
+        /*res.status(201).json({
             message: 'Carro cadastrado com sucesso!',
             id: resultado.insertId,
             imagensCarro: imagensSalvas
-        });
+        });*/
+
+        res.status(201).send('Carro cadastrado com sucesso!')
 
     } catch (error) {
         next(new AppError('Erro ao cadastrar carro', 500, 'CARRO_POST_ERROR', error.message));

@@ -55,21 +55,21 @@ async function deletarImagem(id) {
         id = parseInt(id, 10);
         
         // Primeiro busca o nome do arquivo
-        const sqlSelect = "SELECT nome_arquivo FROM imagensCarro WHERE id_imagensCarro = ?";
-        const resultadoSelect = await executarQuery(sqlSelect, [id]);
+        const sqlSelect = "SELECT nome_imagensCarro FROM imagensCarro WHERE id_imagensCarro = ?";
+        const imagemPesquisada = await executarQuery(sqlSelect, [id]);
         
-        if (resultadoSelect.length === 0) {
+        if (imagemPesquisada.length === 0) {
             throw new AppError('Imagem não encontrada', 404, 'IMAGEM_NAO_ENCONTRADA');
         }
-
-        const nomeArquivo = resultadoSelect[0].nome_arquivo;
 
         // Depois deleta do banco
         const sqlDelete = "DELETE FROM imagensCarro WHERE id_imagensCarro = ?";
         await executarQuery(sqlDelete, [id]);
 
-        // Por fim, deleta do sistema de arquivos
-        deletarArquivoImagem(nomeArquivo);
+        for (const imagem of imagemPesquisada) {
+            deletarArquivoImagem(imagem.nome_imagensCarro);
+        }
+
 
         return { sucesso: true };
     } catch (error) {

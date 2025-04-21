@@ -14,17 +14,21 @@ async function executarQuery(sql, params = []) {
   }
 }
 
-async function editarAnuncioCarro(id, nome, id_marca, id_categoria) {
+async function editarAnuncioCarro(nomeCarro, anoCarro, condicaoCarro, valorCarro,
+  ipvaPago, dataIpva, dataCompra, detalhesVeiculo, blindagem,
+  idCor, idAro, idCategoria, idMarca, idModelo,
+  idCombustivel, idCambio, idConcessionaria, id) {
   try {
-      id = parseInt(id, 10); // Garantindo que id seja um número inteiro
-      if (!nome) {
-          throw new AppError('Nome da modelo é obrigatório', 400, 'MISSING_NAME');
-      }
-      const sql = "UPDATE modelo SET nome_modelo = ?, marca_id_marca = ?, categoria_id_categoria = ? WHERE id_modelo = ?";
-      const resultado = await executarQuery(sql, [nome, id_marca, id_categoria, id]);
-      return resultado;
+    const sql = "UPDATE anuncioCarro SET nome_anuncioCarro = ?, ano = ?, condicao = ?, valor = ?, ipva_pago = ?, data_ipva = ?, data_compra = ?, detalhes_veiculo = ?, blindagem = ?, cor_id_cor = ?, aro_id_aro = ?, categoria_id_categoria = ?, marca_id_marca = ?, modelo_id_modelo = ?, combustivel_id_combustivel = ?, cambio_id_cambio = ?, concessionaria_id_concessionaria = ? WHERE id_anuncioCarro = ?;";
+    const resultado = await executarQuery(sql, [nomeCarro, anoCarro, condicaoCarro, valorCarro,
+      ipvaPago, dataIpva, dataCompra, detalhesVeiculo, blindagem,
+      idCor, idAro, idCategoria, idMarca, idModelo,
+      idCombustivel, idCambio, idConcessionaria, id]);
+
+    console.log('Resultado da edição do anuncioCarro:', resultado); // DEBUG
+    return resultado;
   } catch (error) {
-      throw new AppError('Erro ao editar modelo', 400, 'MODELO_EDIT_ERROR', error.message);
+    throw new AppError('Erro ao editar carro', 400, 'CARRO_EDIT_ERROR', error.message);
   }
 }
 
