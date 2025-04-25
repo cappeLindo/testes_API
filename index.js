@@ -24,7 +24,7 @@ app.use(cors());
 
 app.use(express.json());
 
-app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocumentation, {
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocumentation, {
     explorer: true,
     swaggerOptions: {
         docExpansion: 'none', // ou 'list' ou 'full'
@@ -32,15 +32,15 @@ app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocumentation, {
     }
 }));
 
-app.use('/api/aro', routerAro);
-app.use('/api/cambio', routerCambio);
-app.use('/api/categoria', routerCategoria);
-app.use('/api/combustivel', routerCombustivel);
-app.use('/api/cor', routerCor);
-app.use('/api/marca', routerMarca);
-app.use('/api/modelo', routerModelo);
+app.use('/aro', routerAro);
+app.use('/cambio', routerCambio);
+app.use('/categoria', routerCategoria);
+app.use('/combustivel', routerCombustivel);
+app.use('/cor', routerCor);
+app.use('/marca', routerMarca);
+app.use('/modelo', routerModelo);
 
-app.use('/api/carro', routerAnuncioCarro);
+app.use('/carro', routerAnuncioCarro);
 
 app.use(errorHandler);
 
