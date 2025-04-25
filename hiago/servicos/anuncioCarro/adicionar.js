@@ -16,7 +16,7 @@ async function executarQuery(sql, params = []) {
 
 async function adicionarCarro(nomeCarro, anoCarro, condicaoCarro, valorCarro, ipvaPago, dataIpva, dataCompra, detalhesVeiculo, blindagem, idCor, idAro, idCategoria, idMarca, idModelo, idCombustivel, idCambio, idConcessionaria) {
     try{
-        const sql = `INSERT INTO \`Web-Cars\`.\`anuncioCarro\`
+        const sql = `INSERT INTO \`webcars_db\`.\`anuncioCarro\`
         (\`nome_anuncioCarro\`, \`ano\`, \`condicao\`, \`valor\`, \`ipva_pago\`, \`data_ipva\`,
          \`data_compra\`, \`detalhes_veiculo\`, \`blindagem\`, \`cor_id_cor\`, \`aro_id_aro\`,
          \`categoria_id_categoria\`, \`marca_id_marca\`, \`modelo_id_modelo\`, 
