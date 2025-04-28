@@ -5,13 +5,18 @@ const endpointsFiles = ['./index.js'];
 
 const doc = {
     info: {
-        version: '1.0.0',
+        version: '1.0',
         title: 'API Veículos',
         description: 'API do projeto de fabrica de software WEBCARS',
+        
+        
     },
-    host: 'localhost:9000',
-    basePath: '',
-    schemes: ['http'],
+    servers: [
+        {
+            title: 'Web cars',
+            url: 'https://webcars.dev.vilhena.ifro.edu.br/api/',
+        } 
+    ],
     tags: [
         {
             name: 'Aro',
@@ -48,4 +53,4 @@ const doc = {
     ]
 };
 
-swaggerAutogen(outputFile, endpointsFiles, doc);
+    swaggerAutogen({ openapi: '3.0.0', language: 'pt-br' })(outputFile, endpointsFiles, doc);

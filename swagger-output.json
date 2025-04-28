@@ -1,12 +1,16 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
-    "version": "1.0.0",
+    "version": "1.0",
     "title": "API Veículos",
     "description": "API do projeto de fabrica de software WEBCARS"
   },
-  "host": "localhost:9000",
-  "basePath": "/",
+  "servers": [
+    {
+      "title": "Web cars",
+      "url": "https://webcars.dev.vilhena.ifro.edu.br/api/"
+    }
+  ],
   "tags": [
     {
       "name": "Aro",
@@ -41,11 +45,8 @@
       "description": "Rotas para gerenciamento de modelos"
     }
   ],
-  "schemes": [
-    "http"
-  ],
   "paths": {
-    "/api/aro/{id}": {
+    "/aro/{id}": {
       "put": {
         "tags": [
           "Aro"
@@ -56,7 +57,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do aro"
           },
           {
@@ -65,13 +68,27 @@
             "description": "Dados do aro",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Aro"
+              "$ref": "#/components/schemas/Aro"
             }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -85,7 +102,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do aro"
           }
         ],
@@ -105,7 +124,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do aro"
           }
         ],
@@ -116,7 +137,7 @@
         }
       }
     },
-    "/api/aro/": {
+    "/aro/": {
       "post": {
         "tags": [
           "Aro"
@@ -129,13 +150,27 @@
             "description": "Dados do aro",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Aro"
+              "$ref": "#/components/schemas/Aro"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Criado"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -150,7 +185,9 @@
             "in": "query",
             "description": "Nome do aro para filtrar",
             "required": false,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -160,7 +197,7 @@
         }
       }
     },
-    "/api/cambio/{id}": {
+    "/cambio/{id}": {
       "put": {
         "tags": [
           "Câmbio"
@@ -171,25 +208,29 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
-            "description": "ID do câmbio"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "example": "any"
-                }
-              }
-            }
+              "type": "string"
+            },
+            "description": "ID do câmbio"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -203,7 +244,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do câmbio"
           }
         ],
@@ -223,7 +266,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do câmbio"
           }
         ],
@@ -234,7 +279,7 @@
         }
       }
     },
-    "/api/cambio/": {
+    "/cambio/": {
       "post": {
         "tags": [
           "Câmbio"
@@ -247,13 +292,27 @@
             "description": "Dados do câmbio",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Cambio"
+              "$ref": "#/components/schemas/Cambio"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Criado"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -268,7 +327,9 @@
             "in": "query",
             "description": "Nome do câmbio",
             "required": false,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -278,7 +339,7 @@
         }
       }
     },
-    "/api/categoria/{id}": {
+    "/categoria/{id}": {
       "put": {
         "tags": [
           "Categoria"
@@ -289,24 +350,28 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "example": "any"
-                }
-              }
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -320,7 +385,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -339,7 +406,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -349,29 +418,29 @@
         }
       }
     },
-    "/api/categoria/": {
+    "/categoria/": {
       "post": {
         "tags": [
           "Categoria"
         ],
         "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "example": "any"
+        "responses": {
+          "201": {
+            "description": "Criado"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  }
                 }
               }
             }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
           }
         }
       },
@@ -384,7 +453,9 @@
           {
             "name": "nome",
             "in": "query",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -394,7 +465,7 @@
         }
       }
     },
-    "/api/combustivel/{id}": {
+    "/combustivel/{id}": {
       "put": {
         "tags": [
           "Combustível"
@@ -405,25 +476,29 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
-            "description": "ID do combustível"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "example": "any"
-                }
-              }
-            }
+              "type": "string"
+            },
+            "description": "ID do combustível"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -437,7 +512,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do combustível"
           }
         ],
@@ -457,7 +534,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do combustível"
           }
         ],
@@ -468,7 +547,7 @@
         }
       }
     },
-    "/api/combustivel/": {
+    "/combustivel/": {
       "post": {
         "tags": [
           "Combustível"
@@ -481,13 +560,27 @@
             "description": "Dados do combustível",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Combustivel"
+              "$ref": "#/components/schemas/Combustivel"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Criado"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -502,7 +595,9 @@
             "in": "query",
             "description": "Nome do combustível",
             "required": false,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -512,7 +607,7 @@
         }
       }
     },
-    "/api/cor/{id}": {
+    "/cor/{id}": {
       "put": {
         "tags": [
           "Cor"
@@ -523,7 +618,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID da cor"
           },
           {
@@ -532,13 +629,27 @@
             "description": "Dados da cor",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Cor"
+              "$ref": "#/components/schemas/Cor"
             }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -552,7 +663,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID da cor"
           }
         ],
@@ -572,7 +685,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID da cor"
           }
         ],
@@ -583,7 +698,7 @@
         }
       }
     },
-    "/api/cor/": {
+    "/cor/": {
       "post": {
         "tags": [
           "Cor"
@@ -596,13 +711,27 @@
             "description": "Dados da cor",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Cor"
+              "$ref": "#/components/schemas/Cor"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Criado"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -616,7 +745,9 @@
             "name": "nome",
             "in": "query",
             "description": "Nome da cor para busca",
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -626,7 +757,7 @@
         }
       }
     },
-    "/api/marca/{id}": {
+    "/marca/{id}": {
       "put": {
         "tags": [
           "Marca"
@@ -637,25 +768,29 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
-            "description": "ID da marca"
-          },
-          {
-            "name": "body",
-            "in": "body",
             "schema": {
-              "type": "object",
-              "properties": {
-                "nome": {
-                  "example": "any"
-                }
-              }
-            }
+              "type": "string"
+            },
+            "description": "ID da marca"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -669,7 +804,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID da marca"
           }
         ],
@@ -689,7 +826,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID da marca"
           }
         ],
@@ -700,7 +839,7 @@
         }
       }
     },
-    "/api/marca/": {
+    "/marca/": {
       "post": {
         "tags": [
           "Marca"
@@ -713,13 +852,27 @@
             "description": "Dados da marca",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Marca"
+              "$ref": "#/components/schemas/Marca"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Criado"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -734,7 +887,9 @@
             "in": "query",
             "description": "Nome da marca para busca",
             "required": false,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -744,7 +899,7 @@
         }
       }
     },
-    "/api/modelo/{id}": {
+    "/modelo/{id}": {
       "put": {
         "tags": [
           "Modelo"
@@ -755,7 +910,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do modelo"
           },
           {
@@ -764,13 +921,33 @@
             "description": "Dados do modelo",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Modelo"
+              "$ref": "#/components/schemas/Modelo"
             }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  },
+                  "id_marca": {
+                    "example": "any"
+                  },
+                  "id_categoria": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -784,7 +961,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do modelo"
           },
           {
@@ -793,13 +972,33 @@
             "description": "Dados do modelo",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Modelo"
+              "$ref": "#/components/schemas/Modelo"
             }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  },
+                  "id_marca": {
+                    "example": "any"
+                  },
+                  "id_categoria": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -813,7 +1012,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do modelo"
           }
         ],
@@ -833,7 +1034,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do modelo"
           }
         ],
@@ -844,7 +1047,7 @@
         }
       }
     },
-    "/api/modelo/": {
+    "/modelo/": {
       "post": {
         "tags": [
           "Modelo"
@@ -857,13 +1060,33 @@
             "description": "Dados do modelo",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Modelo"
+              "$ref": "#/components/schemas/Modelo"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Criado"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "example": "any"
+                  },
+                  "id_marca": {
+                    "example": "any"
+                  },
+                  "id_categoria": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -878,7 +1101,9 @@
             "in": "query",
             "description": "Nome do modelo",
             "required": false,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -888,7 +1113,7 @@
         }
       }
     },
-    "/api/modelo/marca/": {
+    "/modelo/marca/": {
       "get": {
         "tags": [
           "Modelo"
@@ -900,7 +1125,9 @@
             "in": "query",
             "description": "Nome da marca",
             "required": false,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -910,7 +1137,7 @@
         }
       }
     },
-    "/api/modelo/marca/{id}": {
+    "/modelo/marca/{id}": {
       "get": {
         "tags": [
           "Modelo"
@@ -921,7 +1148,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID da marca"
           }
         ],
@@ -932,7 +1161,7 @@
         }
       }
     },
-    "/api/modelo/categoria/": {
+    "/modelo/categoria/": {
       "get": {
         "tags": [
           "Modelo"
@@ -944,7 +1173,9 @@
             "in": "query",
             "description": "Nome da categoria",
             "required": false,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -954,7 +1185,7 @@
         }
       }
     },
-    "/api/modelo/categoria/{id}": {
+    "/modelo/categoria/{id}": {
       "get": {
         "tags": [
           "Modelo"
@@ -965,7 +1196,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID da categoria"
           }
         ],
@@ -976,7 +1209,7 @@
         }
       }
     },
-    "/api/carro/{id}": {
+    "/carro/{id}": {
       "put": {
         "tags": [
           "Carro"
@@ -987,199 +1220,239 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do carro"
           },
           {
             "name": "imagensCarro",
             "in": "formData",
-            "type": "file",
             "required": true,
-            "description": "Imagens do carro"
+            "description": "Imagens do carro",
+            "schema": {
+              "type": "file"
+            }
           },
           {
             "name": "nomeCarro",
             "in": "formData",
-            "type": "string",
             "required": true,
-            "description": "Nome do carro"
+            "description": "Nome do carro",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "anoCarro",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "Ano do carro"
+            "description": "Ano do carro",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "condicaoCarro",
             "in": "formData",
-            "type": "string",
             "required": true,
-            "description": "Condição do carro"
+            "description": "Condição do carro",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "valorCarro",
             "in": "formData",
-            "type": "number",
             "required": true,
-            "description": "Valor do carro"
+            "description": "Valor do carro",
+            "schema": {
+              "type": "number"
+            }
           },
           {
             "name": "ipvaPago",
             "in": "formData",
-            "type": "boolean",
             "required": true,
-            "description": "IPVA pago"
+            "description": "IPVA pago",
+            "schema": {
+              "type": "boolean"
+            }
           },
           {
             "name": "dataIpva",
             "in": "formData",
-            "type": "string",
             "required": true,
-            "description": "Data do IPVA"
+            "description": "Data do IPVA",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "dataCompra",
             "in": "formData",
-            "type": "string",
             "required": true,
-            "description": "Data da compra"
+            "description": "Data da compra",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "detalhesVeiculo",
             "in": "formData",
-            "type": "string",
             "required": true,
-            "description": "Detalhes do veículo"
+            "description": "Detalhes do veículo",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "blindagem",
             "in": "formData",
-            "type": "boolean",
             "required": true,
-            "description": "Blindagem"
+            "description": "Blindagem",
+            "schema": {
+              "type": "boolean"
+            }
           },
           {
             "name": "idCor",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID da cor"
+            "description": "ID da cor",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idAro",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID do aro"
+            "description": "ID do aro",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idCategoria",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID da categoria"
+            "description": "ID da categoria",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idMarca",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID da marca"
+            "description": "ID da marca",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idModelo",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID do modelo"
+            "description": "ID do modelo",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idCombustivel",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID do combustível"
+            "description": "ID do combustível",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idCambio",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID do câmbio"
+            "description": "ID do câmbio",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idConcessionaria",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID da concessionária"
-          },
-          {
-            "name": "body",
-            "in": "body",
+            "description": "ID da concessionária",
             "schema": {
-              "type": "object",
-              "properties": {
-                "nomeCarro": {
-                  "example": "any"
-                },
-                "anoCarro": {
-                  "example": "any"
-                },
-                "condicaoCarro": {
-                  "example": "any"
-                },
-                "valorCarro": {
-                  "example": "any"
-                },
-                "ipvaPago": {
-                  "example": "any"
-                },
-                "dataIpva": {
-                  "example": "any"
-                },
-                "dataCompra": {
-                  "example": "any"
-                },
-                "detalhesVeiculo": {
-                  "example": "any"
-                },
-                "blindagem": {
-                  "example": "any"
-                },
-                "idCor": {
-                  "example": "any"
-                },
-                "idAro": {
-                  "example": "any"
-                },
-                "idCategoria": {
-                  "example": "any"
-                },
-                "idMarca": {
-                  "example": "any"
-                },
-                "idModelo": {
-                  "example": "any"
-                },
-                "idCombustivel": {
-                  "example": "any"
-                },
-                "idCambio": {
-                  "example": "any"
-                },
-                "idConcessionaria": {
-                  "example": "any"
-                }
-              }
+              "type": "integer"
             }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nomeCarro": {
+                    "example": "any"
+                  },
+                  "anoCarro": {
+                    "example": "any"
+                  },
+                  "condicaoCarro": {
+                    "example": "any"
+                  },
+                  "valorCarro": {
+                    "example": "any"
+                  },
+                  "ipvaPago": {
+                    "example": "any"
+                  },
+                  "dataIpva": {
+                    "example": "any"
+                  },
+                  "dataCompra": {
+                    "example": "any"
+                  },
+                  "detalhesVeiculo": {
+                    "example": "any"
+                  },
+                  "blindagem": {
+                    "example": "any"
+                  },
+                  "idCor": {
+                    "example": "any"
+                  },
+                  "idAro": {
+                    "example": "any"
+                  },
+                  "idCategoria": {
+                    "example": "any"
+                  },
+                  "idMarca": {
+                    "example": "any"
+                  },
+                  "idModelo": {
+                    "example": "any"
+                  },
+                  "idCombustivel": {
+                    "example": "any"
+                  },
+                  "idCambio": {
+                    "example": "any"
+                  },
+                  "idConcessionaria": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -1193,209 +1466,251 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do carro"
           },
           {
             "name": "imagensCarro",
             "in": "formData",
-            "type": "file",
             "required": false,
-            "description": "Imagens do carro"
+            "description": "Imagens do carro",
+            "schema": {
+              "type": "file"
+            }
           },
           {
             "name": "nomeCarro",
             "in": "formData",
-            "type": "string",
             "required": false,
-            "description": "Nome do carro"
+            "description": "Nome do carro",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "anoCarro",
             "in": "formData",
-            "type": "integer",
             "required": false,
-            "description": "Ano do carro"
+            "description": "Ano do carro",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "condicaoCarro",
             "in": "formData",
-            "type": "string",
             "required": false,
-            "description": "Condição do carro"
+            "description": "Condição do carro",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "valorCarro",
             "in": "formData",
-            "type": "number",
             "required": false,
-            "description": "Valor do carro"
+            "description": "Valor do carro",
+            "schema": {
+              "type": "number"
+            }
           },
           {
             "name": "ipvaPago",
             "in": "formData",
-            "type": "boolean",
             "required": false,
-            "description": "IPVA pago"
+            "description": "IPVA pago",
+            "schema": {
+              "type": "boolean"
+            }
           },
           {
             "name": "dataIpva",
             "in": "formData",
-            "type": "string",
             "required": false,
-            "description": "Data do IPVA"
+            "description": "Data do IPVA",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "dataCompra",
             "in": "formData",
-            "type": "string",
             "required": false,
-            "description": "Data da compra"
+            "description": "Data da compra",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "detalhesVeiculo",
             "in": "formData",
-            "type": "string",
             "required": false,
-            "description": "Detalhes do veículo"
+            "description": "Detalhes do veículo",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "blindagem",
             "in": "formData",
-            "type": "boolean",
             "required": false,
-            "description": "Blindagem"
+            "description": "Blindagem",
+            "schema": {
+              "type": "boolean"
+            }
           },
           {
             "name": "idCor",
             "in": "formData",
-            "type": "integer",
             "required": false,
-            "description": "ID da cor"
+            "description": "ID da cor",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idAro",
             "in": "formData",
-            "type": "integer",
             "required": false,
-            "description": "ID do aro"
+            "description": "ID do aro",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idCategoria",
             "in": "formData",
-            "type": "integer",
             "required": false,
-            "description": "ID da categoria"
+            "description": "ID da categoria",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idMarca",
             "in": "formData",
-            "type": "integer",
             "required": false,
-            "description": "ID da marca"
+            "description": "ID da marca",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idModelo",
             "in": "formData",
-            "type": "integer",
             "required": false,
-            "description": "ID do modelo"
+            "description": "ID do modelo",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idCombustivel",
             "in": "formData",
-            "type": "integer",
             "required": false,
-            "description": "ID do combustível"
+            "description": "ID do combustível",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idCambio",
             "in": "formData",
-            "type": "integer",
             "required": false,
-            "description": "ID do câmbio"
+            "description": "ID do câmbio",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idConcessionaria",
             "in": "formData",
-            "type": "integer",
             "required": false,
-            "description": "ID da concessionária"
+            "description": "ID da concessionária",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "imagensExcluidas",
             "in": "formData",
-            "type": "integer",
             "required": false,
-            "description": "ID da imagem a ser excluída"
-          },
-          {
-            "name": "body",
-            "in": "body",
+            "description": "ID da imagem a ser excluída",
             "schema": {
-              "type": "object",
-              "properties": {
-                "imagensExcluidas": {
-                  "example": "any"
-                },
-                "nomeCarro": {
-                  "example": "any"
-                },
-                "anoCarro": {
-                  "example": "any"
-                },
-                "condicaoCarro": {
-                  "example": "any"
-                },
-                "valorCarro": {
-                  "example": "any"
-                },
-                "ipvaPago": {
-                  "example": "any"
-                },
-                "dataIpva": {
-                  "example": "any"
-                },
-                "dataCompra": {
-                  "example": "any"
-                },
-                "detalhesVeiculo": {
-                  "example": "any"
-                },
-                "blindagem": {
-                  "example": "any"
-                },
-                "idCor": {
-                  "example": "any"
-                },
-                "idAro": {
-                  "example": "any"
-                },
-                "idCategoria": {
-                  "example": "any"
-                },
-                "idMarca": {
-                  "example": "any"
-                },
-                "idModelo": {
-                  "example": "any"
-                },
-                "idCombustivel": {
-                  "example": "any"
-                },
-                "idCambio": {
-                  "example": "any"
-                },
-                "idConcessionaria": {
-                  "example": "any"
-                }
-              }
+              "type": "array"
             }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "imagensExcluidas": {
+                    "example": "any"
+                  },
+                  "nomeCarro": {
+                    "example": "any"
+                  },
+                  "anoCarro": {
+                    "example": "any"
+                  },
+                  "condicaoCarro": {
+                    "example": "any"
+                  },
+                  "valorCarro": {
+                    "example": "any"
+                  },
+                  "ipvaPago": {
+                    "example": "any"
+                  },
+                  "dataIpva": {
+                    "example": "any"
+                  },
+                  "dataCompra": {
+                    "example": "any"
+                  },
+                  "detalhesVeiculo": {
+                    "example": "any"
+                  },
+                  "blindagem": {
+                    "example": "any"
+                  },
+                  "idCor": {
+                    "example": "any"
+                  },
+                  "idAro": {
+                    "example": "any"
+                  },
+                  "idCategoria": {
+                    "example": "any"
+                  },
+                  "idMarca": {
+                    "example": "any"
+                  },
+                  "idModelo": {
+                    "example": "any"
+                  },
+                  "idCombustivel": {
+                    "example": "any"
+                  },
+                  "idCambio": {
+                    "example": "any"
+                  },
+                  "idConcessionaria": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -1409,7 +1724,9 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do carro"
           }
         ],
@@ -1429,7 +1746,9 @@
             "name": "id",
             "in": "query",
             "required": false,
-            "type": "integer",
+            "schema": {
+              "type": "string"
+            },
             "description": "ID do carro"
           }
         ],
@@ -1440,7 +1759,7 @@
         }
       }
     },
-    "/api/carro/": {
+    "/carro/": {
       "post": {
         "tags": [
           "Carro"
@@ -1450,193 +1769,231 @@
           {
             "name": "imagensCarro",
             "in": "formData",
-            "type": "file",
             "required": true,
-            "description": "Imagens do carro"
+            "description": "Imagens do carro",
+            "schema": {
+              "type": "file"
+            }
           },
           {
             "name": "nomeCarro",
             "in": "formData",
-            "type": "string",
             "required": true,
-            "description": "Nome do carro"
+            "description": "Nome do carro",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "anoCarro",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "Ano do carro"
+            "description": "Ano do carro",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "condicaoCarro",
             "in": "formData",
-            "type": "string",
             "required": true,
-            "description": "Condição do carro"
+            "description": "Condição do carro",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "valorCarro",
             "in": "formData",
-            "type": "number",
             "required": true,
-            "description": "Valor do carro"
+            "description": "Valor do carro",
+            "schema": {
+              "type": "number"
+            }
           },
           {
             "name": "ipvaPago",
             "in": "formData",
-            "type": "boolean",
             "required": true,
-            "description": "IPVA pago"
+            "description": "IPVA pago",
+            "schema": {
+              "type": "boolean"
+            }
           },
           {
             "name": "dataIpva",
             "in": "formData",
-            "type": "string",
             "required": true,
-            "description": "Data do IPVA"
+            "description": "Data do IPVA",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "dataCompra",
             "in": "formData",
-            "type": "string",
             "required": true,
-            "description": "Data da compra"
+            "description": "Data da compra",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "detalhesVeiculo",
             "in": "formData",
-            "type": "string",
             "required": true,
-            "description": "Detalhes do veículo"
+            "description": "Detalhes do veículo",
+            "schema": {
+              "type": "string"
+            }
           },
           {
             "name": "blindagem",
             "in": "formData",
-            "type": "boolean",
             "required": true,
-            "description": "Blindagem"
+            "description": "Blindagem",
+            "schema": {
+              "type": "boolean"
+            }
           },
           {
             "name": "idCor",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID da cor"
+            "description": "ID da cor",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idAro",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID do aro"
+            "description": "ID do aro",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idCategoria",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID da categoria"
+            "description": "ID da categoria",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idMarca",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID da marca"
+            "description": "ID da marca",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idModelo",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID do modelo"
+            "description": "ID do modelo",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idCombustivel",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID do combustível"
+            "description": "ID do combustível",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idCambio",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID do câmbio"
+            "description": "ID do câmbio",
+            "schema": {
+              "type": "integer"
+            }
           },
           {
             "name": "idConcessionaria",
             "in": "formData",
-            "type": "integer",
             "required": true,
-            "description": "ID da concessionária"
-          },
-          {
-            "name": "body",
-            "in": "body",
+            "description": "ID da concessionária",
             "schema": {
-              "type": "object",
-              "properties": {
-                "nomeCarro": {
-                  "example": "any"
-                },
-                "anoCarro": {
-                  "example": "any"
-                },
-                "condicaoCarro": {
-                  "example": "any"
-                },
-                "valorCarro": {
-                  "example": "any"
-                },
-                "ipvaPago": {
-                  "example": "any"
-                },
-                "dataIpva": {
-                  "example": "any"
-                },
-                "dataCompra": {
-                  "example": "any"
-                },
-                "detalhesVeiculo": {
-                  "example": "any"
-                },
-                "blindagem": {
-                  "example": "any"
-                },
-                "idCor": {
-                  "example": "any"
-                },
-                "idAro": {
-                  "example": "any"
-                },
-                "idCategoria": {
-                  "example": "any"
-                },
-                "idMarca": {
-                  "example": "any"
-                },
-                "idModelo": {
-                  "example": "any"
-                },
-                "idCombustivel": {
-                  "example": "any"
-                },
-                "idCambio": {
-                  "example": "any"
-                },
-                "idConcessionaria": {
-                  "example": "any"
-                }
-              }
+              "type": "integer"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Criado"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nomeCarro": {
+                    "example": "any"
+                  },
+                  "anoCarro": {
+                    "example": "any"
+                  },
+                  "condicaoCarro": {
+                    "example": "any"
+                  },
+                  "valorCarro": {
+                    "example": "any"
+                  },
+                  "ipvaPago": {
+                    "example": "any"
+                  },
+                  "dataIpva": {
+                    "example": "any"
+                  },
+                  "dataCompra": {
+                    "example": "any"
+                  },
+                  "detalhesVeiculo": {
+                    "example": "any"
+                  },
+                  "blindagem": {
+                    "example": "any"
+                  },
+                  "idCor": {
+                    "example": "any"
+                  },
+                  "idAro": {
+                    "example": "any"
+                  },
+                  "idCategoria": {
+                    "example": "any"
+                  },
+                  "idMarca": {
+                    "example": "any"
+                  },
+                  "idModelo": {
+                    "example": "any"
+                  },
+                  "idCombustivel": {
+                    "example": "any"
+                  },
+                  "idCambio": {
+                    "example": "any"
+                  },
+                  "idConcessionaria": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -1651,7 +2008,9 @@
             "in": "query",
             "description": "Nome do carro",
             "required": false,
-            "type": "string"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
