@@ -10,7 +10,7 @@ const doc = {
         description: 'API do projeto de fabrica de software WEBCARS',
     },
     host: 'localhost:9000',
-    basePath: '/',
+    basePath: '',
     schemes: ['http'],
     tags: [
         {
