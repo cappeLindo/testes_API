@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
-
+import path from "path";
+import { fileURLToPath } from "url";
 import swaggerUI from "swagger-ui-express";
 import fs from "fs";
 
@@ -41,6 +42,11 @@ app.use('/marca', routerMarca);
 app.use('/modelo', routerModelo);
 
 app.use('/carro', routerAnuncioCarro);
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+app.use('/uploads', express.static(path.join(__dirname, 'hiago', 'uploads')))
 
 app.use(errorHandler);
 
