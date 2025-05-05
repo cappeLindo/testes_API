@@ -270,7 +270,7 @@ routeAnuncioCarro.delete('/:id', async (req, res) => {
     }
 })
 
-routeAnuncioCarro.post('/', upload.array('imagensCarro', 7), async (req, res, next) => {
+routeAnuncioCarro.post('/:id', upload.array('imagensCarro', 7), async (req, res, next) => {
     // #swagger.tags = ['Carro']
     // #swagger.description = 'Cadastra um carro'
     // #swagger.parameters['imagensCarro'] = { in: 'formData', type: 'file', required: true, description: 'Imagens do carro' }
@@ -296,10 +296,12 @@ routeAnuncioCarro.post('/', upload.array('imagensCarro', 7), async (req, res, ne
         nomeCarro, anoCarro, condicaoCarro, valorCarro,
         ipvaPago, dataIpva, dataCompra, detalhesVeiculo, blindagem,
         idCor, idAro, idCategoria, idMarca, idModelo,
-        idCombustivel, idCambio, idConcessionaria
+        idCombustivel, idCambio
     } = req.body;
 
     const arquivosRecebidos = req.files;
+
+    const idConcessionaria = id.req.params
 
     try {
         // Verificação de campos obrigatórios
