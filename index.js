@@ -46,7 +46,7 @@ app.use('/carro', routerAnuncioCarro);
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-app.use('/uploads', express.static(path.join(__dirname, 'hiago', 'uploads')))
+app.use('/imagensCarro', express.static(path.join(__dirname, 'hiago', 'uploads')))
 
 app.use(errorHandler);
 
