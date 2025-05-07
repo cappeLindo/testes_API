@@ -300,7 +300,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `webcars_db`.`imagensCarro` (
   `id_imagensCarro` INT NOT NULL AUTO_INCREMENT,
-  `nome_imagensCarro` VARCHAR(45) NOT NULL,
+  `nome_imagensCarro` LONGBLOB NOT NULL,
   `anuncioCarro_id_anuncioCarro` INT NOT NULL,
   PRIMARY KEY (`id_imagensCarro`),
   INDEX `fk_imagensCarro_anuncioCarro1_idx` (`anuncioCarro_id_anuncioCarro` ASC) VISIBLE,
@@ -311,6 +311,9 @@ CREATE TABLE IF NOT EXISTS `webcars_db`.`imagensCarro` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+ALTER TABLE `webcars_db`.`imagensCarro`
+MODIFY COLUMN `nome_imagensCarro` VARCHAR(45) NOT NULL,
+ADD COLUMN `arquivo_imagem` LONGBLOB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

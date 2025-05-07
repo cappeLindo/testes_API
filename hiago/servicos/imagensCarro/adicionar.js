@@ -14,10 +14,10 @@ async function executarQuery(sql, params = []) {
     }
 }
 
-async function adicionarImagem(nome, id) {
+async function adicionarImagem(nome, id, arquivo) {
     try{
-        const sql = `INSERT INTO imagensCarro (nome_imagensCarro, anuncioCarro_id_anuncioCarro) VALUE (?, ?);`;
-        return await executarQuery(sql, [nome, id]);
+        const sql = `INSERT INTO imagensCarro (nome_imagensCarro, anuncioCarro_id_anuncioCarro, arquivo_imagem) VALUE (?, ?, ?);`;
+        return await executarQuery(sql, [nome, id, arquivo]);
     } catch(error) {
         throw new AppError('ID do anucio é invalido', 400, 'ANUNCIO_ID_INVALID', error.message);
     }

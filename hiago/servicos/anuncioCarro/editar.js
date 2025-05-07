@@ -17,13 +17,13 @@ async function executarQuery(sql, params = []) {
 async function editarAnuncioCarro(nomeCarro, anoCarro, condicaoCarro, valorCarro,
   ipvaPago, dataIpva, dataCompra, detalhesVeiculo, blindagem,
   idCor, idAro, idCategoria, idMarca, idModelo,
-  idCombustivel, idCambio, idConcessionaria, id) {
+  idCombustivel, idCambio, id) {
   try {
-    const sql = "UPDATE anuncioCarro SET nome_anuncioCarro = ?, ano = ?, condicao = ?, valor = ?, ipva_pago = ?, data_ipva = ?, data_compra = ?, detalhes_veiculo = ?, blindagem = ?, cor_id_cor = ?, aro_id_aro = ?, categoria_id_categoria = ?, marca_id_marca = ?, modelo_id_modelo = ?, combustivel_id_combustivel = ?, cambio_id_cambio = ?, concessionaria_id_concessionaria = ? WHERE id_anuncioCarro = ?;";
+    const sql = "UPDATE anuncioCarro SET nome_anuncioCarro = ?, ano = ?, condicao = ?, valor = ?, ipva_pago = ?, data_ipva = ?, data_compra = ?, detalhes_veiculo = ?, blindagem = ?, cor_id_cor = ?, aro_id_aro = ?, categoria_id_categoria = ?, marca_id_marca = ?, modelo_id_modelo = ?, combustivel_id_combustivel = ?, cambio_id_cambio = ? WHERE id_anuncioCarro = ?;";
     const resultado = await executarQuery(sql, [nomeCarro, anoCarro, condicaoCarro, valorCarro,
       ipvaPago, dataIpva, dataCompra, detalhesVeiculo, blindagem,
       idCor, idAro, idCategoria, idMarca, idModelo,
-      idCombustivel, idCambio, idConcessionaria, id]);
+      idCombustivel, idCambio, id]);
 
     console.log('Resultado da edição do anuncioCarro:', resultado); // DEBUG
     return resultado;

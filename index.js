@@ -4,11 +4,12 @@ import path from "path";
 import { fileURLToPath } from "url";
 import swaggerUI from "swagger-ui-express";
 import fs from "fs";
+import { apresentarImagemPorId } from "./hiago/servicos/imagensCarro/apresentar.js";
 
 const swaggerDocumentation = JSON.parse(fs.readFileSync("./swagger-output.json", "utf-8"));
 
 
-import errorHandler from "./middlevares/errorHandler.js";
+import errorHandler from "./middlewares/errorHandler.js";
 
 import routerAro from "./hiago/rotas/aro.js";
 import routerCambio from "./hiago/rotas/cambio.js";
@@ -43,10 +44,25 @@ app.use('/modelo', routerModelo);
 
 app.use('/carro', routerAnuncioCarro);
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
-app.use('/imagensCarro', express.static(path.join(__dirname, 'hiago', 'uploads')))
+app.get('/carro/imagem/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const [resultado] = await apresentarImagemPorId(id);
+
+        if (!resultado || !resultado.arquivo_imagem) {
+            return res.status(404).send('Imagem não encontrada');
+        }
+
+        // Ajuste o Content-Type de acordo com o tipo real da imagem, se possível
+        res.set('Content-Type', 'image/jpeg');
+        res.send(resultado.arquivo_imagem);
+    } catch (err) {
+        res.status(500).json({ mensagem: err.message });
+    }
+});
+
+
 
 app.use(errorHandler);
 

@@ -1,28 +1,10 @@
 import pool from '../../../config.js';
 import AppError from '../../utils/AppError.js';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+
 
 // Isso funciona para ES Modules, que parece ser o seu caso
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 
 let codigoErro;
-
-function deletarArquivoImagem(nomeArquivo) {
-    const caminho = path.resolve(__dirname, '../../uploads', nomeArquivo);
-
-    fs.unlink(caminho, (err) => {
-        if (err) {
-            console.error('Erro ao deletar arquivo físico:', err.message);
-        } else {
-            //console.log(`Imagem ${nomeArquivo} deletada da pasta uploads.`);
-        }
-    });
-}
 
 
 
@@ -66,10 +48,6 @@ async function deletarImagem(id) {
         const sqlDelete = "DELETE FROM imagensCarro WHERE id_imagensCarro = ?";
         await executarQuery(sqlDelete, [id]);
 
-        for (const imagem of imagemPesquisada) {
-            deletarArquivoImagem(imagem.nome_imagensCarro);
-        }
-
 
         return { sucesso: true };
     } catch (error) {
@@ -87,10 +65,6 @@ async function deletarImagemAnuncio(id) {
 
         const sqlDelete = "DELETE FROM imagensCarro WHERE anuncioCarro_id_anuncioCarro = ?";
         await executarQuery(sqlDelete, [id]);
-
-        for (const imagem of imagens) {
-            deletarArquivoImagem(imagem.nome_imagensCarro);
-        }
 
         return { sucesso: true };
     } catch (error) {
