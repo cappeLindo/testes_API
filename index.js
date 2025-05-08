@@ -45,12 +45,17 @@ app.use('/modelo', routerModelo);
 app.use('/carro', routerAnuncioCarro);
 
 
-app.get('/carro/imagem/:id', async (req, res) => {
+app.get('/carro/imagem/:idImagem', async (req, res) => {
     // #swagger.tags = ['Carro']
-    
-    const { id } = req.params;
+    // #swagger.description = 'Retorna a imagem de um carro pelo ID da imagem'
+    // #swagger.parameters['idImagem'] = { in: 'path', description: 'ID da imagem do carro', required: true, type: 'integer' }
+    // #swagger.responses[200] = { description: 'Imagem do carro encontrada com sucesso', schema: { type: 'string', format: 'binary' } }
+    // #swagger.responses[404] = { description: 'Imagem não encontrada' }
+    // #swagger.responses[500] = { description: 'Erro interno ao buscar a imagem' }
+
+    const { idImagem } = req.params;
     try {
-        const [resultado] = await apresentarImagemPorId(id);
+        const [resultado] = await apresentarImagemPorId(idImagem);
 
         if (!resultado || !resultado.arquivo_imagem) {
             return res.status(404).send('Imagem não encontrada');

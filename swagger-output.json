@@ -46,31 +46,70 @@
     }
   ],
   "paths": {
-    "/carro/imagem/{id}": {
+    "/carro/imagem/{idImagem}": {
       "get": {
         "tags": [
           "Carro"
         ],
-        "description": "",
+        "description": "Retorna a imagem de um carro pelo ID da imagem",
         "parameters": [
           {
-            "name": "id",
+            "name": "idImagem",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "ID da imagem do carro"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Imagem do carro encontrada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "format": {
+                      "type": "string",
+                      "example": "binary"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "string"
+                    },
+                    "format": {
+                      "type": "string",
+                      "example": "binary"
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
           },
           "404": {
-            "description": "Não Encontrado"
+            "description": "Imagem não encontrada"
           },
           "500": {
-            "description": "Erro Interno do Servidor"
+            "description": "Erro interno ao buscar a imagem"
           }
         }
       }
