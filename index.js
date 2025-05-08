@@ -46,6 +46,8 @@ app.use('/carro', routerAnuncioCarro);
 
 
 app.get('/carro/imagem/:id', async (req, res) => {
+    // #swagger.tags = ['Carro']
+    
     const { id } = req.params;
     try {
         const [resultado] = await apresentarImagemPorId(id);

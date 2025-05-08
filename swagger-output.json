@@ -46,6 +46,35 @@
     }
   ],
   "paths": {
+    "/carro/imagem/{id}": {
+      "get": {
+        "tags": [
+          "Carro"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Não Encontrado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
     "/aro/{id}": {
       "put": {
         "tags": [
@@ -1377,15 +1406,6 @@
             "schema": {
               "type": "integer"
             }
-          },
-          {
-            "name": "idConcessionaria",
-            "in": "formData",
-            "required": true,
-            "description": "ID da concessionária",
-            "schema": {
-              "type": "integer"
-            }
           }
         ],
         "responses": {
@@ -1445,9 +1465,6 @@
                     "example": "any"
                   },
                   "idCambio": {
-                    "example": "any"
-                  },
-                  "idConcessionaria": {
                     "example": "any"
                   }
                 }
@@ -1654,9 +1671,6 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "imagensExcluidas": {
-                    "example": "any"
-                  },
                   "nomeCarro": {
                     "example": "any"
                   },
@@ -1706,6 +1720,9 @@
                     "example": "any"
                   },
                   "idConcessionaria": {
+                    "example": "any"
+                  },
+                  "imagensExcluidas": {
                     "example": "any"
                   }
                 }
@@ -1759,13 +1776,22 @@
         }
       }
     },
-    "/carro/": {
+    "/carro/{idConcessionaria}": {
       "post": {
         "tags": [
           "Carro"
         ],
         "description": "Cadastra um carro",
         "parameters": [
+          {
+            "name": "idConcessionaria",
+            "in": "formData",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID da concessionária"
+          },
           {
             "name": "imagensCarro",
             "in": "formData",
@@ -1918,15 +1944,6 @@
             "schema": {
               "type": "integer"
             }
-          },
-          {
-            "name": "idConcessionaria",
-            "in": "formData",
-            "required": true,
-            "description": "ID da concessionária",
-            "schema": {
-              "type": "integer"
-            }
           }
         ],
         "responses": {
@@ -1987,16 +2004,15 @@
                   },
                   "idCambio": {
                     "example": "any"
-                  },
-                  "idConcessionaria": {
-                    "example": "any"
                   }
                 }
               }
             }
           }
         }
-      },
+      }
+    },
+    "/carro/": {
       "get": {
         "tags": [
           "Carro"
