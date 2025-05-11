@@ -8,7 +8,6 @@ import { apresentarImagemPorId } from "./hiago/servicos/imagensCarro/apresentar.
 
 const swaggerDocumentation = JSON.parse(fs.readFileSync("./swagger-output.json", "utf-8"));
 
-
 import errorHandler from "./middlewares/errorHandler.js";
 
 import routerAro from "./hiago/rotas/aro.js";
@@ -19,6 +18,7 @@ import routerCor from "./hiago/rotas/cor.js";
 import routerMarca from "./hiago/rotas/marca.js";
 import routerModelo from "./hiago/rotas/modelo.js";
 import routerAnuncioCarro from "./hiago/rotas/anuncioCarro.js";
+import routerFiltroAlerta from "./nathan/rotas/routeFiltroAlerta.js";
 
 const porta = 9000;
 const app = express();
@@ -29,8 +29,8 @@ app.use(express.json());
 app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocumentation, {
     explorer: true,
     swaggerOptions: {
-        docExpansion: 'none', // ou 'list' ou 'full'
-        defaultModelsExpandDepth: -1, // oculta modelos
+        docExpansion: 'none',
+        defaultModelsExpandDepth: -1,
     }
 }));
 
@@ -41,9 +41,8 @@ app.use('/combustivel', routerCombustivel);
 app.use('/cor', routerCor);
 app.use('/marca', routerMarca);
 app.use('/modelo', routerModelo);
-
 app.use('/carro', routerAnuncioCarro);
-
+app.use('/filtro-alerta', routerFiltroAlerta);
 
 app.get('/carro/imagem/:idImagem', async (req, res) => {
     // #swagger.tags = ['Carro']
@@ -61,7 +60,6 @@ app.get('/carro/imagem/:idImagem', async (req, res) => {
             return res.status(404).send('Imagem não encontrada');
         }
 
-        // Ajuste o Content-Type de acordo com o tipo real da imagem, se possível
         res.set('Content-Type', 'image/jpeg');
         res.send(resultado.arquivo_imagem);
     } catch (err) {
@@ -69,11 +67,9 @@ app.get('/carro/imagem/:idImagem', async (req, res) => {
     }
 });
 
-
-
 app.use(errorHandler);
 
 app.listen(porta, () => {
     const data = new Date();
-    console.log(`Seridor iniciado na porta ${porta} ${data}`);
+    console.log(`Servidor iniciado na porta ${porta} ${data}`);
 });

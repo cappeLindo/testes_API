@@ -27,7 +27,8 @@
     "notenv": "^2.0.3",
     "process": "^0.11.10",
     "router": "^2.2.0",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "testes_api": "file:"
   },
   "devDependencies": {
     "swagger-autogen": "^2.23.7"
