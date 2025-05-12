@@ -11,19 +11,21 @@ import { editarFiltroAlerta, editarFiltroAlertaParcial } from '../servicos/filtr
 
 const routeFiltroAlerta = express.Router();
 
-routeFiltroAlerta.get('/', async (req, res, next) => {
+routeFiltroAlerta.get('/filtro-alerta', async (req, res, next) => {
     // #swagger.tags = ['FiltroAlerta']
     // #swagger.description = 'Lista filtros de alerta'
     const { nome } = req.query;
     try {
-        const resultado = nome ? await apresentarFiltroAlertaPorNome(nome) : await apresentarFiltroAlerta();
+        const resultado = nome 
+            ? await apresentarFiltroAlertaPorNome(nome) 
+            : await apresentarFiltroAlerta();
         res.status(200).json(resultado);
     } catch (error) {
         next(new AppError('Erro ao buscar filtros', 500));
     }
 });
 
-routeFiltroAlerta.get('/:id', async (req, res, next) => {
+routeFiltroAlerta.get('/filtro-alerta/:id', async (req, res, next) => {
     // #swagger.tags = ['FiltroAlerta']
     // #swagger.description = 'Busca filtro por ID'
     const { id } = req.params;
@@ -35,7 +37,7 @@ routeFiltroAlerta.get('/:id', async (req, res, next) => {
     }
 });
 
-routeFiltroAlerta.post('/', async (req, res, next) => {
+routeFiltroAlerta.post('/filtro-alerta', async (req, res, next) => {
     // #swagger.tags = ['FiltroAlerta']
     /* #swagger.requestBody = {
         content: {
@@ -55,7 +57,7 @@ routeFiltroAlerta.post('/', async (req, res, next) => {
     }
 });
 
-routeFiltroAlerta.put('/:id', async (req, res, next) => {
+routeFiltroAlerta.put('/filtro-alerta/:id', async (req, res, next) => {
     // #swagger.tags = ['FiltroAlerta']
     const { id } = req.params;
     try {
@@ -69,7 +71,7 @@ routeFiltroAlerta.put('/:id', async (req, res, next) => {
     }
 });
 
-routeFiltroAlerta.delete('/:id', async (req, res, next) => {
+routeFiltroAlerta.delete('/filtro-alerta/:id', async (req, res, next) => {
     // #swagger.tags = ['FiltroAlerta']
     const { id } = req.params;
     try {
