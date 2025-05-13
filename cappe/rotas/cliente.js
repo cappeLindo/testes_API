@@ -6,9 +6,9 @@ import deletarCliente from '../servico/cliente/deletar.js';
 import validarCliente from '../validacao/cliente.js';
 import AppError from '../../hiago/utils/AppError.js';
 
-const rota = express.Router();
+const rotaCliente = express.Router();
 
-rota.post('/cliente', validarCliente, async (req, res, next) => {
+rotaCliente.post('/cliente', validarCliente, async (req, res, next) => {
   // #swagger.tags = ['Cliente']
   // #swagger.description = 'Cadastra um novo cliente'
   // #swagger.parameters['cliente'] = { in: 'body', required: true, schema: { $ref: "#/definitions/Cliente" } }
@@ -23,7 +23,7 @@ rota.post('/cliente', validarCliente, async (req, res, next) => {
   }
 });
 
-rota.get('/cliente', async (req, res, next) => {
+rotaCliente.get('/cliente', async (req, res, next) => {
   // #swagger.tags = ['Cliente']
   // #swagger.description = 'Retorna todos os clientes'
   try {
@@ -37,7 +37,7 @@ rota.get('/cliente', async (req, res, next) => {
   }
 });
 
-rota.put('/cliente/:id', validarCliente, async (req, res, next) => {
+rotaCliente.put('/cliente/:id', validarCliente, async (req, res, next) => {
   // #swagger.tags = ['Cliente']
   // #swagger.description = 'Atualiza um cliente existente'
   // #swagger.parameters['id'] = { in: 'path', required: true, type: 'integer' }
@@ -57,7 +57,7 @@ rota.put('/cliente/:id', validarCliente, async (req, res, next) => {
   }
 });
 
-rota.delete('/cliente/:id', async (req, res, next) => {
+rotaCliente.delete('/cliente/:id', async (req, res, next) => {
   // #swagger.tags = ['Cliente']
   // #swagger.description = 'Remove um cliente pelo ID'
   // #swagger.parameters['id'] = { in: 'path', required: true, type: 'integer' }
@@ -77,4 +77,4 @@ rota.delete('/cliente/:id', async (req, res, next) => {
   }
 });
 
-export default rota;
+export default rotaCliente;

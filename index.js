@@ -19,6 +19,7 @@ import routerMarca from "./hiago/rotas/marca.js";
 import routerModelo from "./hiago/rotas/modelo.js";
 import routerAnuncioCarro from "./hiago/rotas/anuncioCarro.js";
 import routerFiltroAlerta from "./nathan/rotas/routeFiltroAlerta.js";
+import routerCliente from "./cappe/rotas/cliente.js";
 
 const porta = 9000;
 const app = express();
@@ -43,6 +44,7 @@ app.use('/marca', routerMarca);
 app.use('/modelo', routerModelo);
 app.use('/carro', routerAnuncioCarro);
 app.use('/filtro-alerta', routerFiltroAlerta);
+app.use('/cliente', routerCliente)
 
 app.get('/carro/imagem/:idImagem', async (req, res) => {
     // #swagger.tags = ['Carro']
