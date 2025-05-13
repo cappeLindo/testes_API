@@ -4,7 +4,7 @@ import apresentarCliente from '../servico/cliente/apresentar.js';
 import editarCliente from '../servico/cliente/editar.js';
 import deletarCliente from '../servico/cliente/deletar.js';
 import validarCliente from '../validacao/cliente.js';
-import AppError from '../../hiago/utils/AppError.js';
+import AppError from '../utils/appError.js';
 
 const rotaCliente = express.Router();
 
