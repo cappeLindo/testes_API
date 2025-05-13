@@ -1,21 +1,6 @@
 import pool from '../../../config.js';
 
-const baseQuery = `
-    SELECT fa.*, 
-           co.nome_cor, cb.nome_cambio, a.nome_aro,
-           cat.nome_categoria, m.nome_marca,
-           comb.nome_combustivel, cl.nome_cliente,
-           mod.nome_modelo
-    FROM filtroAlerta fa
-    LEFT JOIN cor co ON fa.cor_id_cor = co.id_cor
-    LEFT JOIN cambio cb ON fa.cambio_id_cambio = cb.id_cambio
-    LEFT JOIN aro a ON fa.aro_id_aro = a.id_aro
-    LEFT JOIN categoria cat ON fa.categoria_id_categoria = cat.id_categoria
-    LEFT JOIN marca m ON fa.marca_id_marca = m.id_marca
-    LEFT JOIN combustivel comb ON fa.combustivel_id_combustivel = comb.id_combustivel
-    LEFT JOIN cliente cl ON fa.cliente_id_cliente = cl.id_cliente
-    LEFT JOIN modelo mod ON fa.modelo_id_modelo = mod.id_modelo
-`;
+const baseQuery = "SELECT ac.id_filtroAlerta, ac.nome_filtroAlerta, ac.modelo_id_modelo, m.nome_modelo, ac.marca_id_marca, ma.nome_marca, ac.categoria_id_categoria, c.nome_categoria, ac.cor_id_cor, co.nome_cor, ac.aro_id_aro, a.nome_aro, ac.combustivel_id_combustivel, cb.nome_combustivel, ac.cambio_id_cambio, ca.nome_cambio, ac.cliente_id_cliente, cs.nome_cliente FROM `webcars_db`.filtroAlerta ac INNER JOIN `webcars_db`.modelo m ON ac.modelo_id_modelo = m.id_modelo INNER JOIN `webcars_db`.marca ma ON ac.marca_id_marca = ma.id_marca INNER JOIN `webcars_db`.categoria c ON ac.categoria_id_categoria = c.id_categoria INNER JOIN `webcars_db`.cor co ON ac.cor_id_cor = co.id_cor INNER JOIN `webcars_db`.aro a ON ac.aro_id_aro = a.id_aro INNER JOIN `webcars_db`.combustivel cb ON ac.combustivel_id_combustivel = cb.id_combustivel INNER JOIN `webcars_db`.cambio ca ON ac.cambio_id_cambio = ca.id_cambio INNER JOIN `webcars_db`.cliente cs ON ac.cliente_id_cliente = cs.id_cliente"
 
 export async function apresentarFiltroAlerta() {
     const [resultado] = await pool.query(baseQuery);
@@ -23,11 +8,16 @@ export async function apresentarFiltroAlerta() {
 }
 
 export async function apresentarFiltroAlertaPorID(id) {
-    const [resultado] = await pool.query(`${baseQuery} WHERE fa.id_filtroAlerta = ?`, [id]);
+    const [resultado] = await pool.query(`${baseQuery} WHERE ac.id_filtroAlerta = ?`, [id]);
     return resultado;
 }
 
 export async function apresentarFiltroAlertaPorNome(nome) {
-    const [resultado] = await pool.query(`${baseQuery} WHERE fa.nome_filtroAlerta LIKE ?`, [`%${nome}%`]);
+    const [resultado] = await pool.query(`${baseQuery} WHERE ac.nome_filtroAlerta LIKE ?`, [`%${nome}%`]);
+    return resultado;
+}
+
+export async function apresentarFiltroAlertaPorIDcleinte(id) {
+    const [resultado] = await pool.query(`${baseQuery} WHERE ac.cliente_id_cliente = ?`, [id]);
     return resultado;
 }

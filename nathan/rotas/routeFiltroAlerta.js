@@ -3,15 +3,16 @@ import { validarFiltroAlerta } from '../validacao/validarFiltroAlerta.js';
 import {
     apresentarFiltroAlerta,
     apresentarFiltroAlertaPorID,
-    apresentarFiltroAlertaPorNome
+    apresentarFiltroAlertaPorNome,
+    apresentarFiltroAlertaPorIDcleinte
 } from '../servicos/filtroAlerta/apresentar.js';
 import { adicionarFiltroAlerta } from '../servicos/filtroAlerta/adicionar.js';
 import { deletarFiltroAlerta } from '../servicos/filtroAlerta/deletar.js';
 import { editarFiltroAlerta, editarFiltroAlertaParcial } from '../servicos/filtroAlerta/editar.js';
-
+import express from 'express';
 const routeFiltroAlerta = express.Router();
 
-routeFiltroAlerta.get('/filtro-alerta', async (req, res, next) => {
+routeFiltroAlerta.get('/', async (req, res, next) => {
     // #swagger.tags = ['FiltroAlerta']
     // #swagger.description = 'Lista filtros de alerta'
     const { nome } = req.query;
@@ -25,7 +26,7 @@ routeFiltroAlerta.get('/filtro-alerta', async (req, res, next) => {
     }
 });
 
-routeFiltroAlerta.get('/filtro-alerta/:id', async (req, res, next) => {
+routeFiltroAlerta.get('/:id', async (req, res, next) => {
     // #swagger.tags = ['FiltroAlerta']
     // #swagger.description = 'Busca filtro por ID'
     const { id } = req.params;
@@ -37,7 +38,21 @@ routeFiltroAlerta.get('/filtro-alerta/:id', async (req, res, next) => {
     }
 });
 
-routeFiltroAlerta.post('/filtro-alerta', async (req, res, next) => {
+routeFiltroAlerta.get('/cliente/:id', async (req, res, next) => {
+    // #swagger.tags = ['FiltroAlerta']
+    // #swagger.description = 'Busca filtro por ID'
+    const { id } = req.params;
+    try {
+        const resultado = await apresentarFiltroAlertaPorIDcleinte(id);
+        res.status(200).json(resultado[0]);
+    } catch (error) {
+        next(new AppError('Filtro não encontrado', 404));
+    }
+});
+
+
+
+routeFiltroAlerta.post('/', async (req, res, next) => {
     // #swagger.tags = ['FiltroAlerta']
     /* #swagger.requestBody = {
         content: {
@@ -57,7 +72,7 @@ routeFiltroAlerta.post('/filtro-alerta', async (req, res, next) => {
     }
 });
 
-routeFiltroAlerta.put('/filtro-alerta/:id', async (req, res, next) => {
+routeFiltroAlerta.put('/:id', async (req, res, next) => {
     // #swagger.tags = ['FiltroAlerta']
     const { id } = req.params;
     try {
@@ -71,7 +86,7 @@ routeFiltroAlerta.put('/filtro-alerta/:id', async (req, res, next) => {
     }
 });
 
-routeFiltroAlerta.delete('/filtro-alerta/:id', async (req, res, next) => {
+routeFiltroAlerta.delete('/:id', async (req, res, next) => {
     // #swagger.tags = ['FiltroAlerta']
     const { id } = req.params;
     try {
