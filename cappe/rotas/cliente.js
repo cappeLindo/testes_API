@@ -8,7 +8,7 @@ import AppError from '../utils/appError.js';
 
 const rotaCliente = express.Router();
 
-rotaCliente.post('/cliente', validarCliente, async (req, res, next) => {
+rotaCliente.post('/', validarCliente, async (req, res, next) => {
   // #swagger.tags = ['Cliente']
   // #swagger.description = 'Cadastra um novo cliente'
   // #swagger.parameters['cliente'] = { in: 'body', required: true, schema: { $ref: "#/definitions/Cliente" } }
@@ -23,7 +23,7 @@ rotaCliente.post('/cliente', validarCliente, async (req, res, next) => {
   }
 });
 
-rotaCliente.get('/cliente', async (req, res, next) => {
+rotaCliente.get('/', async (req, res, next) => {
   // #swagger.tags = ['Cliente']
   // #swagger.description = 'Retorna todos os clientes'
   try {
@@ -37,7 +37,7 @@ rotaCliente.get('/cliente', async (req, res, next) => {
   }
 });
 
-rotaCliente.put('/cliente/:id', validarCliente, async (req, res, next) => {
+rotaCliente.put('/:id', validarCliente, async (req, res, next) => {
   // #swagger.tags = ['Cliente']
   // #swagger.description = 'Atualiza um cliente existente'
   // #swagger.parameters['id'] = { in: 'path', required: true, type: 'integer' }
@@ -57,7 +57,7 @@ rotaCliente.put('/cliente/:id', validarCliente, async (req, res, next) => {
   }
 });
 
-rotaCliente.delete('/cliente/:id', async (req, res, next) => {
+rotaCliente.delete('/:id', async (req, res, next) => {
   // #swagger.tags = ['Cliente']
   // #swagger.description = 'Remove um cliente pelo ID'
   // #swagger.parameters['id'] = { in: 'path', required: true, type: 'integer' }
