@@ -44,7 +44,7 @@ app.use('/marca', routerMarca);
 app.use('/modelo', routerModelo);
 app.use('/carro', routerAnuncioCarro);
 app.use('/filtro-alerta', routerFiltroAlerta);
-app.use('/cliente', routerCliente)
+app.use('/cliente', routerCliente);
 
 app.get('/carro/imagem/:idImagem', async (req, res) => {
     // #swagger.tags = ['Carro']

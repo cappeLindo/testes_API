@@ -16,7 +16,21 @@ async function executarQuery(sql, params = []) {
 
 export default async function editarCliente(id, cliente) {
   const { nome_cliente, cpf_cliente, email_cliente, telefone_cliente, imagem_cliente } = cliente;
-  const sql = `UPDATE cliente SET nome_cliente = ?, cpf_cliente = ?, email_cliente = ?, telefone_cliente = ?, imagem_cliente = ?
-               WHERE id_cliente = ?`;
-  return await executarQuery(sql, [nome_cliente, cpf_cliente, email_cliente, telefone_cliente, imagem_cliente, id]);
+
+  const sql = `
+    UPDATE cliente 
+    SET nome_cliente = ?, cpf_cliente = ?, email_cliente = ?, telefone_cliente = ?, imagem_cliente = ?
+    WHERE id_cliente = ?
+  `;
+
+  const resultado = await executarQuery(sql, [
+    nome_cliente,
+    cpf_cliente,
+    email_cliente,
+    telefone_cliente,
+    imagem_cliente || null,
+    id
+  ]);
+
+  return resultado; // Também contém `affectedRows`
 }
