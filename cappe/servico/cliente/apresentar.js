@@ -1,5 +1,5 @@
-import pool from '../../config.js';
-import AppError from '../../hiago/utils/AppError.js';
+import pool from '../../../config.js';
+import AppError from '../../utils/appError.js';
 
 async function executarQuery(sql, params = []) {
   let conexao;
