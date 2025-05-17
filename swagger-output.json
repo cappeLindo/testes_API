@@ -49,7 +49,7 @@
       "description": "Rotas para gerenciamento de filtros de alerta"
     }, 
     {
-      "name": "Clinte",
+      "name": "Cliente",
       "description":"Rotas para gerenciar clientes" 
      }
   ],
