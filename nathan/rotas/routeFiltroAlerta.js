@@ -39,18 +39,43 @@ routeFiltroAlerta.get('/:id', async (req, res, next) => {
 });
 
 routeFiltroAlerta.get('/cliente/:id', async (req, res, next) => {
-    // #swagger.tags = ['FiltroAlerta']
-    // #swagger.description = 'Busca filtro por ID'
-    const { id } = req.params;
-    try {
-        const resultado = await apresentarFiltroAlertaPorIDcleinte(id);
-        res.status(200).json(resultado[0]);
-    } catch (error) {
-        next(new AppError('Filtro não encontrado', 404));
-    }
+  /* #swagger.tags = ['FiltroAlerta']
+     #swagger.description = 'Busca os filtros de alerta de um cliente específico'
+     #swagger.parameters['id'] = {
+          in: 'path',
+          description: 'ID do cliente',
+          required: true,
+          type: 'integer'
+     }
+     #swagger.responses[200] = {
+          description: 'Filtro(s) de alerta retornado(s) com sucesso',
+          schema: {
+              type: 'array',
+              items: {
+                  type: 'object',
+                  properties: {
+                      id: { type: 'integer', example: 1 },
+                      cliente_id: { type: 'integer', example: 42 },
+                      tipo: { type: 'string', example: 'limite_credito' },
+                      valor: { type: 'number', example: 5000.00 },
+                      ativo: { type: 'boolean', example: true },
+                      criado_em: { type: 'string', format: 'date-time', example: '2025-05-16T14:23:00Z' }
+                  }
+              }
+          }
+     }
+     #swagger.responses[404] = {
+          description: 'Filtro não encontrado'
+     }
+  */
+  const { id } = req.params;
+  try {
+    const resultado = await apresentarFiltroAlertaPorIDcleinte(id);
+    res.status(200).json(resultado);
+  } catch (error) {
+    next(new AppError('Filtro não encontrado', 404));
+  }
 });
-
-
 
 routeFiltroAlerta.post('/', async (req, res, next) => {
     // #swagger.tags = ['FiltroAlerta']
