@@ -47,7 +47,11 @@
     {
       "name": "FiltroAlerta",
       "description": "Rotas para gerenciamento de filtros de alerta"
-    }
+    }, 
+    {
+      "name": "Clinte",
+      "description":"Rotas para gerenciar clientes" 
+     }
   ],
   "paths": {
     "/carro/imagem/{idImagem}": {
@@ -2169,6 +2173,128 @@
           "FiltroAlerta"
         ],
         "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/filtro-alerta/cliente/{id}": {
+      "get": {
+        "tags": [
+          "FiltroAlerta"
+        ],
+        "description": "Busca filtro por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/cliente/": {
+      "post": {
+        "tags": [
+          "Cliente"
+        ],
+        "description": "Cadastra um novo cliente",
+        "parameters": [
+          {
+            "name": "cliente",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Cliente"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Cliente"
+        ],
+        "description": "Retorna todos os clientes",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/cliente/{id}": {
+      "get": {
+        "tags": [
+          "Cliente"
+        ],
+        "description": "Retorna um cliente pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Cliente"
+        ],
+        "description": "Atualiza um cliente existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cliente"
+        ],
+        "description": "Remove um cliente pelo ID",
         "parameters": [
           {
             "name": "id",
