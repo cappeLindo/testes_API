@@ -47,11 +47,7 @@
     {
       "name": "FiltroAlerta",
       "description": "Rotas para gerenciamento de filtros de alerta"
-    }, 
-    {
-      "name": "Cliente",
-      "description":"Rotas para gerenciar clientes" 
-     }
+    }
   ],
   "paths": {
     "/carro/imagem/{idImagem}": {
@@ -2195,7 +2191,7 @@
         "tags": [
           "FiltroAlerta"
         ],
-        "description": "Busca filtro por ID",
+        "description": "Busca os filtros de alerta de um cliente específico",
         "parameters": [
           {
             "name": "id",
@@ -2203,12 +2199,238 @@
             "required": true,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "ID do cliente"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Filtro(s) de alerta retornado(s) com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "array"
+                    },
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "object"
+                        },
+                        "properties": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "integer"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 1
+                                }
+                              }
+                            },
+                            "cliente_id": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "integer"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 42
+                                }
+                              }
+                            },
+                            "tipo": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "limite_credito"
+                                }
+                              }
+                            },
+                            "valor": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "number"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 5000
+                                }
+                              }
+                            },
+                            "ativo": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "boolean"
+                                },
+                                "example": {
+                                  "type": "boolean",
+                                  "example": true
+                                }
+                              }
+                            },
+                            "criado_em": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "format": {
+                                  "type": "string",
+                                  "example": "date-time"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "2025-05-16T14:23:00Z"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "array"
+                    },
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "object"
+                        },
+                        "properties": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "integer"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 1
+                                }
+                              }
+                            },
+                            "cliente_id": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "integer"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 42
+                                }
+                              }
+                            },
+                            "tipo": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "limite_credito"
+                                }
+                              }
+                            },
+                            "valor": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "number"
+                                },
+                                "example": {
+                                  "type": "number",
+                                  "example": 5000
+                                }
+                              }
+                            },
+                            "ativo": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "boolean"
+                                },
+                                "example": {
+                                  "type": "boolean",
+                                  "example": true
+                                }
+                              }
+                            },
+                            "criado_em": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "format": {
+                                  "type": "string",
+                                  "example": "date-time"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "2025-05-16T14:23:00Z"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "xml": {
+                    "name": "main"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Filtro não encontrado"
           }
         }
       }
