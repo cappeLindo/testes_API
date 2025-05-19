@@ -3,7 +3,7 @@ import adicionarConcessionaria from '../servico/concessionaria/adicionar.js';
 import apresentarConcessionaria from '../servico/concessionaria/apresentar.js';
 import editarConcessionaria from '../servico/concessionaria/editar.js';
 import deletarConcessionaria from '../servico/concessionaria/deletar.js';
-import validarConcessionaria from '../validacao/concessionaria.js';
+import validarConcessionaria from '../validacao/validacao.js';
 import AppError from '../utils/appError.js';
 
 const routerConcessionaria = express.Router();

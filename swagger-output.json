@@ -2537,6 +2537,105 @@
           }
         }
       }
+    },
+    "/concessionaria/": {
+      "post": {
+        "tags": [
+          "Concessionaria"
+        ],
+        "description": "Cadastra uma nova concessionária",
+        "parameters": [
+          {
+            "name": "concessionaria",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Concessionaria"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Concessionaria"
+        ],
+        "description": "Retorna todas as concessionárias",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/concessionaria/{id}": {
+      "get": {
+        "tags": [
+          "Concessionaria"
+        ],
+        "description": "Retorna uma concessionária pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Concessionaria"
+        ],
+        "description": "Atualiza uma concessionária existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Concessionaria"
+        ],
+        "description": "Remove uma concessionária pelo ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
