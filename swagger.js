@@ -51,6 +51,10 @@ const doc = {
         {
             name: 'FiltroAlerta',
             description: 'Rotas para gerenciamento de filtros de alerta',
+        },
+        {
+            name: 'Concessionaria',
+            description: 'Rotas para gerenciamento das concessionárias',
         }
     ],
     components: {
