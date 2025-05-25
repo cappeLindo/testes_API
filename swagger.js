@@ -135,7 +135,7 @@ const doc = {
                 }
             },
 
-            Cliente: {
+            cliente: {
                 type: 'object',
                 required: ['nome_cliente', 'cpf_cliente', 'email_cliente', 'telefone_cliente'],
                 properties: {
@@ -147,7 +147,7 @@ const doc = {
                 }
             },
 
-            ClienteResposta: {
+            clienteResposta: {
                 type: 'object',
                 properties: {
                     id_cliente: { type: 'integer', example: 1 },

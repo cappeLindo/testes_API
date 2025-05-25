@@ -17,7 +17,7 @@ routerCliente.post('/', validarCliente, async (req, res, next) => {
    *   required: true,
    *   content: {
    *     "application/json": {
-   *       schema: { $ref: "#/components/schemas/Cliente" }
+   *       schema: { $ref: "#/components/schemas/cliente" }
    *     }
    *   }
    * }
