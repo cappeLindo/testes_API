@@ -9,39 +9,35 @@ import AppError from '../utils/appError.js';
 const routerCliente = express.Router();
 
 routerCliente.post('/', validarCliente, async (req, res, next) => {
-  /**
-   * #swagger.tags = ['Cliente']
-   * #swagger.summary = 'Cadastra um novo cliente'
-   * #swagger.description = 'Cria um novo cliente no sistema com nome, CPF, e-mail, telefone e (opcionalmente) imagem.'
-   * #swagger.requestBody = {
-   *   required: true,
-   *   content: {
-   *     "application/json": {
-   *       schema: { $ref: "#/components/schemas/Cliente" }
-   *     }
-   *   }
-   * }
-   * #swagger.responses[201] = {
-   *   description: 'Cliente cadastrado com sucesso',
-   *   content: {
-   *     "application/json": {
-   *       schema: {
-   *         mensagem: { type: 'string', example: 'Cliente cadastrado com sucesso' },
-   *         dados: {
-   *           id_cliente: { type: 'integer', example: 1 },
-   *           nome_cliente: { type: 'string', example: 'João da Silva' },
-   *           cpf_cliente: { type: 'string', example: '123.456.789-00' },
-   *           email_cliente: { type: 'string', example: 'joao.silva@email.com' },
-   *           telefone_cliente: { type: 'string', example: '(11) 91234-5678' },
-   *           imagem_cliente: { type: 'string', example: 'https://exemplo.com/imagem.jpg' }
-   *         }
-   *       }
-   *     }
-   *   }
-   * }
-   * #swagger.responses[400] = { description: 'Dados inválidos' }
-   * #swagger.responses[500] = { description: 'Erro interno ao tentar cadastrar o cliente' }
-   */
+  /* 
+    #swagger.tags = ['Cliente']
+    #swagger.summary = 'Cadastra um novo cliente'
+    #swagger.description = 'Cria um novo cliente no sistema com nome, CPF, e-mail, telefone e (opcionalmente) imagem.'
+    #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: { $ref: "#/components/schemas/Cliente" }
+        }
+      }
+    }
+    #swagger.responses[201] = {
+      description: 'Cliente cadastrado com sucesso',
+      content: {
+        "application/json": {
+          schema: { $ref: "#/components/schemas/ClienteResposta" }
+        }
+      }
+    }
+    #swagger.responses[400] = {
+      description: 'Dados inválidos'
+    }
+    #swagger.responses[500] = {
+      description: 'Erro interno ao tentar cadastrar o cliente'
+    }
+  */
+
+
   try {
     const resultado = await adicionarCliente(req.body);
     res.status(201).json({
@@ -76,7 +72,7 @@ routerCliente.get('/:id', async (req, res, next) => {
      #swagger.parameters['id'] = { in: 'path', required: true, type: 'integer' } */
   try {
     const cliente = await apresentarCliente(req.params.id);
-    
+
     if (!cliente || cliente.length === 0) {
       throw new AppError('Cliente não encontrado.', 404, 'CLIENTE_NAO_ENCONTRADO');
     }

@@ -2448,10 +2448,32 @@
         "description": "Cria um novo cliente no sistema com nome, CPF, e-mail, telefone e (opcionalmente) imagem.",
         "responses": {
           "201": {
-            "description": "Criado"
+            "description": "Cliente cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClienteResposta"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados inválidos"
+          },
+          "500": {
+            "description": "Erro interno ao tentar cadastrar o cliente"
           }
         },
-        "requestBody": {}
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cliente"
+              }
+            }
+          }
+        }
       },
       "get": {
         "tags": [
