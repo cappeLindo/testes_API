@@ -17,31 +17,25 @@ routerCliente.post('/', validarCliente, async (req, res, next) => {
    *   required: true,
    *   content: {
    *     "application/json": {
-   *       schema: {
-   *         type: "object",
-   *         required: ["nome_cliente", "cpf_cliente", "email_cliente", "telefone_cliente"],
-   *         properties: {
-   *           nome_cliente: { type: "string", example: "João da Silva" },
-   *           cpf_cliente: { type: "string", example: "123.456.789-00" },
-   *           email_cliente: { type: "string", example: "joao.silva@email.com" },
-   *           telefone_cliente: { type: "string", example: "(11) 91234-5678" },
-   *           imagem_cliente: { type: "string", example: "https://exemplo.com/imagem.jpg" }
-   *         }
-   *       }
+   *       schema: { $ref: "#/components/schemas/Cliente" }
    *     }
    *   }
    * }
    * #swagger.responses[201] = {
    *   description: 'Cliente cadastrado com sucesso',
-   *   schema: {
-   *     mensagem: 'Cliente cadastrado com sucesso',
-   *     dados: {
-   *       id_cliente: 1,
-   *       nome_cliente: 'João da Silva',
-   *       cpf_cliente: '123.456.789-00',
-   *       email_cliente: 'joao.silva@email.com',
-   *       telefone_cliente: '(11) 91234-5678',
-   *       imagem_cliente: 'https://exemplo.com/imagem.jpg'
+   *   content: {
+   *     "application/json": {
+   *       schema: {
+   *         mensagem: { type: 'string', example: 'Cliente cadastrado com sucesso' },
+   *         dados: {
+   *           id_cliente: { type: 'integer', example: 1 },
+   *           nome_cliente: { type: 'string', example: 'João da Silva' },
+   *           cpf_cliente: { type: 'string', example: '123.456.789-00' },
+   *           email_cliente: { type: 'string', example: 'joao.silva@email.com' },
+   *           telefone_cliente: { type: 'string', example: '(11) 91234-5678' },
+   *           imagem_cliente: { type: 'string', example: 'https://exemplo.com/imagem.jpg' }
+   *         }
+   *       }
    *     }
    *   }
    * }
