@@ -2450,7 +2450,8 @@
           "201": {
             "description": "Criado"
           }
-        }
+        },
+        "requestBody": {}
       },
       "get": {
         "tags": [
@@ -2875,6 +2876,195 @@
         },
         "xml": {
           "name": "FiltroAlerta"
+        }
+      },
+      "Cliente": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "object"
+          },
+          "required": {
+            "type": "array",
+            "example": [
+              "nome_cliente",
+              "cpf_cliente",
+              "email_cliente",
+              "telefone_cliente"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "nome_cliente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "João da Silva"
+                  }
+                }
+              },
+              "cpf_cliente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "123.456.789-00"
+                  }
+                }
+              },
+              "email_cliente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "joao.silva@email.com"
+                  }
+                }
+              },
+              "telefone_cliente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "(11) 91234-5678"
+                  }
+                }
+              },
+              "imagem_cliente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "https://exemplo.com/imagem.jpg"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "Cliente"
+        }
+      },
+      "ClienteResposta": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "object"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "id_cliente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "integer"
+                  },
+                  "example": {
+                    "type": "number",
+                    "example": 1
+                  }
+                }
+              },
+              "nome_cliente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "João da Silva"
+                  }
+                }
+              },
+              "cpf_cliente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "123.456.789-00"
+                  }
+                }
+              },
+              "email_cliente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "joao.silva@email.com"
+                  }
+                }
+              },
+              "telefone_cliente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "(11) 91234-5678"
+                  }
+                }
+              },
+              "imagem_cliente": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "example": {
+                    "type": "string",
+                    "example": "https://exemplo.com/imagem.jpg"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "ClienteResposta"
         }
       }
     }

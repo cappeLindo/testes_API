@@ -133,6 +133,30 @@ const doc = {
                         example: 10
                     }
                 }
+            },
+
+            Cliente: {
+                type: 'object',
+                required: ['nome_cliente', 'cpf_cliente', 'email_cliente', 'telefone_cliente'],
+                properties: {
+                    nome_cliente: { type: 'string', example: 'João da Silva' },
+                    cpf_cliente: { type: 'string', example: '123.456.789-00' },
+                    email_cliente: { type: 'string', example: 'joao.silva@email.com' },
+                    telefone_cliente: { type: 'string', example: '(11) 91234-5678' },
+                    imagem_cliente: { type: 'string', example: 'https://exemplo.com/imagem.jpg' }
+                }
+            },
+
+            ClienteResposta: {
+                type: 'object',
+                properties: {
+                    id_cliente: { type: 'integer', example: 1 },
+                    nome_cliente: { type: 'string', example: 'João da Silva' },
+                    cpf_cliente: { type: 'string', example: '123.456.789-00' },
+                    email_cliente: { type: 'string', example: 'joao.silva@email.com' },
+                    telefone_cliente: { type: 'string', example: '(11) 91234-5678' },
+                    imagem_cliente: { type: 'string', example: 'https://exemplo.com/imagem.jpg' }
+                }
             }
         }
     }
