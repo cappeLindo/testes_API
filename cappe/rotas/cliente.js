@@ -8,21 +8,27 @@ import AppError from '../utils/appError.js';
 
 const routerCliente = express.Router();
 
-// Criar cliente
 routerCliente.post('/', validarCliente, async (req, res, next) => {
   /**
    * #swagger.tags = ['Cliente']
    * #swagger.summary = 'Cadastra um novo cliente'
    * #swagger.description = 'Cria um novo cliente no sistema com nome, CPF, e-mail, telefone e (opcionalmente) imagem.'
-   * #swagger.parameters['cliente'] = {
-   *   in: 'body',
+   * #swagger.requestBody = {
    *   required: true,
-   *   schema: {
-   *     nome_cliente: 'João da Silva',
-   *     cpf_cliente: '123.456.789-00',
-   *     email_cliente: 'joao.silva@email.com',
-   *     telefone_cliente: '(11) 91234-5678',
-   *     imagem_cliente: 'https://exemplo.com/imagem.jpg'
+   *   content: {
+   *     "application/json": {
+   *       schema: {
+   *         type: "object",
+   *         required: ["nome_cliente", "cpf_cliente", "email_cliente", "telefone_cliente"],
+   *         properties: {
+   *           nome_cliente: { type: "string", example: "João da Silva" },
+   *           cpf_cliente: { type: "string", example: "123.456.789-00" },
+   *           email_cliente: { type: "string", example: "joao.silva@email.com" },
+   *           telefone_cliente: { type: "string", example: "(11) 91234-5678" },
+   *           imagem_cliente: { type: "string", example: "https://exemplo.com/imagem.jpg" }
+   *         }
+   *       }
+   *     }
    *   }
    * }
    * #swagger.responses[201] = {
@@ -42,7 +48,6 @@ routerCliente.post('/', validarCliente, async (req, res, next) => {
    * #swagger.responses[400] = { description: 'Dados inválidos' }
    * #swagger.responses[500] = { description: 'Erro interno ao tentar cadastrar o cliente' }
    */
-  
   try {
     const resultado = await adicionarCliente(req.body);
     res.status(201).json({
@@ -53,6 +58,7 @@ routerCliente.post('/', validarCliente, async (req, res, next) => {
     next(erro);
   }
 });
+
 
 // Listar clientes
 routerCliente.get('/', async (req, res, next) => {
