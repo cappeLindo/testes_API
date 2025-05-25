@@ -51,6 +51,10 @@
     {
       "name": "Concessionaria",
       "description": "Rotas para gerenciamento das concessionárias"
+    },
+    {
+      "name": "Cliente",
+      "description": "Rotas para gerenciamento dos clientes"
     }
   ],
   "paths": {
@@ -2900,7 +2904,7 @@
           "name": "FiltroAlerta"
         }
       },
-      "Cliente": {
+      "cliente": {
         "type": "object",
         "properties": {
           "type": {
@@ -2991,10 +2995,10 @@
           }
         },
         "xml": {
-          "name": "Cliente"
+          "name": "cliente"
         }
       },
-      "ClienteResposta": {
+      "clienteResposta": {
         "type": "object",
         "properties": {
           "type": {
@@ -3086,7 +3090,7 @@
           }
         },
         "xml": {
-          "name": "ClienteResposta"
+          "name": "clienteResposta"
         }
       }
     }

@@ -55,6 +55,10 @@ const doc = {
         {
             name: 'Concessionaria',
             description: 'Rotas para gerenciamento das concessionárias',
+        },
+        {
+            name: 'Cliente',
+            description: 'Rotas para gerenciamento dos clientes',
         }
     ],
     components: {
