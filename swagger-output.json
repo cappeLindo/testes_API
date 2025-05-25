@@ -2444,17 +2444,8 @@
         "tags": [
           "Cliente"
         ],
-        "description": "Cadastra um novo cliente",
-        "parameters": [
-          {
-            "name": "cliente",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Cliente"
-            }
-          }
-        ],
+        "summary": "Cadastra um novo cliente",
+        "description": "Cria um novo cliente no sistema com nome, CPF, e-mail, telefone e (opcionalmente) imagem.",
         "responses": {
           "201": {
             "description": "Criado"
