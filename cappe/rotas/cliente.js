@@ -21,20 +21,6 @@ routerCliente.post('/', validarCliente, async (req, res, next) => {
       }
     }
   }
-  #swagger.responses[201] = {
-    description: 'Cliente cadastrado com sucesso',
-    content: {
-      "application/json": {
-        schema: { $ref: "#/components/schemas/ClienteResposta" }
-      }
-    }
-  }
-  #swagger.responses[400] = {
-    description: 'Dados inválidos'
-  }
-  #swagger.responses[500] = {
-    description: 'Erro interno ao tentar cadastrar o cliente'
-  }
 */
 
   try {
