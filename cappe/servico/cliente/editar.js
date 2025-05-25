@@ -14,23 +14,32 @@ async function executarQuery(sql, params = []) {
   }
 }
 
-export default async function editarCliente(id, cliente) {
-  const { nome_cliente, cpf_cliente, email_cliente, telefone_cliente, imagem_cliente } = cliente;
+export async function editarCliente(id, cliente) {
+  const { nome, cpf, email, telefone, imagem } = cliente;
 
   const sql = `
     UPDATE cliente 
-    SET nome_cliente = ?, cpf_cliente = ?, email_cliente = ?, telefone_cliente = ?, imagem_cliente = ?
-    WHERE id_cliente = ?
+    SET nome = ?, cpf = ?, email = ?, telefone = ?, imagem = ?
+    WHERE id = ?
   `;
 
   const resultado = await executarQuery(sql, [
-    nome_cliente,
-    cpf_cliente,
-    email_cliente,
-    telefone_cliente,
-    imagem_cliente || null,
+    nome,
+    cpf,
+    email,
+    telefone,
+    imagem || null,
     id
   ]);
 
   return resultado; // Também contém `affectedRows`
+}
+
+
+export async function editarClienteParcial(id, campos) {
+  const colunas = Object.keys(campos).map(campo => `${campo} = ?`).join(", ");
+  const valores = Object.values(campos);
+  const sql = `UPDATE cliente SET ${colunas} WHERE id = ?`
+  valores.push(id);
+  return await executarQuery(sql, valores);
 }

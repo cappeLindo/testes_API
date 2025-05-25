@@ -14,9 +14,9 @@ async function executarQuery(sql, params = []) {
   }
 }
 
-export default async function apresentarCliente(id = null) {
+async function apresentarCliente(id = null) {
   // Se um ID for passado, busca o cliente específico, caso contrário, retorna todos os clientes
-  const sql = id ? `SELECT * FROM cliente WHERE id_cliente = ?` : `SELECT * FROM cliente`;
+  const sql = id ? `SELECT * FROM cliente WHERE id = ?` : `SELECT * FROM cliente`;
   const params = id ? [id] : [];
 
   const resultado = await executarQuery(sql, params);
@@ -27,3 +27,17 @@ export default async function apresentarCliente(id = null) {
 
   return resultado;
 }
+
+async function apresentarClientePorEmail(email) {
+  const sql = `SELECT * FROM cliente WHERE email LIKE ?`;
+
+  const resultado = await executarQuery(sql, [`%${email}%`]);
+
+  if (!resultado || resultado.length === 0) {
+    throw new AppError(email ? 'Cliente não encontrado.' : 'Nenhum cliente encontrado.', 404, email ? 'CLIENTE_NAO_ENCONTRADO' : 'CLIENTES_NAO_ENCONTRADOS');
+  }
+
+  return resultado;
+}
+
+export { apresentarCliente, apresentarClientePorEmail }

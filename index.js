@@ -1,15 +1,14 @@
+//---------------- Básico para a API ----------------
 import express from "express";
 import cors from "cors";
-import path from "path";
-import { fileURLToPath } from "url";
-import swaggerUI from "swagger-ui-express";
-import fs from "fs";
-import { apresentarImagemPorId } from "./hiago/servicos/imagensCarro/apresentar.js";
-
-const swaggerDocumentation = JSON.parse(fs.readFileSync("./swagger-output.json", "utf-8"));
-
 import errorHandler from "./middlewares/errorHandler.js";
 
+
+//---------------- Para a documentação ----------------
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './swagger.js';
+
+//---------------- Routes da API ----------------
 import routerAro from "./hiago/rotas/aro.js";
 import routerCambio from "./hiago/rotas/cambio.js";
 import routerCategoria from "./hiago/rotas/categoria.js";
@@ -21,59 +20,57 @@ import routerAnuncioCarro from "./hiago/rotas/anuncioCarro.js";
 import routerFiltroAlerta from "./nathan/rotas/routeFiltroAlerta.js";
 import routerCliente from "./cappe/rotas/cliente.js";
 import routerConcessionaria from "./carlos/rotas/concessionaria.js";
+import authRoutes from "./auth/rotas/auth.js";
 
+//---------------- Configuração básica da API ----------------
 const porta = 9000;
 const app = express();
 app.use(cors());
-
 app.use(express.json());
 
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerDocumentation, {
-    explorer: true,
+//---------------- Documentação da API ----------------
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
     swaggerOptions: {
-        docExpansion: 'none',
-        defaultModelsExpandDepth: -1,
+        docExpansion: "none",              
+        defaultModelsExpandDepth: -1      
     }
 }));
 
-app.use('/aro', routerAro);
-app.use('/cambio', routerCambio);
-app.use('/categoria', routerCategoria);
-app.use('/combustivel', routerCombustivel);
-app.use('/cor', routerCor);
-app.use('/marca', routerMarca);
-app.use('/modelo', routerModelo);
-app.use('/carro', routerAnuncioCarro);
-app.use('/filtro-alerta', routerFiltroAlerta);
-app.use('/cliente', routerCliente);
-app.use('/concessionaria', routerConcessionaria);
 
-app.get('/carro/imagem/:idImagem', async (req, res) => {
-    // #swagger.tags = ['Carro']
-    // #swagger.description = 'Retorna a imagem de um carro pelo ID da imagem'
-    // #swagger.parameters['idImagem'] = { in: 'path', description: 'ID da imagem do carro', required: true, type: 'integer' }
-    // #swagger.responses[200] = { description: 'Imagem do carro encontrada com sucesso', schema: { type: 'string', format: 'binary' } }
-    // #swagger.responses[404] = { description: 'Imagem não encontrada' }
-    // #swagger.responses[500] = { description: 'Erro interno ao buscar a imagem' }
+//---------------- Hiago ----------------
+app.use('/aro', routerAro); //revisar, arrumar e adicionar verificação
+app.use('/cambio', routerCambio); //revisar, arrumar e adicionar verificação
+app.use('/categoria', routerCategoria); //revisar, arrumar e adicionar verificação
+app.use('/combustivel', routerCombustivel); //revisar, arrumar e adicionar verificação
+app.use('/cor', routerCor); //revisar, arrumar e adicionar verificação
+app.use('/marca', routerMarca); //revisar, arrumar e adicionar verificação
+app.use('/modelo', routerModelo); //revisar, arrumar e adicionar verificação
+app.use('/carro', routerAnuncioCarro); //revisar, arrumar e adicionar verificação
+app.use("/auth", authRoutes); //revisar, arrumar e adicionar verificação
 
-    const { idImagem } = req.params;
-    try {
-        const [resultado] = await apresentarImagemPorId(idImagem);
 
-        if (!resultado || !resultado.arquivo_imagem) {
-            return res.status(404).send('Imagem não encontrada');
-        }
+//---------------- Nathan ----------------
+app.use('/filtro-alerta', routerFiltroAlerta); //revisar, arrumar e adicionar verificação
 
-        res.set('Content-Type', 'image/jpeg');
-        res.send(resultado.arquivo_imagem);
-    } catch (err) {
-        res.status(500).json({ mensagem: err.message });
-    }
-});
 
+//---------------- Carlos ----------------
+app.use('/cliente', routerCliente); //revisar, arrumar e adicionar verificação
+
+
+//---------------- Cappe ----------------
+app.use('/concessionaria', routerConcessionaria); //revisar, arrumar e adicionar verificação
+
+
+//favoritos -- falta fazer
+
+//enderço -- falta fazer
+
+//---------------- Configuração do tratamento de erros personalizado ----------------
 app.use(errorHandler);
 
+
+//---------------- Iniciaização da API ----------------
 app.listen(porta, () => {
     const data = new Date();
-    console.log(`Servidor iniciado na porta ${porta} ${data}`);
+    console.log(`Servidor iniciado na porta ${porta} ${data}\nAcesse o localhost: http://localhost:9000/docs/`);
 });

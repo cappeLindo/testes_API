@@ -12,7 +12,7 @@ import { editarAnuncioCarro, editarAnuncioCarroParcial } from '../servicos/anunc
 
 import { deletarImagemAnuncio, deletarImagem } from '../servicos/imagensCarro/deletar.js';
 import { adicionarImagem } from '../servicos/imagensCarro/adicionar.js';
-import { apresentarImagemPorId, apresentarImagemPorNome, apresentarImagemPorIdAnuncio } from '../servicos/imagensCarro/apresentar.js';
+import { apresentarImagemPorId, apresentarImagemPorIdAnuncio } from '../servicos/imagensCarro/apresentar.js';
 
 const routeAnuncioCarro = express.Router();
 
@@ -396,5 +396,28 @@ routeAnuncioCarro.get('/:id', async (req, res) => {
     }
 });
 
+
+routeAnuncioCarro.get('/imagem/:idImagem', async (req, res) => {
+    // #swagger.tags = ['Carro']
+    // #swagger.description = 'Retorna a imagem de um carro pelo ID da imagem'
+    // #swagger.parameters['idImagem'] = { in: 'path', description: 'ID da imagem do carro', required: true, type: 'integer' }
+    // #swagger.responses[200] = { description: 'Imagem do carro encontrada com sucesso', schema: { type: 'string', format: 'binary' } }
+    // #swagger.responses[404] = { description: 'Imagem não encontrada' }
+    // #swagger.responses[500] = { description: 'Erro interno ao buscar a imagem' }
+
+    const { idImagem } = req.params;
+    try {
+        const [resultado] = await apresentarImagemPorId(idImagem);
+
+        if (!resultado || !resultado.arquivo_imagem) {
+            return res.status(404).send('Imagem não encontrada');
+        }
+
+        res.set('Content-Type', 'image/jpeg');
+        res.send(resultado.arquivo_imagem);
+    } catch (err) {
+        res.status(500).json({ mensagem: err.message });
+    }
+});
 
 export default routeAnuncioCarro;
