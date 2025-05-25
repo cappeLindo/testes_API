@@ -10,9 +10,39 @@ const routerCliente = express.Router();
 
 // Criar cliente
 routerCliente.post('/', validarCliente, async (req, res, next) => {
-  /* #swagger.tags = ['Cliente']
-     #swagger.description = 'Cadastra um novo cliente'
-     #swagger.parameters['cliente'] = { in: 'body', required: true, schema: { $ref: "#/definitions/Cliente" } } */
+  /**
+   * #swagger.tags = ['Cliente']
+   * #swagger.summary = 'Cadastra um novo cliente'
+   * #swagger.description = 'Cria um novo cliente no sistema com nome, CPF, e-mail, telefone e (opcionalmente) imagem.'
+   * #swagger.parameters['cliente'] = {
+   *   in: 'body',
+   *   required: true,
+   *   schema: {
+   *     nome_cliente: 'João da Silva',
+   *     cpf_cliente: '123.456.789-00',
+   *     email_cliente: 'joao.silva@email.com',
+   *     telefone_cliente: '(11) 91234-5678',
+   *     imagem_cliente: 'https://exemplo.com/imagem.jpg'
+   *   }
+   * }
+   * #swagger.responses[201] = {
+   *   description: 'Cliente cadastrado com sucesso',
+   *   schema: {
+   *     mensagem: 'Cliente cadastrado com sucesso',
+   *     dados: {
+   *       id_cliente: 1,
+   *       nome_cliente: 'João da Silva',
+   *       cpf_cliente: '123.456.789-00',
+   *       email_cliente: 'joao.silva@email.com',
+   *       telefone_cliente: '(11) 91234-5678',
+   *       imagem_cliente: 'https://exemplo.com/imagem.jpg'
+   *     }
+   *   }
+   * }
+   * #swagger.responses[400] = { description: 'Dados inválidos' }
+   * #swagger.responses[500] = { description: 'Erro interno ao tentar cadastrar o cliente' }
+   */
+  
   try {
     const resultado = await adicionarCliente(req.body);
     res.status(201).json({
