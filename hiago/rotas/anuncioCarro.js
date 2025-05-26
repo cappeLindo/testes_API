@@ -109,7 +109,7 @@ routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res) 
 
 routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res, next) => {
     // #swagger.tags = ['Carro']
-    // #swagger.description = 'Atualiza um carro pelo ID'
+    // #swagger.description = 'Atualiza um carro pelo ID fornecido pelo usuario'
     // #swagger.parameters['id'] = { in: 'path', description: 'ID do carro', required: true, type: 'integer' }
     // #swagger.parameters['imagensCarro'] = { in: 'formData', type: 'file', required: false, description: 'Imagens do carro' }
     // #swagger.parameters['nomeCarro'] = { in: 'formData', type: 'string', required: false, description: 'Nome do carro' }
