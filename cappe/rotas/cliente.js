@@ -27,7 +27,6 @@ const routerCliente = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/definitions/Cliente'
  *     responses:
  *       201:
  *         description: Cliente cadastrado com sucesso
