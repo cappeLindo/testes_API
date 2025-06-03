@@ -2,7 +2,7 @@ import express from 'express';
 import upload from '../../middlewares/multerConfig.js';
 import adicionarCliente from '../servico/cliente/adicionar.js';
 import { apresentarCliente, apresentarClientePorEmail } from '../servico/cliente/apresentar.js';
-import {editarCliente, editarClienteParcial} from '../servico/cliente/editar.js';
+import { editarCliente, editarClienteParcial } from '../servico/cliente/editar.js';
 import deletarCliente from '../servico/cliente/deletar.js';
 import validarCliente from '../validacao/cliente.js';
 import AppError from '../utils/appError.js';
@@ -27,14 +27,37 @@ const routerCliente = express.Router();
  *       content:
  *         application/json:
  *           schema:
+ *             type: object
+ *             properties:
+ *               nome:
+ *                 type: string
+ *               cpf:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               telefone:
+ *                 type: string
+ *               imagem:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       201:
  *         description: Cliente cadastrado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensagem:
+ *                   type: string
+ *                 dados:
+ *                   type: object
  *       500:
  *         description: Erro no servidor
  */
 routerCliente.post('/', validarCliente, upload.single('imagem'), async (req, res, next) => {
   const { nome, cpf, email, telefone } = req.body;
+  console.log(nome, cpf, email, telefone, imagem)
   const imagem = req.file ? req.file.buffer : null;
   try {
     const resultado = await adicionarCliente(nome, cpf, email, telefone, imagem);
@@ -51,7 +74,7 @@ routerCliente.post('/', validarCliente, upload.single('imagem'), async (req, res
  * @swagger
  * /cliente:
  *   get:
- *     summary: Retorna todos os clientes ou por e-mail
+ *     summary: Retorna todos os clientes ou filtra por e-mail
  *     tags: [Cliente]
  *     parameters:
  *       - in: query
@@ -62,6 +85,17 @@ routerCliente.post('/', validarCliente, upload.single('imagem'), async (req, res
  *     responses:
  *       200:
  *         description: Lista de clientes obtida com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensagem:
+ *                   type: string
+ *                 dados:
+ *                   type: array
+ *                   items:
+ *                     type: object
  *       500:
  *         description: Erro no servidor
  */
@@ -94,6 +128,15 @@ routerCliente.get('/', async (req, res, next) => {
  *     responses:
  *       200:
  *         description: Cliente encontrado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensagem:
+ *                   type: string
+ *                 dados:
+ *                   type: object
  *       404:
  *         description: Cliente não encontrado
  *       500:
@@ -134,10 +177,31 @@ routerCliente.get('/:id', async (req, res, next) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/definitions/Cliente'
+ *             type: object
+ *             properties:
+ *               nome:
+ *                 type: string
+ *               cpf:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               telefone:
+ *                 type: string
+ *               imagem:
+ *                 type: string
+ *                 format: binary
  *     responses:
  *       200:
  *         description: Cliente atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensagem:
+ *                   type: string
+ *                 dados:
+ *                   type: object
  *       404:
  *         description: Cliente não encontrado para atualizar
  *       500:
@@ -163,6 +227,56 @@ routerCliente.put('/:id', validarCliente, upload.single('imagem'), async (req, r
   }
 });
 
+/**
+ * @swagger
+ * /cliente/{id}:
+ *   patch:
+ *     summary: Atualiza parcialmente um cliente existente
+ *     tags: [Cliente]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID do cliente
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nome:
+ *                 type: string
+ *               cpf:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               telefone:
+ *                 type: string
+ *               imagem:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: Cliente atualizado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensagem:
+ *                   type: string
+ *                 dados:
+ *                   type: object
+ *       400:
+ *         description: Nenhum dado fornecido para atualização
+ *       404:
+ *         description: Cliente não encontrado para atualizar
+ *       500:
+ *         description: Erro no servidor
+ */
 routerCliente.patch('/:id', validarCliente, upload.single('imagem'), async (req, res, next) => {
   const { id } = req.user;
   const { nome, cpf, email, telefone } = req.body;
@@ -211,6 +325,15 @@ routerCliente.patch('/:id', validarCliente, upload.single('imagem'), async (req,
  *     responses:
  *       200:
  *         description: Cliente deletado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 mensagem:
+ *                   type: string
+ *                 dados:
+ *                   type: object
  *       404:
  *         description: Cliente não encontrado para exclusão
  *       500:

@@ -1,16 +1,14 @@
 import pool from '../../../config.js';
 import AppError from '../../utils/appError.js';
 
-export default async function adicionarCliente(cliente) {
-  const { nome, cpf, email, telefone, imagem } = cliente;
+export default async function adicionarCliente(nome, cpf, email, telefone, imagem) {
 
   try {
     const conexao = await pool.getConnection();
 
     const [resultado] = await conexao.execute(
-      `INSERT INTO cliente (nome, cpf, email, telefone, imagem)
-       VALUES (?, ?, ?, ?, ?)`,
-      [nome, cpf, email, telefone, imagem || null]
+      `INSERT INTO cliente (nome, cpf, email, telefone, imagem) VALUES (?, ?, ?, ?, ?)`,
+      [nome, cpf, email, telefone, imagem]
     );
 
     conexao.release();
