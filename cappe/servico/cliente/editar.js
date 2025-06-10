@@ -14,19 +14,15 @@ async function executarQuery(sql, params = []) {
   }
 }
 
-export async function editarCliente(id, cliente) {
-  const { nome, cpf, email, telefone, imagem } = cliente;
+export async function editarCliente(id, nome, cpf, email, senha, telefone, imagem) {
 
-  const sql = `
-    UPDATE cliente 
-    SET nome = ?, cpf = ?, email = ?, telefone = ?, imagem = ?
-    WHERE id = ?
-  `;
+  const sql = `UPDATE cliente SET nome = ?, cpf = ?, email = ?, senha = ?, telefone = ?, imagem = ? WHERE id = ?`;
 
   const resultado = await executarQuery(sql, [
     nome,
     cpf,
     email,
+    senha,
     telefone,
     imagem || null,
     id

@@ -19,3 +19,11 @@ JWT_SECRET=tokenParaLogin
 
 
 e boa sorte !
+
+
+HOST=localhost
+PORT=3306
+USER=root
+PASSWORD=12345
+DATABASE=webcars_db
+JWT_SECRET=tokenParaLogin

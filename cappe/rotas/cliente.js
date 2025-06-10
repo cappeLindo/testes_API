@@ -1,7 +1,7 @@
 import express from 'express';
 import upload from '../../middlewares/multerConfig.js';
 import adicionarCliente from '../servico/cliente/adicionar.js';
-import { apresentarCliente, apresentarClientePorEmail } from '../servico/cliente/apresentar.js';
+import { apresentarCliente, apresentarClientePorEmail, apresentarClientePorNome, apresentarFotoPerfilPorId } from '../servico/cliente/apresentar.js';
 import { editarCliente, editarClienteParcial } from '../servico/cliente/editar.js';
 import deletarCliente from '../servico/cliente/deletar.js';
 import validarCliente from '../validacao/cliente.js';
@@ -25,7 +25,7 @@ const routerCliente = express.Router();
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -55,12 +55,16 @@ const routerCliente = express.Router();
  *       500:
  *         description: Erro no servidor
  */
-routerCliente.post('/', validarCliente, upload.single('imagem'), async (req, res, next) => {
-  const { nome, cpf, email, telefone } = req.body;
-  console.log(nome, cpf, email, telefone, imagem)
+routerCliente.post('/', upload.single('imagem'), async (req, res, next) => {
+  const { nome, cpf, email, telefone, senha } = req.body;
+  console.log(nome, cpf, email, telefone)
   const imagem = req.file ? req.file.buffer : null;
+
+  const erroValidacao = await validarCliente(cpf, email);
+  if (erroValidacao) return next(erroValidacao);
+
   try {
-    const resultado = await adicionarCliente(nome, cpf, email, telefone, imagem);
+    const resultado = await adicionarCliente(nome, cpf.replace(/\D/g, ''), email, senha, telefone, imagem);
     res.status(201).json({
       mensagem: 'Cliente cadastrado com sucesso',
       dados: resultado
@@ -74,9 +78,14 @@ routerCliente.post('/', validarCliente, upload.single('imagem'), async (req, res
  * @swagger
  * /cliente:
  *   get:
- *     summary: Retorna todos os clientes ou filtra por e-mail
+ *     summary: Retorna todos os clientes ou filtra por e-mail ou nome
  *     tags: [Cliente]
  *     parameters:
+ *       - in: query
+ *         name: nome
+ *         schema:
+ *           type: string
+ *         description: Nome do cliente para filtro
  *       - in: query
  *         name: email
  *         schema:
@@ -100,9 +109,18 @@ routerCliente.post('/', validarCliente, upload.single('imagem'), async (req, res
  *         description: Erro no servidor
  */
 routerCliente.get('/', async (req, res, next) => {
-  const { email } = req.query;
+  const { email, nome } = req.query;
+  let clientes;
+
   try {
-    const clientes = email !== undefined ? await apresentarClientePorEmail(email) : await apresentarCliente();
+    if (email) {
+      clientes = await apresentarClientePorEmail(email);
+    } else if (nome) {
+      clientes = await apresentarClientePorNome(nome);
+    } else {
+      clientes = await apresentarCliente();
+    }
+
     res.status(200).json({
       mensagem: 'Lista de clientes obtida com sucesso',
       dados: clientes
@@ -161,21 +179,59 @@ routerCliente.get('/:id', async (req, res, next) => {
 
 /**
  * @swagger
- * /cliente/{id}:
- *   put:
- *     summary: Atualiza um cliente existente
+ * /cliente/imagem/{idImagem}:
+ *   get:
+ *     summary: Retorna a imagem de perfil de um cliente pelo ID da imagem
  *     tags: [Cliente]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: idImagem
  *         required: true
  *         schema:
  *           type: integer
- *         description: ID do cliente
+ *         description: ID da imagem do cliente
+ *     responses:
+ *       200:
+ *         description: Imagem retornada com sucesso
+ *         content:
+ *           image/jpeg:
+ *             schema:
+ *               type: string
+ *               format: binary
+ *       404:
+ *         description: Imagem não encontrada
+ *       500:
+ *         description: Erro no servidor
+ */
+routerCliente.get('/imagem/:idImagem', async (req, res) => {
+  const { idImagem } = req.params;
+  try {
+    const [resultado] = await apresentarFotoPerfilPorId(idImagem);
+
+    if (!resultado || !resultado.imagem) {
+      return res.status(404).send('Imagem não encontrada');
+    }
+
+    res.set('Content-Type', 'image/jpeg');
+    res.send(resultado.imagem);
+  } catch (err) {
+    res.status(500).json({ mensagem: err.message });
+  }
+});
+
+
+/**
+ * @swagger
+ * /cliente:
+ *   put:
+ *     summary: Atualiza todos os dados do cliente logado
+ *     tags: [Cliente]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -184,6 +240,8 @@ routerCliente.get('/:id', async (req, res, next) => {
  *               cpf:
  *                 type: string
  *               email:
+ *                 type: string
+ *               senha:
  *                 type: string
  *               telefone:
  *                 type: string
@@ -203,16 +261,19 @@ routerCliente.get('/:id', async (req, res, next) => {
  *                 dados:
  *                   type: object
  *       404:
- *         description: Cliente não encontrado para atualizar
+ *         description: Cliente não encontrado
  *       500:
  *         description: Erro no servidor
  */
-routerCliente.put('/:id', validarCliente, upload.single('imagem'), async (req, res, next) => {
+routerCliente.put('/', upload.single('imagem'), async (req, res, next) => {
   const { id } = req.user;
-  const { nome, cpf, email, telefone } = req.body;
+  const { nome, cpf, email, senha, telefone } = req.body;
   const imagem = req.file ? req.file.buffer : null;
-  try {
-    const resultado = await editarCliente(id, nome, cpf, email, telefone, imagem);
+
+  const erroValidacao = await validarCliente(cpf, email);
+  if (erroValidacao) return next(erroValidacao);
+  try { 
+    const resultado = await editarCliente(id, nome, cpf, email, senha, telefone, imagem);
 
     if (!resultado || resultado.affectedRows === 0) {
       throw new AppError('Cliente não encontrado para atualizar.', 404, 'CLIENTE_NAO_ENCONTRADO');
@@ -229,21 +290,16 @@ routerCliente.put('/:id', validarCliente, upload.single('imagem'), async (req, r
 
 /**
  * @swagger
- * /cliente/{id}:
+ * /cliente:
  *   patch:
- *     summary: Atualiza parcialmente um cliente existente
+ *     summary: Atualiza parcialmente os dados do cliente logado
  *     tags: [Cliente]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID do cliente
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -252,6 +308,8 @@ routerCliente.put('/:id', validarCliente, upload.single('imagem'), async (req, r
  *               cpf:
  *                 type: string
  *               email:
+ *                 type: string
+ *               senha:
  *                 type: string
  *               telefone:
  *                 type: string
@@ -271,15 +329,15 @@ routerCliente.put('/:id', validarCliente, upload.single('imagem'), async (req, r
  *                 dados:
  *                   type: object
  *       400:
- *         description: Nenhum dado fornecido para atualização
+ *         description: Nada foi fornecido para atualização
  *       404:
- *         description: Cliente não encontrado para atualizar
+ *         description: Cliente não encontrado
  *       500:
  *         description: Erro no servidor
  */
-routerCliente.patch('/:id', validarCliente, upload.single('imagem'), async (req, res, next) => {
+routerCliente.patch('/', upload.single('imagem'), async (req, res, next) => {
   const { id } = req.user;
-  const { nome, cpf, email, telefone } = req.body;
+  const { nome, cpf, email, senha, telefone } = req.body;
   const imagem = req.file ? req.file.buffer : null;
 
   try {
@@ -287,14 +345,15 @@ routerCliente.patch('/:id', validarCliente, upload.single('imagem'), async (req,
     if (nome) camposAtualizar.nome = nome;
     if (cpf) camposAtualizar.cpf = cpf;
     if (email) camposAtualizar.email = email;
+    if (senha) camposAtualizar.senha = senha;
     if (telefone) camposAtualizar.telefone = telefone;
     if (imagem) camposAtualizar.imagem = imagem;
 
     if (Object.keys(camposAtualizar).length === 0) {
       throw new AppError('Nada para atualizar.', 400, 'NO_UPDATE_DATA');
     }
-
-    const resultado = await editarClienteParcial(id, nome, cpf, email, telefone, imagem);
+    
+    const resultado = await editarClienteParcial(id, camposAtualizar);
 
     if (!resultado || resultado.affectedRows === 0) {
       throw new AppError('Cliente não encontrado para atualizar.', 404, 'CLIENTE_NAO_ENCONTRADO');
@@ -311,17 +370,12 @@ routerCliente.patch('/:id', validarCliente, upload.single('imagem'), async (req,
 
 /**
  * @swagger
- * /cliente/{id}:
+ * /cliente:
  *   delete:
- *     summary: Remove um cliente pelo ID
+ *     summary: Remove o cliente logado
  *     tags: [Cliente]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description: ID do cliente
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Cliente deletado com sucesso
@@ -335,11 +389,11 @@ routerCliente.patch('/:id', validarCliente, upload.single('imagem'), async (req,
  *                 dados:
  *                   type: object
  *       404:
- *         description: Cliente não encontrado para exclusão
+ *         description: Cliente não encontrado
  *       500:
  *         description: Erro no servidor
  */
-routerCliente.delete('/:id', async (req, res, next) => {
+routerCliente.delete('/', async (req, res, next) => {
   const { id } = req.user;
   try {
     const resultado = await deletarCliente(id);

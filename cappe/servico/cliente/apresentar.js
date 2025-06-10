@@ -16,7 +16,7 @@ async function executarQuery(sql, params = []) {
 
 async function apresentarCliente(id = null) {
   // Se um ID for passado, busca o cliente específico, caso contrário, retorna todos os clientes
-  const sql = id ? `SELECT * FROM cliente WHERE id = ?` : `SELECT * FROM cliente`;
+  const sql = id ? `SELECT id, nome, email, cpf, senha, telefone FROM cliente WHERE id = ?` : `SELECT id, nome, email, cpf, senha, telefone FROM cliente`;
   const params = id ? [id] : [];
 
   const resultado = await executarQuery(sql, params);
@@ -29,7 +29,7 @@ async function apresentarCliente(id = null) {
 }
 
 async function apresentarClientePorEmail(email) {
-  const sql = `SELECT * FROM cliente WHERE email LIKE ?`;
+  const sql = `SELECT id, nome, email, cpf, senha, telefone FROM cliente WHERE email LIKE ?`;
 
   const resultado = await executarQuery(sql, [`%${email}%`]);
 
@@ -40,4 +40,29 @@ async function apresentarClientePorEmail(email) {
   return resultado;
 }
 
-export { apresentarCliente, apresentarClientePorEmail }
+async function apresentarClientePorNome(nome) {
+  const sql = `SELECT id, nome, email, cpf, senha, telefone FROM cliente WHERE nome LIKE ?`;
+
+  const resultado = await executarQuery(sql, [`%${nome}%`]);
+
+  if (!resultado || resultado.length === 0) {
+    throw new AppError(nome ? 'Cliente não encontrado.' : 'Nenhum cliente encontrado.', 404, nome ? 'CLIENTE_NAO_ENCONTRADO' : 'CLIENTES_NAO_ENCONTRADOS');
+  }
+
+  return resultado;
+}
+
+async function apresentarFotoPerfilPorId(id) {
+  const sql = `SELECT imagem FROM cliente WHERE id = ?`;
+  const params = [id];
+
+  const resultado = await executarQuery(sql, params);
+
+  if (!resultado || resultado.length === 0) {
+    throw new AppError(id ? 'Cliente não encontrado.' : 'Nenhum cliente encontrado.', 404, id ? 'CLIENTE_NAO_ENCONTRADO' : 'CLIENTES_NAO_ENCONTRADOS');
+  }
+
+  return resultado;
+}
+
+export { apresentarCliente, apresentarClientePorEmail, apresentarClientePorNome, apresentarFotoPerfilPorId }
