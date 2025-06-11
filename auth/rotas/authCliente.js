@@ -14,7 +14,7 @@ const authRoutesCliente = express.Router();
 
 /**
  * @swagger
- * /auth/loginCliente:
+ * /auth/cliente/login:
  *   post:
  *     summary: Realiza o login do usuário,
  *     tags: [Autenticação Cliente]
@@ -109,7 +109,7 @@ authRoutesCliente.post("/cliente/login", async (req, res) => {
 
 /**
  * @swagger
- * /auth/logoutCliente:
+ * /auth/cliente/logout:
  *   post:
  *     summary: Realiza o logout do usuário,
  *     tags: [Autenticação Cliente]

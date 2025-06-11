@@ -21,6 +21,8 @@ import routerFiltroAlerta from "./nathan/rotas/routeFiltroAlerta.js";
 import routerCliente from "./cappe/rotas/cliente.js";
 import routerConcessionaria from "./carlos/rotas/concessionaria.js";
 import authRoutes from "./auth/rotas/authConcessionaria.js";
+import authRoutesCliente from "./auth/rotas/authCliente.js";
+import authRoutesConcessionaria from "./auth/rotas/authConcessionaria.js";
 
 //---------------- Configuração básica da API ----------------
 const porta = 9000;
@@ -38,6 +40,11 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 
 
 //---------------- Hiago ----------------
+
+app.use('/auth', authRoutesCliente);
+app.use('/auth', authRoutesConcessionaria);
+
+
 app.use('/aro', routerAro); //revisar, arrumar e adicionar verificação
 app.use('/cambio', routerCambio); //revisar, arrumar e adicionar verificação
 app.use('/categoria', routerCategoria); //revisar, arrumar e adicionar verificação
@@ -47,6 +54,7 @@ app.use('/marca', routerMarca); //revisar, arrumar e adicionar verificação
 app.use('/modelo', routerModelo); //revisar, arrumar e adicionar verificação
 app.use('/carro', routerAnuncioCarro); //revisar, arrumar e adicionar verificação
 app.use("/auth", authRoutes); //revisar, arrumar e adicionar verificação
+
 
 
 //---------------- Nathan ----------------
