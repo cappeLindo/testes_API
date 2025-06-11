@@ -20,7 +20,7 @@ import routerAnuncioCarro from "./hiago/rotas/anuncioCarro.js";
 import routerFiltroAlerta from "./nathan/rotas/routeFiltroAlerta.js";
 import routerCliente from "./cappe/rotas/cliente.js";
 import routerConcessionaria from "./carlos/rotas/concessionaria.js";
-import authRoutes from "./auth/rotas/auth.js";
+import authRoutes from "./auth/rotas/authConcessionaria.js";
 
 //---------------- Configuração básica da API ----------------
 const porta = 9000;
