@@ -11,14 +11,14 @@ const routerConcessionaria = express.Router();
 
 
 routerConcessionaria.post('/', upload.single('imagem'), async (req, res, next) => {
-  const { nome, cnpj, email, telefone, senha } = req.body;
+  const { nome, cnpj, email, telefone, senha, idEndereco } = req.body;
   const imagem = req.file ? req.file.buffer : null;
 
   const erroValidacao = await validarConcessionaria(cnpj, email);
   if (erroValidacao) return next(erroValidacao);
 
   try {
-    const resultado = await adicionarConcessionaria(nome, cnpj.replace(/\D/g, ''), email, senha, telefone, imagem);
+    const resultado = await adicionarConcessionaria(nome, cnpj.replace(/\D/g, ''), email, senha, telefone, imagem, idEndereco);
     res.status(201).json({
       mensagem: 'Concessionaria cadastrado com sucesso',
       dados: resultado

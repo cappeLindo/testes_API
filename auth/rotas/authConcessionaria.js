@@ -3,21 +3,21 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import pool from "../../config.js";
 
-const authRoutes = express.Router();
+const authRoutesConcessionaria = express.Router();
 
 /**
  * @swagger
  * tags:
- *   name: Autenticação
+ *   name: Autenticação concessionaria
  *   description: Endpoints para gerenciamento de atores
  */
 
 /**
  * @swagger
- * /auth/login:
+ * /auth/loginConcessionaria:
  *   post:
- *     summary: Realiza o login do usuário
- *     tags: [Autenticação]
+ *     summary: Realiza o login da concessionária
+ *     tags: [Autenticação concessionaria]
  *     requestBody:
  *       required: true
  *       content:
@@ -31,10 +31,10 @@ const authRoutes = express.Router();
  *               email:
  *                 type: string
  *                 format: email
- *                 example: joaoCorso@gmail.com
+ *                 example: hiago@gmail.com
  *               senha:
  *                 type: string
- *                 example: 12345
+ *                 example: Senha@123
  *     responses:
  *       200:
  *         description: Login realizado com sucesso
@@ -67,7 +67,7 @@ const authRoutes = express.Router();
  *                   type: string
  *                   example: Erro no servidor
  */
-authRoutes.post("/login", async (req, res) => {
+authRoutesConcessionaria.post("/concessionaria/login", async (req, res) => {
   try {
     const { email, senha } = req.body;
 
@@ -109,10 +109,10 @@ authRoutes.post("/login", async (req, res) => {
 
 /**
  * @swagger
- * /auth/logout:
- *   post:||
+ * /auth/logoutConcessionaria:
+ *   post:
  *     summary: Realiza o logout do usuário
- *     tags: [Autenticação]
+ *     tags: [Autenticação concessionaria]
  *     responses:
  *       200:
  *         description: Logout realizado com sucesso
@@ -125,7 +125,7 @@ authRoutes.post("/login", async (req, res) => {
  *                   type: string
  *                   example: Logout realizado com sucesso.
  */
-authRoutes.post("/logout", (req, res) => {
+authRoutesConcessionaria.post("/concessionaria/logout", (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
@@ -135,4 +135,4 @@ authRoutes.post("/logout", (req, res) => {
   res.json({ message: "Logout realizado com sucesso." });
 });
 
-export default authRoutes
+export default authRoutesConcessionaria

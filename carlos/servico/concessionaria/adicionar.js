@@ -1,16 +1,15 @@
 import pool from '../../../config.js';
 import AppError from '../../utils/appError.js';
 
-export default async function adicionarConcessionaria(concessionaria) {
-  const { nome, cnpj, email, telefone, imagem, endereco_id } = concessionaria;
+export default async function adicionarConcessionaria(nome, cnpj, email, senha, telefone, imagem, endereco_id) {
 
   try {
     const conexao = await pool.getConnection();
 
     const [resultado] = await conexao.execute(
-      `INSERT INTO concessionaria (nome, cnpj, email, telefone, imagem, endereco_id)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [nome, cnpj, email, telefone, imagem || null, endereco_id]
+      `INSERT INTO concessionaria (nome, cnpj, email, senha, telefone, imagem, endereco_id)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [nome, cnpj, email, senha, telefone, imagem, endereco_id]
     );
 
     conexao.release();
@@ -20,8 +19,8 @@ export default async function adicionarConcessionaria(concessionaria) {
       nome,
       cnpj,
       email,
+      senha,
       telefone,
-      imagem,
       endereco_id
     };
   } catch (erro) {
