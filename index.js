@@ -48,6 +48,7 @@ app.use('/auth', authRoutesConcessionaria);
 app.use('/aro', routerAro); 
 app.use('/cambio', routerCambio); 
 app.use('/categoria', routerCategoria);
+
 app.use('/combustivel', routerCombustivel); //revisar, arrumar e adicionar verificação
 app.use('/cor', routerCor); //revisar, arrumar e adicionar verificação
 app.use('/marca', routerMarca); //revisar, arrumar e adicionar verificação
@@ -61,11 +62,10 @@ app.use('/filtro-alerta', routerFiltroAlerta); //revisar, arrumar e adicionar ve
 
 
 //---------------- Carlos ----------------
-app.use('/cliente', routerCliente); //revisar, arrumar e adicionar verificação
-
+app.use('/cliente', routerCliente);
 
 //---------------- Cappe ----------------
-app.use('/concessionaria', routerConcessionaria); //revisar, arrumar e adicionar verificação
+app.use('/concessionaria', routerConcessionaria);
 
 
 //favoritos -- falta fazer
