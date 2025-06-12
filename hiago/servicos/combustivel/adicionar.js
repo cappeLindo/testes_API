@@ -16,7 +16,7 @@ async function executarQuery(sql, params = []) {
 
 async function adicionarCombustivel(nome) {
     try{
-        const sql = `INSERT INTO combustivel (nome_combustivel) VALUE (?);`;
+        const sql = `INSERT INTO combustivel (nome) VALUE (?);`;
         return await executarQuery(sql, [nome]);
     } catch(error) {
         throw new AppError('ID do combustível é invalido', 400, 'COMBUSTIVEL_ID_INVALID', error.message);

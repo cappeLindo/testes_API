@@ -10,7 +10,6 @@ async function validarCombustivel(valor) {
   }
 
   const combustivelExistente = await apresentarCombustivelPorNome(valor);
-  console.log(combustivelExistente.length)
   if (combustivelExistente.length != 0) {
     return {
       status: false,

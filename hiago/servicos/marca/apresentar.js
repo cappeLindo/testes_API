@@ -32,7 +32,7 @@ async function apresentarMarcaPorId(id) {
     throw new AppError('ID da marca é obrigatório', 400, 'MISSING_ID');
   }
 
-  const sql = `SELECT * FROM marca WHERE id_marca = ?`;
+  const sql = `SELECT * FROM marca WHERE id = ?`;
   try {
     const resultado = await executarQuery(sql, [id]);
 
@@ -50,7 +50,7 @@ async function apresentarMarcaPorNome(nome) {
     throw new AppError('Nome da marca é obrigatório', 400, 'MISSING_NAME');
   }
 
-  const sql = `SELECT * FROM marca WHERE nome_marca LIKE ?`;
+  const sql = `SELECT * FROM marca WHERE nome LIKE ?`;
   try {
     const resultado = await executarQuery(sql, [`%${nome}%`]);
 

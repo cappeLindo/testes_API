@@ -45,15 +45,14 @@ app.use('/auth', authRoutesCliente);
 app.use('/auth', authRoutesConcessionaria);
 
 
-app.use('/aro', routerAro); //revisar, arrumar e adicionar verificação
-app.use('/cambio', routerCambio); //revisar, arrumar e adicionar verificação
-app.use('/categoria', routerCategoria); //revisar, arrumar e adicionar verificação
+app.use('/aro', routerAro); 
+app.use('/cambio', routerCambio); 
+app.use('/categoria', routerCategoria);
 app.use('/combustivel', routerCombustivel); //revisar, arrumar e adicionar verificação
 app.use('/cor', routerCor); //revisar, arrumar e adicionar verificação
 app.use('/marca', routerMarca); //revisar, arrumar e adicionar verificação
 app.use('/modelo', routerModelo); //revisar, arrumar e adicionar verificação
 app.use('/carro', routerAnuncioCarro); //revisar, arrumar e adicionar verificação
-app.use("/auth", authRoutes); //revisar, arrumar e adicionar verificação
 
 
 

@@ -144,7 +144,7 @@ routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res
         } = req.body;
 
         const camposAtualizar = {};
-        if (nomeCarro) camposAtualizar.nome_anuncioCarro = nomeCarro;
+        if (nomeCarro) camposAtualizar.nome = nomeCarro;
         if (anoCarro) camposAtualizar.ano = anoCarro;
         if (condicaoCarro) camposAtualizar.condicao = condicaoCarro;
         if (valorCarro) camposAtualizar.valor = valorCarro;
@@ -153,14 +153,14 @@ routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res
         if (dataCompra) camposAtualizar.data_compra = dataCompra;
         if (detalhesVeiculo) camposAtualizar.detalhes_veiculo = detalhesVeiculo;
         if (blindagem !== undefined) camposAtualizar.blindagem = blindagem;
-        if (idCor) camposAtualizar.cor_id_cor = idCor;
-        if (idAro) camposAtualizar.aro_id_aro = idAro;
-        if (idCategoria) camposAtualizar.categoria_id_categoria = idCategoria;
-        if (idMarca) camposAtualizar.marca_id_marca = idMarca;
-        if (idModelo) camposAtualizar.modelo_id_modelo = idModelo;
-        if (idCombustivel) camposAtualizar.combustivel_id_combustivel = idCombustivel;
-        if (idCambio) camposAtualizar.cambio_id_cambio = idCambio;
-        if (idConcessionaria) camposAtualizar.concessionaria_id_concessionaria = idConcessionaria;
+        if (idCor) camposAtualizar.cor_id = idCor;
+        if (idAro) camposAtualizar.aro_id = idAro;
+        if (idCategoria) camposAtualizar.categoria_id = idCategoria;
+        if (idMarca) camposAtualizar.marca_id = idMarca;
+        if (idModelo) camposAtualizar.modelo_id = idModelo;
+        if (idCombustivel) camposAtualizar.combustivel_id = idCombustivel;
+        if (idCambio) camposAtualizar.cambio_id = idCambio;
+        if (idConcessionaria) camposAtualizar.concessionaria_id = idConcessionaria;
 
         if (Object.keys(camposAtualizar).length === 0 && arquivosRecebidos.length === 0 && !imagensExcluidas) {
             throw new AppError('Nada para atualizar.', 400, 'NO_UPDATE_DATA');

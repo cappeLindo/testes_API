@@ -16,7 +16,7 @@ async function executarQuery(sql, params = []) {
 
 async function adicionarCor(nome) {
     try{
-        const sql = `INSERT INTO cor (nome_cor) VALUE (?);`;
+        const sql = `INSERT INTO cor (nome) VALUE (?);`;
         return await executarQuery(sql, [nome]);
     } catch(error) {
         throw new AppError('ID da cor é invalido', 400, 'COR_ID_INVALID', error.message);

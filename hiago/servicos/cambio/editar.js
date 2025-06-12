@@ -20,7 +20,7 @@ async function editarCambio(id, nome) {
         if (!nome) {
             throw new AppError('Nome do aro é obrigatório', 400, 'MISSING_NAME');
         }
-        const sql = "UPDATE cambio SET nome_cambio = ? WHERE id_cambio = ?";
+        const sql = "UPDATE cambio SET nome = ? WHERE id = ?";
         const resultado = await executarQuery(sql, [nome, id]);
         return resultado;
     } catch (error) {

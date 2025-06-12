@@ -10,7 +10,6 @@ async function validarCategoria(valor) {
   }
 
   const categoriaExistente = await apresentarCategoriaPorNome(valor);
-  console.log(categoriaExistente.length)
   if (categoriaExistente.length != 0) {
     return {
       status: false,

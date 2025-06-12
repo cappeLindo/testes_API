@@ -22,8 +22,7 @@ async function validarAro(valor) {
   const nomeNormalizado = `${parseInt(valorLimpo, 10)}`;
 
   const aroExistente = await apresentarAroPorNome(nomeNormalizado);
-  console.log(nomeNormalizado)
-  console.log(aroExistente.length)
+
   if (aroExistente.length != 0) {
     return {
       status: false,

@@ -11,12 +11,12 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: 'https://webcars.dev.vilhena.ifro.edu.br/api/',
-            description: 'Servidor Online',
-        },
-        {
             url: 'http://localhost:9000',
             description: 'Servidor local',
+        },
+        {
+            url: 'https://webcars.dev.vilhena.ifro.edu.br/api/',
+            description: 'Servidor Online',
         }
     ],
 };

@@ -1,7 +1,7 @@
 import pool from '../../../config.js';
 import AppError from '../../utils/AppError.js';
 
-const sqlpadrao = 'SELECT modelo.id_modelo, modelo.nome_modelo, marca.id_marca, marca.nome_marca, categoria.id_categoria, categoria.nome_categoria FROM modelo JOIN marca ON modelo.marca_id_marca = marca.id_marca JOIN categoria ON modelo.categoria_id_categoria = categoria.id_categoria'
+const sqlpadrao = 'SELECT modelo.id, modelo.nome, marca.id_marca, marca.nome_marca, categoria.id_categoria, categoria.nome_categoria FROM modelo JOIN marca ON modelo.marca_id_marca = marca.id_marca JOIN categoria ON modelo.categoria_id_categoria = categoria.id_categoria'
 
 async function executarQuery(sql, params = []) {
   let conexao;
@@ -34,7 +34,7 @@ async function apresentarModeloPorId(id) {
     throw new AppError('ID do modelo é obrigatório', 400, 'MISSING_ID');
   }
 
-  const sql = `${sqlpadrao} WHERE modelo.id_modelo = ?`;
+  const sql = `${sqlpadrao} WHERE modelo.id = ?`;
   try {
     const resultado = await executarQuery(sql, [id]);
 
@@ -52,7 +52,7 @@ async function apresentarModeloPorNome(nome) {
     throw new AppError('Nome do modelo é obrigatório', 400, 'MISSING_NAME');
   }
 
-  const sql = `${sqlpadrao} WHERE nome_modelo LIKE ?`;
+  const sql = `${sqlpadrao} WHERE nome LIKE ?`;
   try {
     const resultado = await executarQuery(sql, [`%${nome}%`]);
 

@@ -10,7 +10,6 @@ async function validarCor(valor) {
   }
 
   const corExistente = await apresentarCorPorNome(valor);
-  console.log(corExistente.length)
   if (corExistente.length != 0) {
     return {
       status: false,

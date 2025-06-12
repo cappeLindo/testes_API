@@ -32,7 +32,7 @@ const authRoutesConcessionaria = express.Router();
  *               email:
  *                 type: string
  *                 format: email
- *                 example: hiago@gmail.com
+ *                 example: bconcessionaria@gmail.com
  *               senha:
  *                 type: string
  *                 example: Senha@123

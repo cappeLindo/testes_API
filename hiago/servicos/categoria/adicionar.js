@@ -16,7 +16,7 @@ async function executarQuery(sql, params = []) {
 
 async function adicionarCategoria(nome) {
     try{
-        const sql = `INSERT INTO categoria (nome_categoria) VALUE (?);`;
+        const sql = `INSERT INTO categoria (nome) VALUE (?);`;
         return await executarQuery(sql, [nome]);
     } catch(error) {
         throw new AppError('ID da categoria é invalido', 400, 'CATEGORIA_ID_INVALID', error.message);

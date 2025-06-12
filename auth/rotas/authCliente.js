@@ -99,6 +99,13 @@ authRoutesCliente.post("/cliente/login", async (req, res) => {
             sameSite: "lax"
         });
 
+        res.cookie("id", usuario.id, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // Somente em HTTPS no ambiente de produção
+            maxAge: 86400000, // 24 horas em milissegundos
+            sameSite: "lax" // Respeita a política de cookies de mesmo site
+          });
+
         // Também pode enviar no json se quiser
         res.json({ message: "Login realizado com sucesso" });
     } catch (error) {
@@ -131,6 +138,12 @@ authRoutesCliente.post("/cliente/logout", (req, res) => {
         secure: process.env.NODE_ENV === 'production',
         sameSite: "lax"
     });
+
+    res.clearCookie("id", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: "lax"
+      });
 
     res.json({ message: "Logout realizado com sucesso." });
 });
