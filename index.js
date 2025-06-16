@@ -28,7 +28,23 @@ import routerEndereco from "./hiago/rotas/enderecos.js";
 //---------------- Configuração básica da API ----------------
 const porta = 9000;
 const app = express();
-app.use(cors());
+const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:9000',
+    'https://webcars.dev.vilhena.ifro.edu.br'
+  ];
+  
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true); // Permite
+      } else {
+        callback(new Error('Not allowed by CORS')); // Bloqueia
+      }
+    },
+    credentials: true
+  }));
+
 app.use(express.json());
 
 
