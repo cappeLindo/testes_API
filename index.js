@@ -20,11 +20,10 @@ import routerAnuncioCarro from "./hiago/rotas/anuncioCarro.js";
 import routerFiltroAlerta from "./nathan/rotas/routeFiltroAlerta.js";
 import routerCliente from "./cappe/rotas/cliente.js";
 import routerConcessionaria from "./carlos/rotas/concessionaria.js";
-import authRoutes from "./auth/rotas/authConcessionaria.js";
 import authRoutesCliente from "./auth/rotas/authCliente.js";
 import authRoutesConcessionaria from "./auth/rotas/authConcessionaria.js";
-import routerFavoritosCarros from "./maria/rotas/favoritos.js";
-import routerEndereco from "./maria/rotas/enderecos.js";
+import routerFavoritosCarros from "./hiago/rotas/favoritos.js";
+import routerEndereco from "./hiago/rotas/enderecos.js";
 
 //---------------- Configuração básica da API ----------------
 const porta = 9000;
@@ -45,7 +44,6 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 
 app.use('/auth', authRoutesCliente);
 app.use('/auth', authRoutesConcessionaria);
-
 app.use('/aro', routerAro); 
 app.use('/cambio', routerCambio); 
 app.use('/categoria', routerCategoria);
@@ -53,8 +51,9 @@ app.use('/combustivel', routerCombustivel);
 app.use('/cor', routerCor);
 app.use('/marca', routerMarca);
 app.use('/modelo', routerModelo);
+app.use('/favoritosCarros', routerFavoritosCarros);
+app.use('/endereco', routerEndereco);
 app.use('/carro', routerAnuncioCarro); //revisar, arrumar e adicionar verificação.
-
 
 //---------------- Nathan ----------------
 app.use('/filtro-alerta', routerFiltroAlerta); //revisar, arrumar e adicionar verificação.
@@ -65,13 +64,6 @@ app.use('/cliente', routerCliente);
 //---------------- Cappe ----------------
 app.use('/concessionaria', routerConcessionaria);
 
-
-
-
-//favoritos -- falta fazer
-app.use('/favoritosCarros', routerFavoritosCarros);
-app.use('/endereco', routerEndereco);
-//enderço -- falta fazer
 
 //---------------- Configuração do tratamento de erros personalizado ----------------
 app.use(errorHandler);
