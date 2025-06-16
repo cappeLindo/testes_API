@@ -28,7 +28,7 @@ async function executarQuery(sql, params = []) {
 
 async function deletarModelo(id) {
     try {
-        const sql = "DELETE FROM modelo WHERE id_modelo = ?";
+        const sql = "DELETE FROM modelo WHERE id = ?";
         const resultado = await executarQuery(sql, [id]);
         return resultado;
     } catch (error) {

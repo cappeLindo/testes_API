@@ -16,7 +16,7 @@ async function executarQuery(sql, params = []) {
 
 async function adicionarModelo(nome, id_marca, id_categoria) {
     try{
-        const sql = `INSERT INTO modelo (nome_modelo, marca_id_marca, categoria_id_categoria) VALUE (?, ?, ?);`;
+        const sql = `INSERT INTO modelo (nome, marca_id, categoria_id) VALUES (?, ?, ?);`;
         return await executarQuery(sql, [nome, id_marca, id_categoria]);
     } catch(error) {
         throw new AppError('Valores são invalidos', 400, 'MODELO_VALUE_INVALID', error.message);

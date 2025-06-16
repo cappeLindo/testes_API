@@ -1,29 +1,27 @@
 import pool from '../../../config.js';
 import AppError from '../../utils/appError.js';
 
-export default async function adicionarCliente(cliente) {
-  const { nome_cliente, cpf_cliente, email_cliente, telefone_cliente, imagem_cliente } = cliente;
+export default async function adicionarCliente(nome, cpf, email, senha, telefone, imagem) {
 
   try {
     const conexao = await pool.getConnection();
 
     const [resultado] = await conexao.execute(
-      `INSERT INTO cliente (nome_cliente, cpf_cliente, email_cliente, telefone_cliente, imagem_cliente)
-       VALUES (?, ?, ?, ?, ?)`,
-      [nome_cliente, cpf_cliente, email_cliente, telefone_cliente, imagem_cliente || null]
+      `INSERT INTO cliente (nome, cpf, email, senha, telefone, imagem) VALUES (?, ?, ?, ?, ?, ?)`,
+      [nome, cpf, email, senha, telefone, imagem]
     );
 
     conexao.release();
 
     return {
-      id_cliente: resultado.insertId,
-      nome_cliente,
-      cpf_cliente,
-      email_cliente,
-      telefone_cliente,
-      imagem_cliente
+      id: resultado.insertId,
+      nome,
+      cpf,
+      email,
+      senha,
+      telefone
     };
   } catch (erro) {
-    throw new AppError('Erro ao adicionar cliente.', 500, 'ERRO_INSERCAO_CLIENTE', erro.message);
+    throw new AppError('Erro ao adicionar cliente.', 500, 'ERRO_INSERCAO', erro.message);
   }
 }

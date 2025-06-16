@@ -29,7 +29,7 @@ async function executarQuery(sql, params = []) {
 async function deletarCombustivel(id) {
     try {
         id = parseInt(id, 10); // Garantindo que id seja um número inteiro
-        const sql = "DELETE FROM combustivel WHERE id_combustivel = ?";
+        const sql = "DELETE FROM combustivel WHERE id = ?";
         const resultado = await executarQuery(sql, [id]);
         return resultado;
     } catch (error) {

@@ -20,7 +20,7 @@ async function editarAro(id, nome) {
         if (!nome) {
             throw new AppError('Nome do aro é obrigatório', 400, 'MISSING_NAME');
         }
-        const sql = "UPDATE aro SET nome_aro = ? WHERE id_aro = ?";
+        const sql = "UPDATE aro SET nome = ? WHERE id = ?";
         const resultado = await executarQuery(sql, [nome, id]);
         return resultado;
     } catch (error) {

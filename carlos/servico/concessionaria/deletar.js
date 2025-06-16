@@ -15,7 +15,7 @@ async function executarQuery(sql, params = []) {
 }
 
 export default async function deletarConcessionaria(id) {
-  const sql = `DELETE FROM concessionaria WHERE id_concessionaria = ?`;
+  const sql = `DELETE FROM concessionaria WHERE id = ?`;
   const resultado = await executarQuery(sql, [id]);
 
   if (!resultado || resultado.affectedRows === 0) {

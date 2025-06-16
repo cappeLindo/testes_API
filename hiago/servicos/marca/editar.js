@@ -20,7 +20,7 @@ async function editarMarca(id, nome) {
         if (!nome) {
             throw new AppError('Nome da marca é obrigatório', 400, 'MISSING_NAME');
         }
-        const sql = "UPDATE marca SET nome_marca = ? WHERE id_marca = ?";
+        const sql = "UPDATE marca SET nome = ? WHERE id = ?";
         const resultado = await executarQuery(sql, [nome, id]);
         return resultado;
     } catch (error) {

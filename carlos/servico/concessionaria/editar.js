@@ -14,24 +14,28 @@ async function executarQuery(sql, params = []) {
   }
 }
 
-export default async function editarConcessionaria(id, concessionaria) {
-  const { nome_concessionaria, cnpj_concessionaria, email_concessionaria, telefone_concessionaria, imagem_concessionaria, endereco_id_endereco } = concessionaria;
+export async function editarConcessionaria(id, nome, cnpj, email, senha, telefone, imagem) {
 
-  const sql = `
-    UPDATE concessionaria 
-    SET nome_concessionaria = ?, cnpj_concessionaria = ?, email_concessionaria = ?, telefone_concessionaria = ?, imagem_concessionaria = ?, endereco_id_endereco = ?
-    WHERE id_concessionaria = ?
-  `;
+  const sql = `UPDATE Concessionaria SET nome = ?, cnpj = ?, email = ?, senha = ?, telefone = ?, imagem = ? WHERE id = ?`;
 
   const resultado = await executarQuery(sql, [
-    nome_concessionaria,
-    cnpj_concessionaria,
-    email_concessionaria,
-    telefone_concessionaria,
-    imagem_concessionaria || null,
-    endereco_id_endereco,
+    nome,
+    cnpj,
+    email,
+    senha,
+    telefone,
+    imagem || null,
     id
   ]);
 
-  return resultado;
+  return resultado; // Também contém `affectedRows`
+}
+
+
+export async function editarConcessionariaParcial(id, campos) {
+  const colunas = Object.keys(campos).map(campo => `${campo} = ?`).join(", ");
+  const valores = Object.values(campos);
+  const sql = `UPDATE Concessionaria SET ${colunas} WHERE id = ?`
+  valores.push(id);
+  return await executarQuery(sql, valores);
 }

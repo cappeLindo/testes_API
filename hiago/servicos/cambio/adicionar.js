@@ -16,7 +16,7 @@ async function executarQuery(sql, params = []) {
 
 async function adicionarCambio(nome) {
     try{
-        const sql = `INSERT INTO cambio (nome_cambio) VALUE (?);`;
+        const sql = `INSERT INTO cambio (nome) VALUE (?);`;
         return await executarQuery(sql, [nome]);
     } catch(error) {
         throw new AppError('ID do câmbio é invalido', 400, 'CAMBIO_ID_INVALID', error.message);

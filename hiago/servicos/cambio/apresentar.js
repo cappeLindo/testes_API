@@ -32,7 +32,7 @@ async function apresentarCambioPorId(id) {
     throw new AppError('ID do câmbio é obrigatório', 400, 'MISSING_ID');
   }
 
-  const sql = `SELECT * FROM cambio WHERE id_cambio = ?`;
+  const sql = `SELECT * FROM cambio WHERE id = ?`;
   try {
     const resultado = await executarQuery(sql, [id]);
 
@@ -50,7 +50,7 @@ async function apresentarCambioPorNome(nome) {
     throw new AppError('Nome do câmbio é obrigatório', 400, 'MISSING_NAME');
   }
 
-  const sql = `SELECT * FROM cambio WHERE nome_cambio LIKE ?`;
+  const sql = `SELECT * FROM cambio WHERE nome LIKE ?`;
   try {
     const resultado = await executarQuery(sql, [`%${nome}%`]);
 

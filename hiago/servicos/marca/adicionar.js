@@ -16,7 +16,7 @@ async function executarQuery(sql, params = []) {
 
 async function adicionarMarca(nome) {
     try{
-        const sql = `INSERT INTO marca (nome_marca) VALUE (?);`;
+        const sql = `INSERT INTO marca (nome) VALUE (?);`;
         return await executarQuery(sql, [nome]);
     } catch(error) {
         throw new AppError('ID da marca é invalido', 400, 'MARCA_ID_INVALID', error.message);

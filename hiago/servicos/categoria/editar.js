@@ -20,7 +20,7 @@ async function editarCategoria(id, nome) {
         if (!nome) {
             throw new AppError('Nome da categoria é obrigatório', 400, 'MISSING_NAME');
         }
-        const sql = "UPDATE categoria SET nome_categoria = ? WHERE id_categoria = ?";
+        const sql = "UPDATE categoria SET nome = ? WHERE id = ?";
         const resultado = await executarQuery(sql, [nome, id]);
         return resultado;
     } catch (error) {

@@ -20,7 +20,7 @@ async function editarCombustivel(id, nome) {
         if (!nome) {
             throw new AppError('Nome do combustível é obrigatório', 400, 'MISSING_NAME');
         }
-        const sql = "UPDATE combustivel SET nome_combustivel = ? WHERE id_combustivel = ?";
+        const sql = "UPDATE combustivel SET nome = ? WHERE id = ?";
         const resultado = await executarQuery(sql, [nome, id]);
         return resultado;
     } catch (error) {

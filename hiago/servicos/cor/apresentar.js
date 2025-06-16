@@ -32,7 +32,7 @@ async function apresentarCorPorId(id) {
     throw new AppError('ID da cor é obrigatório', 400, 'MISSING_ID');
   }
 
-  const sql = `SELECT * FROM cor WHERE id_cor = ?`;
+  const sql = `SELECT * FROM cor WHERE id = ?`;
   try {
     const resultado = await executarQuery(sql, [id]);
 
@@ -50,7 +50,7 @@ async function apresentarCorPorNome(nome) {
     throw new AppError('Nome da cor é obrigatório', 400, 'MISSING_NAME');
   }
 
-  const sql = `SELECT * FROM cor WHERE nome_cor LIKE ?`;
+  const sql = `SELECT * FROM cor WHERE nome LIKE ?`;
   try {
     const resultado = await executarQuery(sql, [`%${nome}%`]);
 

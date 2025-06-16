@@ -29,7 +29,7 @@ async function executarQuery(sql, params = []) {
 async function deletarCambio(id) {
     try {
         id = parseInt(id, 10); // Garantindo que id seja um número inteiro
-        const sql = "DELETE FROM cambio WHERE id_cambio = ?";
+        const sql = "DELETE FROM cambio WHERE id = ?";
         const resultado = await executarQuery(sql, [id]);
         return resultado;
     } catch (error) {

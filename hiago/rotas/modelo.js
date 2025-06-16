@@ -15,9 +15,9 @@ routerModelo.put('/:id', async (req, res) => {
     // #swagger.parameters['modelo'] = { in: 'body', description: 'Dados do modelo', required: true, schema: { $ref: '#/definitions/Modelo' } }
 
     const { id } = req.params;
-    const { nome, id_marca, id_categoria } = req.body;
+    const { nome, marca_id, categoria_id } = req.body;
     try {
-        if (isNaN(id) || !nome || !id_marca || !id_categoria) {
+        if (isNaN(id) || !nome || !marca_id || !categoria_id) {
             throw new AppError('ID inválido', 400, 'INVALID_ID');
         }
     
@@ -25,13 +25,13 @@ routerModelo.put('/:id', async (req, res) => {
             throw new AppError('Nome do modelo é obrigatório', 400, 'MISSING_NAME');
         }
     
-        const nomeValido = await validarModeloParcial(nome, id_marca, id_categoria);
+        const nomeValido = await validarModeloParcial(nome, marca_id, categoria_id);
 
         if (!nomeValido.status) {
             throw new AppError('O valor é inválido.', 400, 'INVALID_VALUE', nomeValido.mensagem);
         }
 
-        const resultado = await editarModelo(id, nome, id_marca, id_categoria);
+        const resultado = await editarModelo(id, nome, marca_id, categoria_id);
 
         if (resultado.affectedRows === 0) {
             throw new AppError('Marca não encontrada', 404, 'MODELO_NOT_FOUND');
@@ -55,17 +55,17 @@ routerModelo.patch('/:id', async (req, res) => {
     
     try {
         const { id } = req.params;
-        const { nome, id_marca, id_categoria } = req.body;
+        const { nome, marca_id, categoria_id } = req.body;
         const camposAtualizar = {};
-        if (nome) camposAtualizar.nome_modelo = nome;
-        if (id_marca) camposAtualizar.marca_id_marca = id_marca;
-        if (id_categoria) camposAtualizar.categoria_id_categoria = id_categoria;
+        if (nome) camposAtualizar.nome = nome;
+        if (marca_id) camposAtualizar.marca_id = marca_id;
+        if (categoria_id) camposAtualizar.categoria_id = categoria_id;
 
         if (Object.keys(camposAtualizar).length === 0) {
             throw new AppError('O valor é inválido.', 400, 'MISSING_DATA');
         }
 
-        const modeloValido = await validarModeloParcial(nome, id_marca, id_categoria)
+        const modeloValido = await validarModeloParcial(nome, marca_id, categoria_id)
 
         if (!modeloValido.status) {
             throw new AppError('O valor é inválido.', 400, 'INVALID_VALUE', modeloValido.mensagem);
@@ -92,20 +92,20 @@ routerModelo.post('/', async (req, res) => {
     // #swagger.description = 'Cadastra um modelo'
     // #swagger.parameters['modelo'] = { in: 'body', description: 'Dados do modelo', required: true, schema: { $ref: '#/definitions/Modelo' } }
 
-    const { nome, id_marca, id_categoria } = req.body;
+    const { nome, marca_id, categoria_id } = req.body;
 
     try {
-        if (!nome || !id_marca || !id_categoria) {  
+        if (!nome || !marca_id || !categoria_id) {  
             throw new AppError('Nome e valor da modelo é obrigatório.', 400, 'MISSING_DATA');
         }
         
-        const modeloValido = await validarModelo(nome, id_marca, id_categoria);
+        const modeloValido = await validarModelo(nome, marca_id, categoria_id);
 
         if (!modeloValido.status) {
             throw new AppError('O valor é inválido.', 400, 'INVALID_VALUE', modeloValido.mensagem);
         }
 
-        await adicionarModelo(nome, id_marca, id_categoria);
+        await adicionarModelo(nome, marca_id, categoria_id);
 
         return res.status(201).send("Modelo cadastrado com sucesso!");
     } catch (error) {

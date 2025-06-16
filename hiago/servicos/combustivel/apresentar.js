@@ -32,7 +32,7 @@ async function apresentarCombustivelPorId(id) {
     throw new AppError('ID do combustível é obrigatório', 400, 'MISSING_ID');
   }
 
-  const sql = `SELECT * FROM combustivel WHERE id_combustivel = ?`;
+  const sql = `SELECT * FROM combustivel WHERE id = ?`;
   try {
     const resultado = await executarQuery(sql, [id]);
 
@@ -50,7 +50,7 @@ async function apresentarCombustivelPorNome(nome) {
     throw new AppError('Nome do combustível é obrigatório', 400, 'MISSING_NAME');
   }
 
-  const sql = `SELECT * FROM combustivel WHERE nome_combustivel LIKE ?`;
+  const sql = `SELECT * FROM combustivel WHERE nome LIKE ?`;
   try {
     const resultado = await executarQuery(sql, [`%${nome}%`]);
 

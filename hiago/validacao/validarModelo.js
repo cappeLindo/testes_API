@@ -13,7 +13,6 @@ async function validarModelo(nome, id_marca, id_categoria) {
   }
 
   const modeloExistente = await apresentarModeloPorNome(nome);
-  console.log(modeloExistente.length)
   if (modeloExistente.length != 0) {
     return {
       status: false,

@@ -16,11 +16,11 @@ async function executarQuery(sql, params = []) {
 
 export default async function deletarCliente(id) {
   // Excluir registros da tabela filtroAlerta que fazem referência ao cliente
-  const sqlFiltroAlerta = `DELETE FROM filtroAlerta WHERE cliente_id_cliente = ?`;
+  const sqlFiltroAlerta = `DELETE FROM filtroAlerta WHERE cliente_id = ?`;
   await executarQuery(sqlFiltroAlerta, [id]);
 
   // Agora excluir o cliente
-  const sqlCliente = `DELETE FROM cliente WHERE id_cliente = ?`;
+  const sqlCliente = `DELETE FROM cliente WHERE id = ?`;
   const resultado = await executarQuery(sqlCliente, [id]);
 
   if (!resultado || resultado.affectedRows === 0) {

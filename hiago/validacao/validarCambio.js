@@ -10,7 +10,6 @@ async function validarCambio(valor) {
   }
 
   const cambioExistente = await apresentarCambioPorNome(valor);
-  console.log(cambioExistente.length)
   if (cambioExistente.length != 0) {
     return {
       status: false,
