@@ -16,7 +16,6 @@ async function executarQuery(sql, params = []) {
 
 async function editarModelo(id, nome, id_marca, id_categoria) {
   try {
-      id = parseInt(id, 10); // Garantindo que id seja um número inteiro
       if (!nome) {
           throw new AppError('Nome da modelo é obrigatório', 400, 'MISSING_NAME');
       }

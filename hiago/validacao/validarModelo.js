@@ -21,7 +21,6 @@ async function validarModelo(nome, id_marca, id_categoria) {
   }
 
   const marcaExistente = await apresentarMarcaPorId(id_marca);
-  console.log(marcaExistente)
   if (marcaExistente.length == 0) {
     return {
       status: false,
@@ -30,7 +29,6 @@ async function validarModelo(nome, id_marca, id_categoria) {
   }
 
   const categoriaExistente = await apresentarCategoriaPorId(id_categoria);
-  console.log(categoriaExistente)
   if (categoriaExistente.length == 0) {
     return {
       status: false,
@@ -43,33 +41,40 @@ async function validarModelo(nome, id_marca, id_categoria) {
 }
 
 async function validarModeloParcial(nome, id_marca, id_categoria) {
-  if (typeof nome !== 'string' || nome.trim() === '') {
-    return {
-      status: false,
-      mensagem: 'Valor inválido. Deve conter um nome e ser uma string não vazia.',
-    };
+  // Valida nome, se fornecido
+  if (nome !== undefined) {
+    if (typeof nome !== 'string' || nome.trim() === '') {
+      return {
+        status: false,
+        mensagem: 'Valor inválido. O nome deve ser uma string não vazia.',
+      };
+    }
   }
 
-  const marcaExistente = await apresentarMarcaPorId(id_marca);
-  console.log(marcaExistente)
-  if (marcaExistente.length == 0) {
-    return {
-      status: false,
-      mensagem: `A marca "${id_marca}" não existe.`,
-    };
+  // Valida marca, se fornecida
+  if (id_marca !== undefined) {
+    const marcaExistente = await apresentarMarcaPorId(id_marca);
+    if (!marcaExistente || marcaExistente.length === 0) {
+      return {
+        status: false,
+        mensagem: `A marca com ID "${id_marca}" não existe.`,
+      };
+    }
   }
 
-  const categoriaExistente = await apresentarCategoriaPorId(id_categoria);
-  console.log(categoriaExistente)
-  if (categoriaExistente.length == 0) {
-    return {
-      status: false,
-      mensagem: `A categoria "${id_categoria}" não existe.`,
-    };
+  // Valida categoria, se fornecida
+  if (id_categoria !== undefined) {
+    const categoriaExistente = await apresentarCategoriaPorId(id_categoria);
+    if (!categoriaExistente || categoriaExistente.length === 0) {
+      return {
+        status: false,
+        mensagem: `A categoria com ID "${id_categoria}" não existe.`,
+      };
+    }
   }
-
 
   return { status: true, mensagem: '' };
 }
+
 
 export { validarModelo, validarModeloParcial }

@@ -30,6 +30,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
 //---------------- Documentação da API ----------------
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
     swaggerOptions: {
@@ -38,27 +39,23 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
     }
 }));
 
-
 //---------------- Hiago ----------------
 
 app.use('/auth', authRoutesCliente);
 app.use('/auth', authRoutesConcessionaria);
 
-
 app.use('/aro', routerAro); 
 app.use('/cambio', routerCambio); 
 app.use('/categoria', routerCategoria);
-
 app.use('/combustivel', routerCombustivel);
-app.use('/cor', routerCor); 
+app.use('/cor', routerCor);
 app.use('/marca', routerMarca);
-app.use('/modelo', routerModelo); //revisar, arrumar e adicionar verificação
-app.use('/carro', routerAnuncioCarro); //revisar, arrumar e adicionar verificação
+app.use('/modelo', routerModelo);
+app.use('/carro', routerAnuncioCarro); //revisar, arrumar e adicionar verificação.
 
 
 //---------------- Nathan ----------------
-app.use('/filtro-alerta', routerFiltroAlerta); //revisar, arrumar e adicionar verificação
-
+app.use('/filtro-alerta', routerFiltroAlerta); //revisar, arrumar e adicionar verificação.
 
 //---------------- Carlos ----------------
 app.use('/cliente', routerCliente);

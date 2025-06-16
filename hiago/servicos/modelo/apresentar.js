@@ -1,7 +1,7 @@
 import pool from '../../../config.js';
 import AppError from '../../utils/AppError.js';
 
-const sqlpadrao = 'SELECT modelo.id, modelo.nome, marca.id, marca.nome, categoria.id, categoria.nome FROM modelo JOIN marca ON modelo.marca_id = marca.id JOIN categoria ON modelo.categoria_id = categoria.id'
+const sqlpadrao = 'SELECT modelo.id AS modelo_id, modelo.nome AS modelo_nome, marca.id AS marca_id, marca.nome AS marca_nome, categoria.id AS categoria_id, categoria.nome AS categoria_nome FROM modelo JOIN marca ON modelo.marca_id = marca.id JOIN categoria ON modelo.categoria_id = categoria.id'
 
 async function executarQuery(sql, params = []) {
   let conexao;
@@ -52,7 +52,7 @@ async function apresentarModeloPorNome(nome) {
     throw new AppError('Nome do modelo é obrigatório', 400, 'MISSING_NAME');
   }
 
-  const sql = `${sqlpadrao} WHERE nome LIKE ?`;
+  const sql = `${sqlpadrao} WHERE modelo.nome LIKE ?`;
   try {
     const resultado = await executarQuery(sql, [`%${nome}%`]);
 
@@ -88,7 +88,7 @@ async function apresentarModeloPorNomeCategoria(nome) {
     throw new AppError('Nome da cateogira do modelo é obrigatório', 400, 'MISSING_NAME');
   }
 
-  const sql = `${sqlpadrao} WHERE nome LIKE ?`;
+  const sql = `${sqlpadrao} WHERE categoria.nome LIKE ?`;
   try {
     const resultado = await executarQuery(sql, [`%${nome}%`]);
 
@@ -124,7 +124,7 @@ async function apresentarModeloPorNomeMarca(nome) {
     throw new AppError('Nome do modelo é obrigatório', 400, 'MISSING_NAME');
   }
 
-  const sql = `${sqlpadrao} WHERE nome LIKE ?`;
+  const sql = `${sqlpadrao} WHERE marca.nome LIKE ?`;
   try {
     const resultado = await executarQuery(sql, [`%${nome}%`]);
 
