@@ -49,12 +49,11 @@ app.use('/aro', routerAro);
 app.use('/cambio', routerCambio); 
 app.use('/categoria', routerCategoria);
 
-app.use('/combustivel', routerCombustivel); //revisar, arrumar e adicionar verificação
-app.use('/cor', routerCor); //revisar, arrumar e adicionar verificação
-app.use('/marca', routerMarca); //revisar, arrumar e adicionar verificação
+app.use('/combustivel', routerCombustivel);
+app.use('/cor', routerCor); 
+app.use('/marca', routerMarca);
 app.use('/modelo', routerModelo); //revisar, arrumar e adicionar verificação
 app.use('/carro', routerAnuncioCarro); //revisar, arrumar e adicionar verificação
-
 
 
 //---------------- Nathan ----------------

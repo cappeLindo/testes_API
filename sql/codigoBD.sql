@@ -51,29 +51,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `webcars_db`.`modelo`
+-- Table `webcars_db`.`marca`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `webcars_db`.`modelo` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `webcars_db`.`combustivel`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `webcars_db`.`combustivel` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `webcars_db`.`aro`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `webcars_db`.`aro` (
+CREATE TABLE IF NOT EXISTS `webcars_db`.`marca` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
@@ -91,9 +71,43 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `webcars_db`.`marca`
+-- Table `webcars_db`.`modelo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `webcars_db`.`marca` (
+CREATE TABLE IF NOT EXISTS `webcars_db`.`modelo` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  `marca_id` INT NOT NULL,
+  `categoria_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `marca_id`, `categoria_id`),
+  INDEX `fk_modelo_marca1_idx` (`marca_id` ASC) VISIBLE,
+  INDEX `fk_modelo_categoria1_idx` (`categoria_id` ASC) VISIBLE,
+  CONSTRAINT `fk_modelo_marca1`
+    FOREIGN KEY (`marca_id`)
+    REFERENCES `webcars_db`.`marca` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_modelo_categoria1`
+    FOREIGN KEY (`categoria_id`)
+    REFERENCES `webcars_db`.`categoria` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `webcars_db`.`combustivel`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `webcars_db`.`combustivel` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `webcars_db`.`aro`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `webcars_db`.`aro` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))

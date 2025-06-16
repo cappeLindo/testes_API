@@ -20,7 +20,7 @@ async function editarModelo(id, nome, id_marca, id_categoria) {
       if (!nome) {
           throw new AppError('Nome da modelo é obrigatório', 400, 'MISSING_NAME');
       }
-      const sql = "UPDATE modelo SET nome_modelo = ?, marca_id_marca = ?, categoria_id_categoria = ? WHERE id_modelo = ?";
+      const sql = "UPDATE modelo SET nome = ?, marca_id = ?, categoria_id = ? WHERE id = ?";
       const resultado = await executarQuery(sql, [nome, id_marca, id_categoria, id]);
       return resultado;
   } catch (error) {
@@ -31,7 +31,7 @@ async function editarModelo(id, nome, id_marca, id_categoria) {
 async function editarModeloParcial(id, campos) {
   const colunas = Object.keys(campos).map(campo => `${campo} = ?`).join(", ");
   const valores = Object.values(campos);
-  const sql = `UPDATE modelo SET ${colunas} WHERE id_modelo = ?`
+  const sql = `UPDATE modelo SET ${colunas} WHERE id = ?`
   valores.push(id);
   return await executarQuery(sql, valores);
 }
