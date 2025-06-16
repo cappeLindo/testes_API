@@ -23,6 +23,8 @@ import routerConcessionaria from "./carlos/rotas/concessionaria.js";
 import authRoutes from "./auth/rotas/authConcessionaria.js";
 import authRoutesCliente from "./auth/rotas/authCliente.js";
 import authRoutesConcessionaria from "./auth/rotas/authConcessionaria.js";
+import routerFavoritosCarros from "./maria/rotas/favoritos.js";
+import routerEndereco from "./maria/rotas/enderecos.js";
 
 //---------------- Configuração básica da API ----------------
 const porta = 9000;
@@ -64,8 +66,11 @@ app.use('/cliente', routerCliente);
 app.use('/concessionaria', routerConcessionaria);
 
 
-//favoritos -- falta fazer
 
+
+//favoritos -- falta fazer
+app.use('/favoritosCarros', routerFavoritosCarros);
+app.use('/endereco', routerEndereco);
 //enderço -- falta fazer
 
 //---------------- Configuração do tratamento de erros personalizado ----------------
