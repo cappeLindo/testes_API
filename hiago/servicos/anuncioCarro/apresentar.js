@@ -1,7 +1,7 @@
 import pool from '../../../config.js';
 import AppError from '../../utils/AppError.js';
 
-const sqlPadrao = "SELECT ac.id_anuncioCarro, ac.nome_anuncioCarro, ac.modelo_id_modelo, m.nome_modelo, ac.marca_id_marca, ma.nome_marca, ac.categoria_id_categoria, c.nome_categoria, ac.cor_id_cor, co.nome_cor, ac.aro_id_aro, a.nome_aro, ac.combustivel_id_combustivel, cb.nome_combustivel, ac.cambio_id_cambio, ca.nome_cambio, ac.concessionaria_id_concessionaria, cs.nome_concessionaria FROM `webcars_db`.anuncioCarro ac INNER JOIN `webcars_db`.modelo m ON ac.modelo_id_modelo = m.id_modelo INNER JOIN `webcars_db`.marca ma ON ac.marca_id_marca = ma.id_marca INNER JOIN `webcars_db`.categoria c ON ac.categoria_id_categoria = c.id_categoria INNER JOIN `webcars_db`.cor co ON ac.cor_id_cor = co.id_cor INNER JOIN `webcars_db`.aro a ON ac.aro_id_aro = a.id_aro INNER JOIN `webcars_db`.combustivel cb ON ac.combustivel_id_combustivel = cb.id_combustivel INNER JOIN `webcars_db`.cambio ca ON ac.cambio_id_cambio = ca.id_cambio INNER JOIN `webcars_db`.concessionaria cs ON ac.concessionaria_id_concessionaria = cs.id_concessionaria"
+const sqlPadrao = "SELECT ac.id, ac.nome, ac.modelo_id, m.nome, ac.marca_id, ma.nome, ac.categoria_id, c.nome, ac.cor_id, co.nome, ac.aro_id, a.nome, ac.combustivel_id, cb.nome, ac.cambio_id, ca.nome, ac.concessionaria_id, cs.nome FROM `webcars_db`.anuncioCarro ac INNER JOIN `webcars_db`.modelo m ON ac.modelo_id = m.id INNER JOIN `webcars_db`.marca ma ON ac.marca_id = ma.id INNER JOIN `webcars_db`.categoria c ON ac.categoria_id = c.id INNER JOIN `webcars_db`.cor co ON ac.cor_id = co.id INNER JOIN `webcars_db`.aro a ON ac.aro_id = a.id INNER JOIN `webcars_db`.combustivel cb ON ac.combustivel_id = cb.id INNER JOIN `webcars_db`.cambio ca ON ac.cambio_id = ca.id INNER JOIN `webcars_db`.concessionaria cs ON ac.concessionaria_id = cs.id"
 
 
 async function executarQuery(sql, params = []) {
@@ -34,7 +34,7 @@ async function apresentarCarroPorID(id) {
     throw new AppError('ID do aro é obrigatório', 400, 'MISSING_ID');
   }
 
-  const sql = `${sqlPadrao} WHERE ac.id_anuncioCarro = ?`;
+  const sql = `${sqlPadrao} WHERE ac.id = ?`;
   try {
     const resultado = await executarQuery(sql, [id]);
 
@@ -52,7 +52,7 @@ async function apresentarCarroPorNome(nome) {
     throw new AppError('Nome do carro é obrigatório', 400, 'MISSING_NAME');
   }
 
-  const sql = `${sqlPadrao} WHERE ac.nome_anuncioCarro LIKE ?`;
+  const sql = `${sqlPadrao} WHERE ac.nome LIKE ?`;
   try {
     const resultado = await executarQuery(sql, [`%${nome}%`]);
 

@@ -56,7 +56,7 @@ app.use('/endereco', routerEndereco);
 app.use('/carro', routerAnuncioCarro); //revisar, arrumar e adicionar verificação.
 
 //---------------- Nathan ----------------
-app.use('/filtro-alerta', routerFiltroAlerta); //revisar, arrumar e adicionar verificação.
+app.use('/filtroAlerta', routerFiltroAlerta); //revisar, arrumar e adicionar verificação.
 
 //---------------- Carlos ----------------
 app.use('/cliente', routerCliente);
