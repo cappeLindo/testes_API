@@ -16,7 +16,7 @@ const routerFiltroAlerta = express.Router();
 /**
  * @swagger
  * tags:
- *   name: FiltroAlerta
+ *   name: Filtro Alerta
  *   description: Operações relacionadas aos filtros de alerta dos clientes.
  */
 
@@ -26,7 +26,7 @@ const routerFiltroAlerta = express.Router();
  *   get:
  *     summary: Lista todos os filtros de alerta
  *     description: Retorna todos os filtros cadastrados ou filtra por nome.
- *     tags: [FiltroAlerta]
+ *     tags: [Filtro Alerta]
  *     parameters:
  *       - in: query
  *         name: nome
@@ -64,7 +64,7 @@ routerFiltroAlerta.get('/', async (req, res, next) => {
  *   get:
  *     summary: Busca filtro de alerta por ID
  *     description: Retorna detalhes de um filtro específico por seu ID.
- *     tags: [FiltroAlerta]
+ *     tags: [Filtro Alerta]
  *     parameters:
  *       - in: path
  *         name: id
@@ -101,7 +101,7 @@ routerFiltroAlerta.get('/:id', async (req, res, next) => {
  *   get:
  *     summary: Busca filtros de alerta por cliente
  *     description: Retorna todos os filtros associados a um cliente específico.
- *     tags: [FiltroAlerta]
+ *     tags: [Filtro Alerta]
  *     parameters:
  *       - in: path
  *         name: id
@@ -137,7 +137,7 @@ routerFiltroAlerta.get('/cliente/:id', async (req, res, next) => {
  *   post:
  *     summary: Cria um novo filtro de alerta
  *     description: Adiciona um novo filtro com os dados fornecidos pelo cliente.
- *     tags: [FiltroAlerta]
+ *     tags: [Filtro Alerta]
  *     requestBody:
  *       required: true
  *       content:
@@ -198,7 +198,7 @@ routerFiltroAlerta.post('/', async (req, res, next) => {
  *   put:
  *     summary: Atualiza um filtro de alerta
  *     description: Substitui os dados do filtro existente com base no ID.
- *     tags: [FiltroAlerta]
+ *     tags: [Filtro Alerta]
  *     parameters:
  *       - in: path
  *         name: id
@@ -253,7 +253,7 @@ routerFiltroAlerta.put('/:id', async (req, res, next) => {
  *   delete:
  *     summary: Remove um filtro de alerta
  *     description: Exclui um filtro pelo seu ID.
- *     tags: [FiltroAlerta]
+ *     tags: [Filtro Alerta]
  *     parameters:
  *       - in: path
  *         name: id
