@@ -10,11 +10,11 @@ INSERT INTO `endereco` (estado, cidade, bairro, rua) VALUES
 
 -- Inserir dados na tabela Concessionaria (genéricos, com senhas hasheadas fictícias)
 INSERT INTO `concessionaria` (nome, cnpj, email, senha, telefone, imagem, endereco_id) VALUES
-('Auto Concessionária ABC', '12.345.678/0001-99', 'contato@abc.com', '$2y$10$hashedpassword123', '(11) 99999-1111', 0x00, 1),
-('Revenda Rio Car', '98.765.432/0001-88', 'rio@revendario.com', '$2y$10$hashedpassword456', '(21) 98888-2222', 0x00, 2),
-('Carros BH', '45.678.123/0001-77', 'bh@carrosbh.com', '$2y$10$hashedpassword789', '(31) 97777-3333', 0x00, 3),
-('Curitiba Veículos', '56.789.123/0001-66', 'curitiba@veiculos.com', '$2y$10$hashedpassword101', '(41) 96666-4444', 0x00, 4),
-('Sul Carros', '78.901.234/0001-55', 'sul@carros.com', '$2y$10$hashedpassword202', '(51) 95555-5555', 0x00, 5);
+('Auto Concessionária ABC', '12.345.678/0001-99', 'contato@abc.com', 'Senha@123', '(11) 99999-1111', 0x00, 1),
+('Revenda Rio Car', '98.765.432/0001-88', 'rio@revendario.com', 'Senha@123', '(21) 98888-2222', 0x00, 2),
+('Carros BH', '45.678.123/0001-77', 'bh@carrosbh.com', 'Senha@123', '(31) 97777-3333', 0x00, 3),
+('Curitiba Veículos', '56.789.123/0001-66', 'curitiba@veiculos.com', 'Senha@123', '(41) 96666-4444', 0x00, 4),
+('Sul Carros', '78.901.234/0001-55', 'sul@carros.com', 'Senha@123', '(51) 95555-5555', 0x00, 5);
 
 -- Inserir dados na tabela Marca
 INSERT INTO `marca` (nome) VALUES
@@ -86,11 +86,11 @@ INSERT INTO `carro` (nome, ano, condicao, valor, ipva_pago, data_ipva, data_comp
 
 -- Inserir dados na tabela Cliente (genéricos, com senhas hasheadas fictícias)
 INSERT INTO `cliente` (nome, cpf, email, senha, telefone, imagem) VALUES
-('João Silva', '123.456.789-00', 'joao.silva@email.com', '$2y$10$hashedpassword001', '(11) 91234-5678', NULL),
-('Maria Oliveira', '987.654.321-00', 'maria.oliveira@email.com', '$2y$10$hashedpassword002', '(21) 92345-6789', NULL),
-('Pedro Santos', '456.789.123-00', 'pedro.santos@email.com', '$2y$10$hashedpassword003', '(31) 93456-7890', NULL),
-('Ana Costa', '789.123.456-00', 'ana.costa@email.com', '$2y$10$hashedpassword004', '(41) 94567-8901', NULL),
-('Lucas Pereira', '321.654.987-00', 'lucas.pereira@email.com', '$2y$10$hashedpassword005', '(51) 95678-9012', NULL);
+('João Silva', '123.456.789-00', 'joao.silva@email.com', 'Senha@123', '(11) 91234-5678', NULL),
+('Maria Oliveira', '987.654.321-00', 'maria.oliveira@email.com', 'Senha@123', '(21) 92345-6789', NULL),
+('Pedro Santos', '456.789.123-00', 'pedro.santos@email.com', 'Senha@123', '(31) 93456-7890', NULL),
+('Ana Costa', '789.123.456-00', 'ana.costa@email.com', 'Senha@123', '(41) 94567-8901', NULL),
+('Lucas Pereira', '321.654.987-00', 'lucas.pereira@email.com', 'Senha@123', '(51) 95678-9012', NULL);
 
 -- Inserir dados na tabela filtroAlerta
 INSERT INTO `filtroAlerta` (nome, ano, condicao, ipva_pago, blindagem, data_ipva, data_compra, valor_maximo, valor_minimo, cliente_id, marca_id, categoria_id, cambio_id, aro_id, modelo_id, combustivel_id, cor_id) VALUES
