@@ -502,14 +502,35 @@ routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res
  *       500:
  *         description: Erro interno do servidor
  */
+
 routeAnuncioCarro.get('/', async (req, res, next) => {
   const { nome } = req.query;
 
   try {
     const resultado = nome ? await apresentarCarroPorNome(nome) : await apresentarCarro();
-
     if (!resultado.length) {
       throw new AppError('Nenhum carro encontrado.', 404, 'CARRO_NOT_FOUND');
+    }
+    res.status(200).json({
+      mensagem: 'Consulta feita com sucesso.',
+      dados: resultado
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+routeAnuncioCarro.get('/:id', async (req, res, next) => {
+  const { id } = req.params;
+
+  try {
+    if (!id || isNaN(id)) {
+      throw new AppError('ID inválido.', 400, 'INVALID_ID');
+    }
+
+    const resultado = await apresentarCarroPorId(id);
+    if (!resultado) {
+      throw new AppError('Carro não encontrado.', 404, 'CARRO_NOT_FOUND');
     }
 
     res.status(200).json({
