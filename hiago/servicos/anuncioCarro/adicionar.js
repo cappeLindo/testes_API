@@ -1,32 +1,55 @@
 import pool from '../../../config.js';
 import AppError from '../../utils/AppError.js';
+import { adicionarImagem } from '../imagensCarro/adicionar.js';
 
 async function executarQuery(sql, params = []) {
-    let conexao;
-    try {
-        conexao = await pool.getConnection();
-        const [resultado] = await conexao.execute(sql, params);
-        return resultado;
-    } catch (error) {
-        throw new AppError('Erro ao executar o comando', 500, 'DB_EXEC_ERROR', error.message);
-    } finally {
-        if (conexao) conexao.release();
-    }
+  let conexao;
+  try {
+    conexao = await pool.getConnection();
+    const [resultado] = await conexao.execute(sql, params);
+    return resultado;
+  } catch (error) {
+    throw new AppError('Erro ao executar o comando', 500, 'DB_EXEC_ERROR', error.message);
+  } finally {
+    if (conexao) conexao.release();
+  }
 }
 
-async function adicionarCarro(nomeCarro, anoCarro, condicaoCarro, valorCarro, ipvaPago, dataIpva, dataCompra, detalhesVeiculo, blindagem, idCor, idAro, idCategoria, idMarca, idModelo, idCombustivel, idCambio, idConcessionaria) {
-    try{
-        const sql = `INSERT INTO \`webcars_db\`.\`anuncioCarro\`
-        (\`nome_anuncioCarro\`, \`ano\`, \`condicao\`, \`valor\`, \`ipva_pago\`, \`data_ipva\`,
-         \`data_compra\`, \`detalhes_veiculo\`, \`blindagem\`, \`cor_id_cor\`, \`aro_id_aro\`,
-         \`categoria_id_categoria\`, \`marca_id_marca\`, \`modelo_id_modelo\`, 
-         \`combustivel_id_combustivel\`, \`cambio_id_cambio\`, \`concessionaria_id_concessionaria\`)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
-        return await executarQuery(sql, [nomeCarro, anoCarro, condicaoCarro, valorCarro, ipvaPago, dataIpva, dataCompra, detalhesVeiculo, blindagem, idCor, idAro, idCategoria, idMarca, idModelo, idCombustivel, idCambio, idConcessionaria]);
-    } catch(error) {
-        throw new AppError('Erro ao cadastrar carro', 400, 'CARRO_ERROR_POST', error.message);
+async function adicionarCarro(dados, imagens) {
+  const {
+    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+    cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, concessionaria_id
+  } = dados;
+
+  try {
+    const sql = `
+      INSERT INTO carro (
+        nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+        cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, concessionaria_id
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+    const params = [
+      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+      cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, concessionaria_id
+    ];
+
+    const resultado = await executarQuery(sql, params);
+
+    if (resultado.affectedRows === 0) {
+      throw new AppError('Erro ao cadastrar carro.', 500, 'CARRO_INSERT_ERROR');
     }
-    
+
+    // Adiciona as imagens
+    for (let i = 0; i < imagens.length; i++) {
+      const file = imagens[i];
+      const nomeFinal = `${Date.now()}-${i}-${file.originalname}`;
+      await adicionarImagem(nomeFinal, resultado.insertId, file.buffer);
+    }
+
+    return resultado;
+  } catch (error) {
+    throw new AppError('Erro ao cadastrar carro.', 500, 'CARRO_INSERT_ERROR', error.message);
+  }
 }
 
-export { adicionarCarro }
+export { adicionarCarro };

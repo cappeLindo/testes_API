@@ -1,41 +1,42 @@
 import pool from '../../../config.js';
 import AppError from '../../utils/AppError.js';
-let codigoErro;
+import { deletarImagemAnuncio } from '../imagensCarro/deletar.js';
 
 async function executarQuery(sql, params = []) {
-    let conexao;
-    try {
-        conexao = await pool.getConnection();
-        //console.log('Executando SQL:', sql, 'com params:', params); // DEBUG
-        const [resultado] = await conexao.execute(sql, params);
-        return resultado;
-    } catch (error) {
-        if (error.code === 'ER_ROW_IS_REFERENCED_2' || error.code === 'ER_ROW_IS_REFERENCED') {
-            codigoErro = 409;
-            throw new AppError(
-                'Não é possível excluir o registro porque ele está sendo referenciado por outros dados.',
-                codigoErro,
-                'FOREIGN_KEY_CONSTRAINT',
-                error.message
-            );
-        }
-        codigoErro = 500;
-        throw new AppError('Erro ao executar o comando', codigoErro, 'DB_EXEC_ERROR', error.message);
-    } finally {
-        if (conexao) conexao.release();
+  let conexao;
+  try {
+    conexao = await pool.getConnection();
+    const [resultado] = await conexao.execute(sql, params);
+    return resultado;
+  } catch (error) {
+    if (error.code === 'ER_ROW_IS_REFERENCED_2' || error.code === 'ER_ROW_IS_REFERENCED') {
+      throw new AppError(
+        'Não é possível excluir o carro porque ele está sendo referenciado por outros dados.',
+        409,
+        'FOREIGN_KEY_CONSTRAINT',
+        error.message
+      );
     }
+    throw new AppError('Erro ao executar o comando', 500, 'DB_EXEC_ERROR', error.message);
+  } finally {
+    if (conexao) conexao.release();
+  }
 }
 
 async function deletarAnuncioCarro(id) {
-    try {
-        id = parseInt(id, 10); // Garantindo que id seja um número inteiro
-        const sql = "DELETE FROM anuncioCarro WHERE id_anuncioCarro = ?";
-        const resultado = await executarQuery(sql, [id]);
-        return resultado;
-    } catch (error) {
-        throw new AppError('Erro ao deletar anuncio', codigoErro, 'ANUNCIO_DELETE_ERROR', error.message);
-    }
+  try {
+    id = parseInt(id, 10);
+
+    // Deleta imagens associadas
+    await deletarImagemAnuncio(id);
+
+    const sql = 'DELETE FROM carro WHERE id = ?';
+    const resultado = await executarQuery(sql, [id]);
+
+    return resultado;
+  } catch (error) {
+    throw new AppError('Erro ao deletar carro.', 500, 'CARRO_DELETE_ERROR', error.message);
+  }
 }
 
-export { deletarAnuncioCarro }
-
+export { deletarAnuncioCarro };

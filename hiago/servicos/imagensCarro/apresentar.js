@@ -14,71 +14,32 @@ async function executarQuery(sql, params = []) {
   }
 }
 
-async function apresentarImagens(req, res, next) {
-  const sql = `SELECT * FROM imagensCarro`;
+async function apresentarImagemPorId(idImagem) {
+  if (!idImagem || isNaN(idImagem)) {
+    throw new AppError('ID da imagem é obrigatório.', 400, 'MISSING_IMAGE_ID');
+  }
+
+  const sql = 'SELECT id, arquivo FROM imagensCarro WHERE id = ?';
   try {
-    const resultado = await executarQuery(sql);
+    const resultado = await executarQuery(sql, [idImagem]);
+    return resultado[0];
+  } catch (error) {
+    throw new AppError('Erro ao buscar imagem por ID.', 500, 'IMAGE_ID_ERROR', error.message);
+  }
+}
+
+async function apresentarImagemPorIdAnuncio(idAnuncio) {
+  if (!idAnuncio || isNaN(idAnuncio)) {
+    throw new AppError('ID do anúncio é obrigatório.', 400, 'MISSING_ANUNCIO_ID');
+  }
+
+  const sql = 'SELECT id, arquivo FROM imagensCarro WHERE carro_id = ?';
+  try {
+    const resultado = await executarQuery(sql, [idAnuncio]);
     return resultado;
   } catch (error) {
-    if (!(error instanceof AppError)) {
-      throw new AppError('Erro ao apresentar marca', 500, 'MARCA_LIST_ERROR', error.message);
-    }
-    throw error;
+    throw new AppError('Erro ao buscar imagens por ID do anúncio.', 500, 'IMAGE_ANUNCIO_ERROR', error.message);
   }
 }
 
-async function apresentarImagemPorId(id) {
-  if (!id) {
-    throw new AppError('ID da imagem é obrigatório', 400, 'MISSING_ID');
-  }
-
-  const sql = `SELECT arquivo_imagem FROM imagensCarro WHERE id_imagensCarro = ?`;
-  try {
-    return await executarQuery(sql, [id]);
-  } catch (error) {
-    if (!(error instanceof AppError)) {
-      throw new AppError('Erro ao buscar imagem por ID', 500, 'IMAGEM_ID_ERROR', error.message);
-    }
-    throw error;
-  }
-}
-
-async function apresentarImagemPorNome(nome) {
-  if (!nome) {
-    throw new AppError('Nome da imagem é obrigatório', 400, 'MISSING_NAME');
-  }
-
-  const sql = `SELECT * FROM imagensCarro WHERE nome_imagensCarro LIKE ?`;
-  try {
-    const resultado = await executarQuery(sql, [`%${nome}%`]);
-
-    return resultado;
-  } catch (error) {
-    if (!(error instanceof AppError)) {
-      throw new AppError('Erro ao buscar imagem por nome', 500, 'IMAGEM_NAME_ERROR', error.message);
-    }
-    throw error;
-  }
-}
-
-
-async function apresentarImagemPorIdAnuncio(id) {
-  if (!id) {
-    throw new AppError('ID do anuncio é obrigatório', 400, 'MISSING_ID');
-  }
-
-  const sql = `SELECT * FROM imagensCarro WHERE anuncioCarro_id_anuncioCarro = ?`;
-  try {
-    const resultado = await executarQuery(sql, [id]);
-
-    return resultado;
-  } catch (error) {
-    if (!(error instanceof AppError)) {
-      throw new AppError('Erro ao buscar imagem por ID do anuncio', 500, 'IMAGEM_ANUNCIO_ID_ERROR', error.message);
-    }
-    throw error;
-  }
-}
-
-
-export { apresentarImagens, apresentarImagemPorId, apresentarImagemPorNome, apresentarImagemPorIdAnuncio };
+export { apresentarImagemPorId, apresentarImagemPorIdAnuncio };
