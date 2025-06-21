@@ -19,8 +19,8 @@ async function apresentarImagemPorId(idImagem) {
     throw new AppError('ID da imagem é obrigatório.', 400, 'MISSING_IMAGE_ID');
   }
 
-  const sql = 'SELECT id, arquivo FROM imagensCarro WHERE id = ?';
   try {
+    const sql = 'SELECT id, arquivo FROM imagensCarro WHERE id = ?';
     const resultado = await executarQuery(sql, [idImagem]);
     return resultado[0];
   } catch (error) {
@@ -33,8 +33,8 @@ async function apresentarImagemPorIdAnuncio(idAnuncio) {
     throw new AppError('ID do anúncio é obrigatório.', 400, 'MISSING_ANUNCIO_ID');
   }
 
-  const sql = 'SELECT id, arquivo FROM imagensCarro WHERE carro_id = ?';
   try {
+    const sql = 'SELECT id, arquivo FROM imagensCarro WHERE carro_id = ?';
     const resultado = await executarQuery(sql, [idAnuncio]);
     return resultado;
   } catch (error) {

@@ -1,8 +1,7 @@
-// servicos/anuncioCarro/editar.js
 import pool from '../../../config.js';
 import AppError from '../../utils/AppError.js';
-import { adicionarImagem } from '../imagensCarro/adicionar.js'; // Apenas adicionarImagem vem de adicionar.js
-import { deletarImagem, deletarImagemAnuncio } from '../imagensCarro/deletar.js'; // Ambas as funções vêm de deletar.js
+import { adicionarImagem } from '../imagensCarro/adicionar.js';
+import { deletarImagem, deletarImagemAnuncio } from '../imagensCarro/deletar.js';
 
 async function executarQuery(sql, params = []) {
   let conexao;
@@ -25,7 +24,6 @@ async function editarAnuncioCarro(dados, imagens) {
 
   try {
     id = parseInt(id, 10);
-
     const sql = `
       UPDATE carro SET
         nome = ?, ano = ?, condicao = ?, valor = ?, ipva_pago = ?, data_ipva = ?,
@@ -39,13 +37,8 @@ async function editarAnuncioCarro(dados, imagens) {
     ];
 
     const resultado = await executarQuery(sql, params);
-
-    // Deleta imagens antigas
     await deletarImagemAnuncio(id);
-
-    // Adiciona novas imagens
-    for (let i = 0; i < imagens.length; i++) {
-      const file = imagens[i];
+    for (const [i, file] of imagens.entries()) {
       const nomeFinal = `${Date.now()}-${i}-${file.originalname}`;
       await adicionarImagem(nomeFinal, id, file.buffer);
     }
@@ -59,8 +52,6 @@ async function editarAnuncioCarro(dados, imagens) {
 async function editarAnuncioCarroParcial(id, camposAtualizar, imagens, imagensExcluidas) {
   try {
     id = parseInt(id, 10);
-
-    // Monta a query de atualização
     const campos = Object.keys(camposAtualizar).map(campo => `${campo} = ?`).join(', ');
     const valores = Object.values(camposAtualizar);
     const sql = `UPDATE carro SET ${campos} WHERE id = ?`;
@@ -68,20 +59,15 @@ async function editarAnuncioCarroParcial(id, camposAtualizar, imagens, imagensEx
 
     const resultado = await executarQuery(sql, params);
 
-    // Exclui imagens, se solicitado
     if (imagensExcluidas) {
       let imagensArray;
       try {
         if (Array.isArray(imagensExcluidas)) {
           imagensArray = imagensExcluidas;
         } else if (typeof imagensExcluidas === 'string') {
-          try {
-            imagensArray = JSON.parse(imagensExcluidas);
-          } catch {
-            imagensArray = imagensExcluidas.split(',').map(id => parseInt(id.trim()));
-          }
+          imagensArray = JSON.parse(imagensExcluidas);
         } else {
-          throw new Error();
+          throw new AppError('Formato inválido para imagensExcluidas.', 400, 'INVALID_JSON');
         }
 
         for (const imagemId of imagensArray) {
@@ -92,10 +78,8 @@ async function editarAnuncioCarroParcial(id, camposAtualizar, imagens, imagensEx
       }
     }
 
-    // Adiciona novas imagens
     if (imagens && imagens.length > 0) {
-      for (let i = 0; i < imagens.length; i++) {
-        const file = imagens[i];
+      for (const [i, file] of imagens.entries()) {
         const nomeFinal = `${Date.now()}-${i}-${file.originalname}`;
         await adicionarImagem(nomeFinal, id, file.buffer);
       }

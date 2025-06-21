@@ -26,13 +26,9 @@ async function executarQuery(sql, params = []) {
 async function deletarAnuncioCarro(id) {
   try {
     id = parseInt(id, 10);
-
-    // Deleta imagens associadas
     await deletarImagemAnuncio(id);
-
     const sql = 'DELETE FROM carro WHERE id = ?';
     const resultado = await executarQuery(sql, [id]);
-
     return resultado;
   } catch (error) {
     throw new AppError('Erro ao deletar carro.', 500, 'CARRO_DELETE_ERROR', error.message);

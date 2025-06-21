@@ -3,12 +3,12 @@ import upload from '../../middlewares/multerConfig.js';
 import {
   apresentarCarro,
   apresentarCarroPorId,
-  apresentarCarroPorNome
+  apresentarCarroPorNome,
 } from '../servicos/anuncioCarro/apresentar.js';
 import { adicionarCarro } from '../servicos/anuncioCarro/adicionar.js';
 import { deletarAnuncioCarro } from '../servicos/anuncioCarro/deletar.js';
 import { editarAnuncioCarro, editarAnuncioCarroParcial } from '../servicos/anuncioCarro/editar.js';
-import { validarCarro } from '../validacao/validarCarro.js';
+import { validarCarro, validarCarroParcial } from '../validacao/validarCarro.js';
 import AppError from '../utils/AppError.js';
 
 const routeAnuncioCarro = express.Router();
@@ -112,7 +112,8 @@ const routeAnuncioCarro = express.Router();
  *               imagensCarro:
  *                 type: array
  *                 items:
- *                   type: file
+ *                   type: string
+ *                   format: binary
  *                 description: Até 7 imagens do carro
  *     responses:
  *       201:
@@ -157,7 +158,7 @@ routeAnuncioCarro.post('/:idConcessionaria', upload.array('imagensCarro', 7), as
       throw new AppError('Número máximo de imagens é 7.', 400, 'MAX_IMAGES_EXCEEDED');
     }
 
-    const resultado = await adicionarCarro({
+    await adicionarCarro({
       nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
       cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, concessionaria_id: idConcessionaria
     }, imagensCarro);
@@ -244,13 +245,14 @@ routeAnuncioCarro.post('/:idConcessionaria', upload.array('imagensCarro', 7), as
  *               imagensCarro:
  *                 type: array
  *                 items:
- *                   type: file
- *                 description: Até todas as imagens do carro
+ *                   type: string
+ *                   format: binary
+ *                 description: Até 7 imagens do carro
  *     responses:
  *       200:
- *         description: Carro editado com sucesso!
+ *         description: Carro editado com sucesso
  *       400:
- *         description: Dados inválidos ou ausentes
+ *         description: Dados inválidos
  *       404:
  *         description: Carro não encontrado
  *       500:
@@ -259,10 +261,8 @@ routeAnuncioCarro.post('/:idConcessionaria', upload.array('imagensCarro', 7), as
 routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res, next) => {
   const { id } = req.params;
   const {
-    nome, ano, condicao, valor, ipva_pago, // Removido o segundo 'condicao'
-    data_ipva, data_compra, detalhes_veiculo, blindagem,
-    cor_id, aro_id, categoria_id, marca_id, modelo_id,
-    combustivel_id, cambio_id
+    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+    cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id
   } = req.body;
   const imagensCarro = req.files;
 
@@ -272,10 +272,8 @@ routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res, 
     }
 
     const validacao = await validarCarro({
-      nome, ano, condicao, valor, ipva_pago,
-      data_ipva, data_compra, detalhes_veiculo, blindagem,
-      cor_id, aro_id, categoria_id, marca_id, modelo_id,
-      combustivel_id, cambio_id
+      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+      cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id
     });
 
     if (!validacao.status) {
@@ -365,7 +363,8 @@ routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res, 
  *               imagensCarro:
  *                 type: array
  *                 items:
- *                   type: file
+ *                   type: string
+ *                   format: binary
  *                 description: Novas imagens do carro
  *               imagensExcluidas:
  *                 type: array
@@ -415,6 +414,11 @@ routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res
     if (cambio_id) camposAtualizar.cambio_id = cambio_id;
     if (concessionaria_id) camposAtualizar.concessionaria_id = concessionaria_id;
 
+    const validacao = await validarCarroParcial(camposAtualizar);
+    if (!validacao.status) {
+      throw new AppError(validacao.mensagem, 400, 'VALIDATION_ERROR');
+    }
+
     if (Object.keys(camposAtualizar).length === 0 && !imagensCarro.length && !imagensExcluidas) {
       throw new AppError('Nada para atualizar.', 400, 'NO_UPDATE_DATA');
     }
@@ -453,56 +457,12 @@ routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   nome:
- *                     type: string
- *                   ano:
- *                     type: integer
- *                   condicao:
- *                     type: string
- *                   valor:
- *                     type: number
- *                   ipva_pago:
- *                     type: boolean
- *                   data_ipva:
- *                     type: string
- *                     format: date
- *                   data_compra:
- *                     type: string
- *                     format: date
- *                   detalhes_veiculo:
- *                     type: string
- *                   blindagem:
- *                     type: boolean
- *                   cor_id:
- *                     type: integer
- *                   aro_id:
- *                     type: integer
- *                   categoria_id:
- *                     type: integer
- *                   marca_id:
- *                     type: integer
- *                   modelo_id:
- *                     type: integer
- *                   combustivel_id:
- *                     type: integer
- *                   cambio_id:
- *                     type: integer
- *                   concessionaria_id:
- *                     type: integer
- *                   imagens:
- *                     type: array
- *                     items:
- *                       type: integer
+ *                 $ref: '#/components/schemas/Carro'
  *       404:
  *         description: Nenhum carro encontrado
  *       500:
  *         description: Erro interno do servidor
  */
-
 routeAnuncioCarro.get('/', async (req, res, next) => {
   const { nome } = req.query;
 
@@ -511,28 +471,6 @@ routeAnuncioCarro.get('/', async (req, res, next) => {
     if (!resultado.length) {
       throw new AppError('Nenhum carro encontrado.', 404, 'CARRO_NOT_FOUND');
     }
-    res.status(200).json({
-      mensagem: 'Consulta feita com sucesso.',
-      dados: resultado
-    });
-  } catch (error) {
-    next(error);
-  }
-});
-
-routeAnuncioCarro.get('/:id', async (req, res, next) => {
-  const { id } = req.params;
-
-  try {
-    if (!id || isNaN(id)) {
-      throw new AppError('ID inválido.', 400, 'INVALID_ID');
-    }
-
-    const resultado = await apresentarCarroPorId(id);
-    if (!resultado) {
-      throw new AppError('Carro não encontrado.', 404, 'CARRO_NOT_FOUND');
-    }
-
     res.status(200).json({
       mensagem: 'Consulta feita com sucesso.',
       dados: resultado
@@ -562,50 +500,7 @@ routeAnuncioCarro.get('/:id', async (req, res, next) => {
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                 nome:
- *                   type: string
- *                 ano:
- *                   type: integer
- *                 condicao:
- *                   type: string
- *                 valor:
- *                   type: number
- *                 ipva_pago:
- *                   type: boolean
- *                 data_ipva:
- *                   type: string
- *                   format: date
- *                 data_compra:
- *                   type: string
- *                   format: date
- *                 detalhes_veiculo:
- *                   type: string
- *                 blindagem:
- *                   type: boolean
- *                 cor_id:
- *                   type: integer
- *                 aro_id:
- *                   type: integer
- *                 categoria_id:
- *                   type: integer
- *                 marca_id:
- *                   type: integer
- *                 modelo_id:
- *                   type: integer
- *                 combustivel_id:
- *                   type: integer
- *                 cambio_id:
- *                   type: integer
- *                 concessionaria_id:
- *                   type: integer
- *                 imagens:
- *                   type: array
- *                   items:
- *                     type: integer
+ *               $ref: '#/components/schemas/Carro'
  *       404:
  *         description: Carro não encontrado
  *       500:
@@ -620,14 +515,13 @@ routeAnuncioCarro.get('/:id', async (req, res, next) => {
     }
 
     const resultado = await apresentarCarroPorId(id);
-
-    if (!resultado.length) {
+    if (!resultado) {
       throw new AppError('Carro não encontrado.', 404, 'CARRO_NOT_FOUND');
     }
 
     res.status(200).json({
       mensagem: 'Consulta feita com sucesso.',
-      dados: resultado[0]
+      dados: resultado
     });
   } catch (error) {
     next(error);
@@ -665,7 +559,6 @@ routeAnuncioCarro.delete('/:id', async (req, res, next) => {
     }
 
     const resultado = await deletarAnuncioCarro(id);
-
     if (resultado.affectedRows === 0) {
       throw new AppError('Carro não encontrado.', 404, 'CARRO_NOT_FOUND');
     }
@@ -675,6 +568,10 @@ routeAnuncioCarro.delete('/:id', async (req, res, next) => {
     next(error);
   }
 });
+
+/**
+ * @swagger
+ * /anuncioCarro/im soft
 
 /**
  * @swagger

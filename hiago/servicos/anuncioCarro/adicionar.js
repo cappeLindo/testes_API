@@ -39,9 +39,7 @@ async function adicionarCarro(dados, imagens) {
       throw new AppError('Erro ao cadastrar carro.', 500, 'CARRO_INSERT_ERROR');
     }
 
-    // Adiciona as imagens
-    for (let i = 0; i < imagens.length; i++) {
-      const file = imagens[i];
+    for (const [i, file] of imagens.entries()) {
       const nomeFinal = `${Date.now()}-${i}-${file.originalname}`;
       await adicionarImagem(nomeFinal, resultado.insertId, file.buffer);
     }

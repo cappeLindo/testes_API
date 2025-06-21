@@ -1,146 +1,134 @@
-import { apresentarAroPorId } from '../servicos/aro/apresentar.js';
-import { apresentarCorPorId } from '../servicos/cor/apresentar.js';
-import { apresentarCombustivelPorId } from '../servicos/combustivel/apresentar.js';
-import { apresentarCambioPorId } from '../servicos/cambio/apresentar.js';
-import { apresentarModeloPorId } from '../servicos/modelo/apresentar.js';
-import { apresentarCategoriaPorId } from '../servicos/categoria/apresentar.js';
-import { apresentarMarcaPorId } from '../servicos/marca/apresentar.js';
+// validacao/validarCarro.js
 
+/**
+ * Valida os dados completos de um carro.
+ * @param {Object} dados - Dados do carro a serem validados.
+ * @returns {Object} - Objeto com status e mensagem de validação.
+ */
+function validarCarro(dados) {
+  const {
+    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+    cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id
+  } = dados;
 
-async function validarCarro(nome, anoCarro, condicaoCarro, valorCarro,
-    ipvaPago, dataIpva, dataCompra, detalhesVeiculo, blindagem,
-    id_cor, id_aro, id_categoria, id_marca, id_modelo,
-    id_combustivel, id_cambio) {
-    if (typeof nome !== 'string' || nome.trim() === '') {
-        return {
-            status: false,
-            mensagem: 'Valor inválido. Deve conter um nome e ser uma string não vazia.',
-        };
-    }
+  if (!nome || typeof nome !== 'string') {
+    return { status: false, mensagem: 'Nome do carro é obrigatório e deve ser uma string.' };
+  }
+  if (!ano || isNaN(ano) || ano < 1900 || ano > new Date().getFullYear()) {
+    return { status: false, mensagem: 'Ano inválido.' };
+  }
+  if (!condicao || typeof condicao !== 'string') {
+    return { status: false, mensagem: 'Condição é obrigatória e deve ser uma string.' };
+  }
+  if (!valor || isNaN(valor) || valor <= 0) {
+    return { status: false, mensagem: 'Valor inválido.' };
+  }
+  if (ipva_pago === undefined || typeof ipva_pago !== 'boolean') {
+    return { status: false, mensagem: 'IPVA pago deve ser um booleano.' };
+  }
+  if (!data_ipva || isNaN(Date.parse(data_ipva))) {
+    return { status: false, mensagem: 'Data do IPVA inválida.' };
+  }
+  if (!data_compra || isNaN(Date.parse(data_compra))) {
+    return { status: false, mensagem: 'Data de compra inválida.' };
+  }
+  if (!detalhes_veiculo || typeof detalhes_veiculo !== 'string') {
+    return { status: false, mensagem: 'Detalhes do veículo são obrigatórios e devem ser uma string.' };
+  }
+  if (blindagem === undefined || typeof blindagem !== 'boolean') {
+    return { status: false, mensagem: 'Blindagem deve ser um booleano.' };
+  }
+  if (!cor_id || isNaN(cor_id) || cor_id <= 0) {
+    return { status: false, mensagem: 'ID da cor inválido.' };
+  }
+  if (!aro_id || isNaN(aro_id) || aro_id <= 0) {
+    return { status: false, mensagem: 'ID do aro inválido.' };
+  }
+  if (!categoria_id || isNaN(categoria_id) || categoria_id <= 0) {
+    return { status: false, mensagem: 'ID da categoria inválido.' };
+  }
+  if (!marca_id || isNaN(marca_id) || marca_id <= 0) {
+    return { status: false, mensagem: 'ID da marca inválido.' };
+  }
+  if (!modelo_id || isNaN(modelo_id) || modelo_id <= 0) {
+    return { status: false, mensagem: 'ID do modelo inválido.' };
+  }
+  if (!combustivel_id || isNaN(combustivel_id) || combustivel_id <= 0) {
+    return { status: false, mensagem: 'ID do combustível inválido.' };
+  }
+  if (!cambio_id || isNaN(cambio_id) || cambio_id <= 0) {
+    return { status: false, mensagem: 'ID do câmbio inválido.' };
+  }
 
-    const marcaExistente = await apresentarMarcaPorId(id_marca);
-    if (marcaExistente.length == 0) {
-        return {
-            status: false,
-            mensagem: `A marca "${id_marca}" não existe.`,
-        };
-    }
-
-    const categoriaExistente = await apresentarCategoriaPorId(id_categoria);
-    if (categoriaExistente.length == 0) {
-        return {
-            status: false,
-            mensagem: `A categoria "${id_categoria}" não existe.`,
-        };
-    }
-
-    const aroExistente = await apresentarAroPorId(id_aro);
-    if (aroExistente.length == 0) {
-        return {
-            status: false,
-            mensagem: `O aro "${id_aro}" não existe.`,
-        };
-    }
-
-    const corExistente = await apresentarCorPorId(id_cor);
-    if (corExistente.length == 0) {
-        return {
-            status: false,
-            mensagem: `A cor "${id_cor}" não existe.`,
-        };
-    }
-
-    const combustivelExistente = await apresentarCombustivelPorId(id_combustivel);
-    if (combustivelExistente.length == 0) {
-        return {
-            status: false,
-            mensagem: `O combustível "${id_combustivel}" não existe.`,
-        };
-    }
-
-    const cambioExistente = await apresentarCambioPorId(id_cambio);
-    if (cambioExistente.length == 0) {
-        return {
-            status: false,
-            mensagem: `O câmbio "${id_cambio}" não existe.`,
-        };
-    }
-
-    const modeloExistente = await apresentarModeloPorId(id_modelo);
-    if (modeloExistente.length == 0) {
-        return {
-            status: false,
-            mensagem: `O modelo "${id_modelo}" não existe.`,
-        };
-    }
-
-    const anoValidacao = /^\d{4}$/.test(anoCarro);
-    if (!anoValidacao) {
-        return {
-            status: false,
-            mensagem: `O ano "${anoCarro}" não é válido.`,
-        };
-    }
-
-    const condicaoValidacao = /^(Novo|Usado|Semi-novo)$/.test(condicaoCarro);
-    if (!condicaoValidacao) {
-        return {
-            status: false,
-            mensagem: `A condição "${condicaoCarro}" não é válida.`,
-        };
-    }
-
-    const valorValidacao = /^\d+(\.\d{1,2})?$/.test(valorCarro);
-    if (!valorValidacao) {
-        return {
-            status: false,
-            mensagem: `O valor "${valorCarro}" não é válido.`,
-        };
-    }
-
-    const ipvaPagoValidacao = /^(1|0)$/.test(ipvaPago);
-    if (!ipvaPagoValidacao) {
-        return {
-            status: false,
-            mensagem: `O IPVA "${ipvaPago}" não é válido.`,
-        };
-    }
-
-    const dataIpvaValidacao = /^\d{4}-\d{2}-\d{2}$/.test(dataIpva);
-    if (!dataIpvaValidacao) {
-        return {
-            status: false,
-            mensagem: `A data do IPVA "${dataIpva}" não é válida.`,
-        };
-    }
-
-    const dataCompraValidacao = /^\d{4}-\d{2}-\d{2}$/.test(dataCompra);
-    if (!dataCompraValidacao) {
-        return {
-            status: false,
-            mensagem: `A data da compra "${dataCompra}" não é válida.`,
-        };
-    }
-
-    const detalhesVeiculoValidacao = typeof detalhesVeiculo === 'string' && detalhesVeiculo.trim() !== '';
-    if (!detalhesVeiculoValidacao) {
-        return {
-            status: false,
-            mensagem: `Os detalhes do veículo "${detalhesVeiculo}" não são válidos.`,
-        };
-    }
-
-    const blindagemValidacao = /^(1|0)$/.test(blindagem);
-    if (!blindagemValidacao) {
-        return {
-            status: false,
-            mensagem: `A blindagem "${blindagem}" não é válida.`,
-        };
-    }
-
-    
-
-    return { status: true, mensagem: '' };
+  return { status: true, mensagem: 'Dados válidos.' };
 }
 
-export { validarCarro }
+/**
+ * Valida os dados parciais de um carro.
+ * @param {Object} dados - Dados parciais do carro a serem validados.
+ * @returns {Object} - Objeto com status e mensagem de validação.
+ */
+function validarCarroParcial(dados) {
+  const camposObrigatorios = ['nome', 'ano', 'condicao', 'valor', 'ipva_pago', 'data_ipva', 'data_compra', 'detalhes_veiculo', 'blindagem', 'cor_id', 'aro_id', 'categoria_id', 'marca_id', 'modelo_id', 'combustivel_id', 'cambio_id'];
+  const camposPresentes = Object.keys(dados);
+
+  for (const campo of camposPresentes) {
+    if (!camposObrigatorios.includes(campo)) {
+      return { status: false, mensagem: `Campo '${campo}' não é válido para atualização parcial.` };
+    }
+    switch (campo) {
+      case 'nome':
+        if (dados[campo] && typeof dados[campo] !== 'string') {
+          return { status: false, mensagem: 'Nome deve ser uma string.' };
+        }
+        break;
+      case 'ano':
+        if (dados[campo] && (isNaN(dados[campo]) || dados[campo] < 1900 || dados[campo] > new Date().getFullYear())) {
+          return { status: false, mensagem: 'Ano inválido.' };
+        }
+        break;
+      case 'condicao':
+        if (dados[campo] && typeof dados[campo] !== 'string') {
+          return { status: false, mensagem: 'Condição deve ser uma string.' };
+        }
+        break;
+      case 'valor':
+        if (dados[campo] && (isNaN(dados[campo]) || dados[campo] <= 0)) {
+          return { status: false, mensagem: 'Valor inválido.' };
+        }
+        break;
+      case 'ipva_pago':
+      case 'blindagem':
+        if (dados[campo] !== undefined && typeof dados[campo] !== 'boolean') {
+          return { status: false, mensagem: `${campo} deve ser um booleano.` };
+        }
+        break;
+      case 'data_ipva':
+      case 'data_compra':
+        if (dados[campo] && isNaN(Date.parse(dados[campo]))) {
+          return { status: false, mensagem: `Data de ${campo} inválida.` };
+        }
+        break;
+      case 'detalhes_veiculo':
+        if (dados[campo] && typeof dados[campo] !== 'string') {
+          return { status: false, mensagem: 'Detalhes do veículo devem ser uma string.' };
+        }
+        break;
+      case 'cor_id':
+      case 'aro_id':
+      case 'categoria_id':
+      case 'marca_id':
+      case 'modelo_id':
+      case 'combustivel_id':
+      case 'cambio_id':
+        if (dados[campo] && (isNaN(dados[campo]) || dados[campo] <= 0)) {
+          return { status: false, mensagem: `ID de ${campo} inválido.` };
+        }
+        break;
+    }
+  }
+
+  return { status: true, mensagem: 'Dados parciais válidos.' };
+}
+
+export { validarCarro, validarCarroParcial };
