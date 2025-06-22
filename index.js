@@ -69,10 +69,10 @@ app.use('/marca', routerMarca);
 app.use('/modelo', routerModelo);
 app.use('/favoritosCarros', routerFavoritosCarros);
 app.use('/endereco', routerEndereco);
-app.use('/carro', routerAnuncioCarro); //revisar, arrumar e adicionar verificação.
+app.use('/carro', routerAnuncioCarro);
 
 //---------------- Nathan ----------------
-app.use('/filtroAlerta', routerFiltroAlerta); //revisar, arrumar e adicionar verificação.
+app.use('/filtroAlerta', routerFiltroAlerta);
 
 //---------------- Carlos ----------------
 app.use('/cliente', routerCliente);
