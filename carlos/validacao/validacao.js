@@ -1,7 +1,7 @@
 import AppError from '../../hiago/utils/AppError.js';
 import pool from '../../config.js';
 
-async function validarConcessionaria(cnpj, email) {
+export async function validarConcessionaria(cnpj, email) {
   const cnpjLimpo = cnpj.replace(/\D/g, ''); // Remove pontos e barras
   const cnpjRegex = /^\d{14}$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

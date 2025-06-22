@@ -14,54 +14,76 @@ async function executarQuery(sql, params = []) {
   }
 }
 
-async function apresentarConcessionaria(id = null) {
-  const sql = id ? `SELECT id, nome, email, cnpj, senha, telefone FROM Concessionaria WHERE id = ?` : `SELECT id, nome, email, cnpj, senha, telefone FROM Concessionaria`;
-  const params = id ? [id] : [];
+async function apresentarConcessionaria() {
+  try {
+    const sql = `SELECT id, nome, cnpj, email, senha, telefone, endereco_id FROM concessionaria`;
+    const resultado = await executarQuery(sql);
+    return resultado;
+  } catch (error) {
+    throw new AppError('Erro ao listar concessionárias', 500, 'CONCESSIONARIA_LIST_ERROR', error.message);
+  }
+}
 
-  const resultado = await executarQuery(sql, params);
-
-  if (!resultado || resultado.length === 0) {
-    throw new AppError(id ? 'Concessionaria não encontrado.' : 'Nenhum concessionaria encontrada.', 404, id ? 'CONCESSIONARIA_NAO_ENCONTRADO' : 'CONCESSIONARIAS_NAO_ENCONTRADOS');
+async function apresentarConcessionariaPorId(id) {
+  if (!id || isNaN(id)) {
+    throw new AppError('ID da concessionária é obrigatório e deve ser um número válido', 400, 'INVALID_ID');
   }
 
-  return resultado;
+  try {
+    const sql = `SELECT id, nome, cnpj, email, senha, telefone, endereco_id FROM concessionaria WHERE id = ?`;
+    const resultado = await executarQuery(sql, [parseInt(id, 10)]);
+    return resultado;
+  } catch (error) {
+    throw new AppError('Erro ao buscar concessionária por ID', 500, 'CONCESSIONARIA_ID_ERROR', error.message);
+  }
 }
 
 async function apresentarConcessionariaPorEmail(email) {
-  const sql = `SELECT id, nome, email, cnpj, senha, telefone FROM concessionaria WHERE email LIKE ?`;
-
-  const resultado = await executarQuery(sql, [`%${email}%`]);
-
-  if (!resultado || resultado.length === 0) {
-    throw new AppError(email ? 'Concessionaria não encontrada.' : 'Nenhum concessionaria encontrada.', 404, email ? 'CONCESSIONARIA_NAO_ENCONTRADO' : 'CONCESSIONARIAS_NAO_ENCONTRADOS');
+  if (!email) {
+    throw new AppError('Email da concessionária é obrigatório', 400, 'MISSING_EMAIL');
   }
 
-  return resultado;
+  try {
+    const sql = `SELECT id, nome, cnpj, email, senha, telefone, endereco_id FROM concessionaria WHERE email LIKE ?`;
+    const resultado = await executarQuery(sql, [`%${email}%`]);
+    return resultado;
+  } catch (error) {
+    throw new AppError('Erro ao buscar concessionária por email', 500, 'CONCESSIONARIA_EMAIL_ERROR', error.message);
+  }
 }
 
 async function apresentarConcessionariaPorNome(nome) {
-  const sql = `SELECT id, nome, email, cnpj, senha, telefone FROM concessionaria WHERE nome LIKE ?`;
-
-  const resultado = await executarQuery(sql, [`%${nome}%`]);
-
-  if (!resultado || resultado.length === 0) {
-    throw new AppError(nome ? 'Concessionaria não encontrado.' : 'Nenhum Concessionaria encontrado.', 404, nome ? 'CONCESSIONARIA_NAO_ENCONTRADO' : 'CONCESSIONARIAS_NAO_ENCONTRADOS');
+  if (!nome) {
+    throw new AppError('Nome da concessionária é obrigatório', 400, 'MISSING_NAME');
   }
 
-  return resultado;
+  try {
+    const sql = `SELECT id, nome, cnpj, email, senha, telefone, endereco_id FROM concessionaria WHERE nome LIKE ?`;
+    const resultado = await executarQuery(sql, [`%${nome}%`]);
+    return resultado;
+  } catch (error) {
+    throw new AppError('Erro ao buscar concessionária por nome', 500, 'CONCESSIONARIA_NAME_ERROR', error.message);
+  }
 }
 
 async function apresentarFotoConcessionariaPorId(id) {
-  const sql = `SELECT imagem FROM concessionaria WHERE id = ?`;
-  const params = [id];
-
-  const resultado = await executarQuery(sql, params);
-
-  if (!resultado || resultado.length === 0) {
-    throw new AppError(id ? 'Concessionaria não encontrado.' : 'Nenhum Concessionaria encontrado.', 404, id ? 'CONCESSIONARIA_NAO_ENCONTRADO' : 'CONCESSIONARIAS_NAO_ENCONTRADOS');
+  if (!id || isNaN(id)) {
+    throw new AppError('ID da concessionária é obrigatório e deve ser um número válido', 400, 'INVALID_ID');
   }
 
-  return resultado;
+  try {
+    const sql = `SELECT imagem FROM concessionaria WHERE id = ?`;
+    const resultado = await executarQuery(sql, [parseInt(id, 10)]);
+    return resultado;
+  } catch (error) {
+    throw new AppError('Erro ao buscar imagem da concessionária', 500, 'CONCESSIONARIA_IMAGE_ERROR', error.message);
+  }
 }
 
-export { apresentarConcessionaria, apresentarConcessionariaPorEmail, apresentarConcessionariaPorNome, apresentarFotoConcessionariaPorId }
+export {
+  apresentarConcessionaria,
+  apresentarConcessionariaPorId,
+  apresentarConcessionariaPorEmail,
+  apresentarConcessionariaPorNome,
+  apresentarFotoConcessionariaPorId
+};
