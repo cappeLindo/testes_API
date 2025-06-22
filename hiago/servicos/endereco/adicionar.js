@@ -14,9 +14,10 @@ async function executarQuery(sql, params = []) {
   }
 }
 
-async function adicionarEndereco(estado, cidade, bairro, rua) {
-  const sql = `INSERT INTO endereco (estado, cidade, bairro, rua) VALUES (?, ?, ?, ?);`;
-  return await executarQuery(sql, [estado, cidade, bairro, rua]);
+async function adicionarEndereco(cep, estado, cidade, bairro, rua) {
+  const sql = `INSERT INTO endereco (cep, estado, cidade, bairro, rua) VALUES (?, ?, ?, ?, ?);`;
+  const resultado = await executarQuery(sql, [cep, estado, cidade, bairro, rua]);
+   return { id: resultado.insertId }; // 👈 retorna o ID
 }
 
 export { adicionarEndereco };

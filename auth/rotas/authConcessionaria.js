@@ -96,14 +96,14 @@ authRoutesConcessionaria.post("/concessionaria/login", async (req, res) => {
 
     // Envia o token como cookie HTTP only para maior segurança
     res.cookie("token", token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === 'production', // Somente em HTTPS no ambiente de produção
       maxAge: 86400000, // 24 horas em milissegundos
       sameSite: "lax" // Respeita a política de cookies de mesmo site
     });
 
     res.cookie("id", usuario.id, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === 'production', // Somente em HTTPS no ambiente de produção
       maxAge: 86400000, // 24 horas em milissegundos
       sameSite: "lax" // Respeita a política de cookies de mesmo site
@@ -150,12 +150,12 @@ authRoutesConcessionaria.post("/concessionaria/logout", (req, res) => {
   try {
     // Limpa o cookie de autenticação
     res.clearCookie("token", {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: "lax"
     });
     res.clearCookie("id", {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: "lax"
     });

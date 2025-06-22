@@ -87,9 +87,7 @@ routerConcessionaria.post('/', upload.single('imagem'), async (req, res, next) =
     }
 
     const validacao = await validarConcessionaria(cnpj, email);
-    if (!validacao.status) {
-      throw new AppError(validacao.mensagem, 400, 'INVALID_DATA', validacao.mensagem);
-    }
+    if (validacao) return next(validacao);
 
     await adicionarConcessionaria(nome, cnpj.replace(/\D/g, ''), email, senha, telefone, imagem, endereco_id);
     res.status(201).send('Concessionária cadastrada com sucesso!');

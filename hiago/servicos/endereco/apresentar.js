@@ -15,17 +15,17 @@ async function executarQuery(sql, params = []) {
 }
 
 async function apresentarEndereco() {
-  const sql = `SELECT id, estado, cidade, bairro, rua FROM endereco`;
+  const sql = `SELECT id, cep, estado, cidade, bairro, rua FROM endereco`;
   return await executarQuery(sql);
 }
 
 async function apresentarEnderecoPorId(id) {
-  const sql = `SELECT id, estado, cidade, bairro, rua FROM endereco WHERE id = ?`;
+  const sql = `SELECT id, cep, estado, cidade, bairro, rua FROM endereco WHERE id = ?`;
   return await executarQuery(sql, [id]);
 }
 
 async function apresentarEnderecoPorCidade(cidade) {
-  const sql = `SELECT id, estado, cidade, bairro, rua FROM endereco WHERE cidade LIKE ?`;
+  const sql = `SELECT id, cep, estado, cidade, bairro, rua FROM endereco WHERE cidade LIKE ?`;
   return await executarQuery(sql, [`%${cidade}%`]);
 }
 

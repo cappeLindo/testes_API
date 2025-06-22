@@ -14,9 +14,9 @@ async function executarQuery(sql, params = []) {
   }
 }
 
-async function editarEndereco(id, estado, cidade, bairro, rua) {
-  const sql = `UPDATE endereco SET estado = ?, cidade = ?, bairro = ?, rua = ? WHERE id = ?`;
-  return await executarQuery(sql, [estado, cidade, bairro, rua, id]);
+async function editarEndereco(id, cep, estado, cidade, bairro, rua) {
+  const sql = `UPDATE endereco SET cep = ?, estado = ?, cidade = ?, bairro = ?, rua = ? WHERE id = ?`;
+  return await executarQuery(sql, [cep, estado, cidade, bairro, rua, id]);
 }
 
 async function editarEnderecoParcial(id, campos) {

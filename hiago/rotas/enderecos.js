@@ -64,10 +64,10 @@ const routerEndereco = express.Router();
  *         description: Erro interno do servidor
  */
 routerEndereco.post('/', async (req, res, next) => {
-  const { estado, cidade, bairro, rua } = req.body;
+  const { cep, estado, cidade, bairro, rua } = req.body;
 
   try {
-    if (!estado || !cidade || !bairro || !rua) {
+    if (!cep || !estado || !cidade || !bairro || !rua) {
       throw new AppError('Todos os campos (estado, cidade, bairro, rua) são obrigatórios.', 400, 'MISSING_FIELDS');
     }
 
@@ -77,8 +77,11 @@ routerEndereco.post('/', async (req, res, next) => {
       throw new AppError('Os dados do endereço são inválidos.', 400, 'INVALID_FIELDS', enderecoValido.mensagem);
     }
 
-    await adicionarEndereco(estado, cidade, bairro, rua);
-    res.status(200).send('Endereço cadastrado com sucesso!');
+    const novoEndereco = await adicionarEndereco(cep, estado, cidade, bairro, rua);
+    res.status(201).json({
+      mensagem: 'Endereço cadastrado com sucesso!',
+      id: novoEndereco.id
+    });
   } catch (error) {
     next(error);
   }
@@ -134,7 +137,7 @@ routerEndereco.post('/', async (req, res, next) => {
  */
 routerEndereco.put('/:id', async (req, res, next) => {
   const { id } = req.params;
-  const { estado, cidade, bairro, rua } = req.body;
+  const { cep, estado, cidade, bairro, rua } = req.body;
 
   try {
     if (isNaN(id)) {
@@ -145,13 +148,13 @@ routerEndereco.put('/:id', async (req, res, next) => {
       throw new AppError('Todos os campos (estado, cidade, bairro, rua) são obrigatórios.', 400, 'MISSING_FIELDS');
     }
 
-    const enderecoValido = await validarEndereco({ estado, cidade, bairro, rua });
+    const enderecoValido = await validarEndereco({ cep, estado, cidade, bairro, rua });
 
     if (!enderecoValido.status) {
       throw new AppError('Os dados fornecidos são inválidos.', 400, 'INVALID_FIELDS', enderecoValido.mensagem);
     }
 
-    const resultado = await editarEndereco(id, estado, cidade, bairro, rua);
+    const resultado = await editarEndereco(id, cep, estado, cidade, bairro, rua);
 
     if (resultado.affectedRows === 0) {
       throw new AppError('Endereço não encontrado.', 404, 'ENDERECO_NOT_FOUND');
@@ -208,7 +211,7 @@ routerEndereco.put('/:id', async (req, res, next) => {
  */
 routerEndereco.patch('/:id', async (req, res, next) => {
   const { id } = req.params;
-  const { estado, cidade, bairro, rua } = req.body;
+  const { cep, estado, cidade, bairro, rua } = req.body;
 
   try {
     if (isNaN(id)) {
@@ -216,6 +219,7 @@ routerEndereco.patch('/:id', async (req, res, next) => {
     }
 
     const camposAtualizar = {};
+    if (cep) camposAtualizar.cep = cep;
     if (estado) camposAtualizar.estado = estado;
     if (cidade) camposAtualizar.cidade = cidade;
     if (bairro) camposAtualizar.bairro = bairro;
