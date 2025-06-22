@@ -20,7 +20,7 @@ async function apresentarImagemPorId(idImagem) {
   }
 
   try {
-    const sql = 'SELECT id, arquivo FROM imagensCarro WHERE id = ?';
+    const sql = 'SELECT arquivo FROM imagensCarro WHERE id = ?';
     const resultado = await executarQuery(sql, [idImagem]);
     return resultado[0];
   } catch (error) {
@@ -34,7 +34,7 @@ async function apresentarImagemPorIdAnuncio(idAnuncio) {
   }
 
   try {
-    const sql = 'SELECT id, arquivo FROM imagensCarro WHERE carro_id = ?';
+    const sql = 'SELECT id FROM imagensCarro WHERE carro_id = ?';
     const resultado = await executarQuery(sql, [idAnuncio]);
     return resultado;
   } catch (error) {

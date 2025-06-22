@@ -5,6 +5,9 @@ import {
   apresentarCarroPorId,
   apresentarCarroPorNome,
 } from '../servicos/anuncioCarro/apresentar.js';
+
+import {  apresentarImagemPorId, apresentarImagemPorIdAnuncio  } from '../servicos/imagensCarro/apresentar.js';
+
 import { adicionarCarro } from '../servicos/anuncioCarro/adicionar.js';
 import { deletarAnuncioCarro } from '../servicos/anuncioCarro/deletar.js';
 import { editarAnuncioCarro, editarAnuncioCarroParcial } from '../servicos/anuncioCarro/editar.js';
@@ -22,7 +25,7 @@ const routeAnuncioCarro = express.Router();
 
 /**
  * @swagger
- * /anuncioCarro/{idConcessionaria}:
+ * /carro/{idConcessionaria}:
  *   post:
  *     summary: Cadastra um novo carro
  *     description: Cria um novo anúncio de carro para uma concessionária específica.
@@ -171,7 +174,7 @@ routeAnuncioCarro.post('/:idConcessionaria', upload.array('imagensCarro', 7), as
 
 /**
  * @swagger
- * /anuncioCarro/{id}:
+ * /carro/{id}:
  *   put:
  *     summary: Edita um carro existente
  *     description: Atualiza todos os dados de um carro existente com base em seu ID.
@@ -305,7 +308,7 @@ routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res, 
 
 /**
  * @swagger
- * /anuncioCarro/{id}:
+ * /carro/{id}:
  *   patch:
  *     summary: Atualiza parcialmente um carro
  *     description: Atualiza parcialmente os dados de um carro com base no ID.
@@ -437,7 +440,7 @@ routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res
 
 /**
  * @swagger
- * /anuncioCarro:
+ * /carro:
  *   get:
  *     summary: Lista todos os carros
  *     description: Retorna todos os carros cadastrados. Pode filtrar por nome.
@@ -482,7 +485,7 @@ routeAnuncioCarro.get('/', async (req, res, next) => {
 
 /**
  * @swagger
- * /anuncioCarro/{id}:
+ * /carro/{id}:
  *   get:
  *     summary: Busca um carro por ID
  *     description: Retorna os dados de um carro específico com base no seu ID.
@@ -530,7 +533,7 @@ routeAnuncioCarro.get('/:id', async (req, res, next) => {
 
 /**
  * @swagger
- * /anuncioCarro/{id}:
+ * /carro/{id}:
  *   delete:
  *     summary: Remove um carro
  *     description: Deleta um carro existente a partir do ID.
@@ -571,11 +574,11 @@ routeAnuncioCarro.delete('/:id', async (req, res, next) => {
 
 /**
  * @swagger
- * /anuncioCarro/im soft
+ * /carro/im soft
 
 /**
  * @swagger
- * /anuncioCarro/imagem/{idImagem}:
+ * /carro/imagem/{idImagem}:
  *   get:
  *     summary: Retorna a imagem de um carro
  *     description: Retorna a imagem de um carro com base no ID da imagem.
