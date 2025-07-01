@@ -104,7 +104,13 @@ authRoutesCliente.post("/cliente/login", async (req, res) => {
             secure: process.env.NODE_ENV === 'production', // Somente em HTTPS no ambiente de produção
             maxAge: 86400000, // 24 horas em milissegundos
             sameSite: "lax" // Respeita a política de cookies de mesmo site
-          });
+        });
+        res.cookie("typeUser", "cliente", {
+            httpOnly: false,
+            secure: process.env.NODE_ENV === 'production', // Somente em HTTPS no ambiente de produção
+            maxAge: 86400000, // 24 horas em milissegundos
+            sameSite: "lax" // Respeita a política de cookies de mesmo site
+        });
 
         // Também pode enviar no json se quiser
         res.json({ message: "Login realizado com sucesso" });
@@ -143,7 +149,13 @@ authRoutesCliente.post("/cliente/logout", (req, res) => {
         httpOnly: false,
         secure: process.env.NODE_ENV === 'production',
         sameSite: "lax"
-      });
+    });
+
+    res.clearCookie("typeUser", {
+        httpOnly: false,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: "lax"
+    });
 
     res.json({ message: "Logout realizado com sucesso." });
 });

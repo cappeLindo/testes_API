@@ -74,7 +74,7 @@ authRoutesConcessionaria.post("/concessionaria/login", async (req, res) => {
 
     // Consulta no banco de dados para verificar se o email existe
     const [results] = await pool.query("SELECT * FROM concessionaria WHERE email = ?", [email]);
-    
+
     if (results.length === 0) {
       return res.status(401).json({ error: "Usuário ou senha incorretos." });
     }
@@ -103,6 +103,12 @@ authRoutesConcessionaria.post("/concessionaria/login", async (req, res) => {
     });
 
     res.cookie("id", usuario.id, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production', // Somente em HTTPS no ambiente de produção
+      maxAge: 86400000, // 24 horas em milissegundos
+      sameSite: "lax" // Respeita a política de cookies de mesmo site
+    });
+    res.cookie("typeUser", "concessionaria", {
       httpOnly: false,
       secure: process.env.NODE_ENV === 'production', // Somente em HTTPS no ambiente de produção
       maxAge: 86400000, // 24 horas em milissegundos
@@ -155,6 +161,12 @@ authRoutesConcessionaria.post("/concessionaria/logout", (req, res) => {
       sameSite: "lax"
     });
     res.clearCookie("id", {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: "lax"
+    });
+
+    res.clearCookie("typeUser", {
       httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: "lax"
