@@ -134,7 +134,7 @@ const routeAnuncioCarro = express.Router();
 routeAnuncioCarro.post('/:idConcessionaria', upload.array('imagensCarro', 7), async (req, res, next) => {
   const { idConcessionaria } = req.params;
   const {
-    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem, 
     cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id
   } = req.body;
   const imagensCarro = req.files;
@@ -145,7 +145,7 @@ routeAnuncioCarro.post('/:idConcessionaria', upload.array('imagensCarro', 7), as
     }
 
     const validacao = await validarCarro({
-      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem, 
       cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id
     });
 
@@ -162,7 +162,7 @@ routeAnuncioCarro.post('/:idConcessionaria', upload.array('imagensCarro', 7), as
     }
 
     await adicionarCarro({
-      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem, 
       cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, concessionaria_id: idConcessionaria
     }, imagensCarro);
 
@@ -264,7 +264,7 @@ routeAnuncioCarro.post('/:idConcessionaria', upload.array('imagensCarro', 7), as
 routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res, next) => {
   const { id } = req.params;
   const {
-    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem, 
     cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id
   } = req.body;
   const imagensCarro = req.files;
@@ -275,7 +275,7 @@ routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res, 
     }
 
     const validacao = await validarCarro({
-      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem, 
       cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id
     });
 
@@ -292,7 +292,7 @@ routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res, 
     }
 
     const resultado = await editarAnuncioCarro({
-      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem, 
       cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, id
     }, imagensCarro);
 
@@ -387,7 +387,7 @@ routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res, 
 routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res, next) => {
   const { id } = req.params;
   const {
-    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem, 
     cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, concessionaria_id,
     imagensExcluidas
   } = req.body;
@@ -403,6 +403,7 @@ routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res
     if (ano) camposAtualizar.ano = ano;
     if (condicao) camposAtualizar.condicao = condicao;
     if (valor) camposAtualizar.valor = valor;
+    if (quilometragem) camposAtualizar.quilometragem = quilometragem;
     if (ipva_pago !== undefined) camposAtualizar.ipva_pago = ipva_pago;
     if (data_ipva) camposAtualizar.data_ipva = data_ipva;
     if (data_compra) camposAtualizar.data_compra = data_compra;

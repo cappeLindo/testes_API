@@ -18,7 +18,7 @@ async function executarQuery(sql, params = []) {
 
 async function editarAnuncioCarro(dados, imagens) {
   const {
-    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem,
     cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, id
   } = dados;
 
@@ -27,12 +27,12 @@ async function editarAnuncioCarro(dados, imagens) {
     const sql = `
       UPDATE carro SET
         nome = ?, ano = ?, condicao = ?, valor = ?, ipva_pago = ?, data_ipva = ?,
-        data_compra = ?, detalhes_veiculo = ?, blindagem = ?, cor_id = ?, aro_id = ?,
+        data_compra = ?, detalhes_veiculo = ?, blindagem = ?, quilometragem = ?, cor_id = ?, aro_id = ?,
         categoria_id = ?, marca_id = ?, modelo_id = ?, combustivel_id = ?, cambio_id = ?
       WHERE id = ?
     `;
     const params = [
-      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem,
+      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem,
       cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, id
     ];
 

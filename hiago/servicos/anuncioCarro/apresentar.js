@@ -27,6 +27,7 @@ const sqlPadrao = `
     c.data_compra, 
     c.detalhes_veiculo, 
     c.blindagem, 
+    c.quilometragem,
     c.cor_id, 
     co.nome AS cor_nome, 
     c.aro_id, 
