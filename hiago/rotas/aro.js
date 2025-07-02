@@ -191,10 +191,7 @@ routerAro.get('/', async (req, res, next) => {
       });
     } else {
       const resultado = await apresentarAro();
-      res.status(200).json({
-        mensagem: 'Consulta feita com sucesso.',
-        dados: resultado
-      });
+      res.status(200).json(resultado);
     }
   } catch (error) {
     next(error);
@@ -240,10 +237,7 @@ routerAro.get('/:id', async (req, res, next) => {
     if (!resultado.length) {
       throw new AppError('Aro não encontrado.', 404, 'ARO_NOT_FOUND');
     }
-    res.status(200).json({
-        mensagem: 'Consulta feita com sucesso.',
-        dados: resultado
-      });
+    res.status(200).json(resultado);
   } catch (error) {
     next(error);
   }
