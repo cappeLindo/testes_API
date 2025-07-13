@@ -113,4 +113,26 @@ async function apresentarCarroPorNome(nome) {
   }
 }
 
-export { apresentarCarro, apresentarCarroPorId, apresentarCarroPorNome };
+async function apresentarCarrosPorConcessionaria(idConcessionaria) {
+  if (!idConcessionaria || isNaN(idConcessionaria)) {
+    throw new AppError('ID da concessionária é obrigatório e deve ser um número', 400, 'INVALID_CONCESSIONARIA_ID');
+  }
+
+  try {
+    const sql = `${sqlPadrao} WHERE c.concessionaria_id = ?`;
+    const resultado = await executarQuery(sql, [idConcessionaria]);
+    const resultadoComImagens = await Promise.all(resultado.map(async (carro) => {
+      const imagens = await apresentarImagemPorIdAnuncio(carro.id);
+      return {
+        ...carro,
+        imagens: imagens.map(img => img.id)
+      };
+    }));
+    return resultadoComImagens;
+  } catch (error) {
+    throw new AppError('Erro ao buscar carros por concessionária', 500, 'CARRO_CONCESSIONARIA_ERROR', error.message);
+  }
+}
+
+// Exportar a nova função
+export { apresentarCarro, apresentarCarroPorId, apresentarCarroPorNome, apresentarCarrosPorConcessionaria };

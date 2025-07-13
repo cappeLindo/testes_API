@@ -4,6 +4,8 @@ import {
   apresentarCarro,
   apresentarCarroPorId,
   apresentarCarroPorNome,
+  apresentarCarrosPorConcessionaria,
+  
 } from '../servicos/anuncioCarro/apresentar.js';
 
 import {  apresentarImagemPorId, apresentarImagemPorIdAnuncio  } from '../servicos/imagensCarro/apresentar.js';
@@ -620,6 +622,58 @@ routeAnuncioCarro.get('/imagem/:idImagem', async (req, res, next) => {
 
     res.set('Content-Type', 'image/jpeg');
     res.send(resultado.arquivo);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * @swagger
+ * /carro/concessionaria/{idConcessionaria}:
+ *   get:
+ *     summary: Lista todos os carros de uma concessionária
+ *     description: Retorna todos os carros cadastrados por uma concessionária específica com base no seu ID.
+ *     tags: [Carro]
+ *     parameters:
+ *       - in: path
+ *         name: idConcessionaria
+ *         required: true
+ *         description: ID da concessionária
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Lista de carros encontrada com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Carro'
+ *       400:
+ *         description: ID da concessionária inválido
+ *       404:
+ *         description: Nenhum carro encontrado para a concessionária
+ *       500:
+ *         description: Erro interno do servidor
+ */
+routeAnuncioCarro.get('/concessionaria/:idConcessionaria', async (req, res, next) => {
+  const { idConcessionaria } = req.params;
+
+  try {
+    if (!idConcessionaria || isNaN(idConcessionaria)) {
+      throw new AppError('ID da concessionária inválido.', 400, 'INVALID_CONCESSIONARIA_ID');
+    }
+
+    const resultado = await apresentarCarrosPorConcessionaria(idConcessionaria);
+    if (!resultado.length) {
+      throw new AppError('Nenhum carro encontrado para esta concessionária.', 404, 'CARRO_NOT_FOUND');
+    }
+
+    res.status(200).json({
+      mensagem: 'Consulta feita com sucesso.',
+      dados: resultado
+    });
   } catch (error) {
     next(error);
   }
