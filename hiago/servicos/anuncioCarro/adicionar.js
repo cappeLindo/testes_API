@@ -21,7 +21,6 @@ async function adicionarCarro(dados, imagens) {
     nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem,
     cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, idConcessionaria
   } = dados;
-  console.log(dados)
   try {
     const sql = `
       INSERT INTO carro (
@@ -50,9 +49,7 @@ async function adicionarCarro(dados, imagens) {
       idConcessionaria
     ];
 
-    console.log(params)
     const resultado = await executarQuery(sql, params);
-    console.log(resultado)
     if (resultado.affectedRows === 0) {
       throw new AppError('Erro ao cadastrar carro.', 500, 'CARRO_INSERT_ERROR');
     }
