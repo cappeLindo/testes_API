@@ -393,8 +393,8 @@ routerCliente.patch('/', upload.single('imagem'), async (req, res, next) => {
  *       500:
  *         description: Erro no servidor
  */
-routerCliente.delete('/', async (req, res, next) => {
-  const { id } = req.user;
+routerCliente.delete('/:id', async (req, res, next) => {
+  const { id } = req.params;
   try {
     const resultado = await deletarCliente(id);
 

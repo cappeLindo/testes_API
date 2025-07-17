@@ -23,9 +23,16 @@ function validarCarro(dados) {
   if (!valor || isNaN(valor) || valor <= 0) {
     return { status: false, mensagem: 'Valor inválido.' };
   }
-  if (ipva_pago === undefined || ipva_pago !== '0' && ipva_pago !== '1') {
+  const isBooleanLike = val =>
+    val === true || val === false || val === 1 || val === 0 || val === '1' || val === '0';
+
+  if (!isBooleanLike(ipva_pago)) {
     return { status: false, mensagem: 'IPVA pago deve ser um booleano.' };
   }
+  if (!isBooleanLike(blindagem)) {
+    return { status: false, mensagem: 'Blindagem deve ser um booleano.' };
+  }
+
   if (!data_ipva || isNaN(Date.parse(data_ipva))) {
     return { status: false, mensagem: 'Data do IPVA inválida.' };
   }
@@ -34,9 +41,6 @@ function validarCarro(dados) {
   }
   if (!detalhes_veiculo || typeof detalhes_veiculo !== 'string') {
     return { status: false, mensagem: 'Detalhes do veículo são obrigatórios e devem ser uma string.' };
-  }
-  if (blindagem === undefined || blindagem !== '1' && blindagem !== '0') {
-    return { status: false, mensagem: 'Blindagem deve ser um booleano.' };
   }
   if (!cor_id || isNaN(cor_id) || cor_id <= 0) {
     return { status: false, mensagem: 'ID da cor inválido.' };

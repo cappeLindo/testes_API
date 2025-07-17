@@ -6,6 +6,7 @@ async function executarQuery(sql, params = []) {
   let conexao;
   try {
     conexao = await pool.getConnection();
+    console.log(sql, params)
     const [resultado] = await conexao.execute(sql, params);
     return resultado;
   } catch (error) {
@@ -18,9 +19,9 @@ async function executarQuery(sql, params = []) {
 async function adicionarCarro(dados, imagens) {
   const {
     nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem,
-    cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, concessionaria_id
+    cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, idConcessionaria
   } = dados;
-
+  console.log(dados)
   try {
     const sql = `
       INSERT INTO carro (
@@ -29,12 +30,29 @@ async function adicionarCarro(dados, imagens) {
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
     const params = [
-      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem,
-      cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, concessionaria_id
+      nome,
+      ano,
+      condicao,
+      valor,
+      ipva_pago ? 1 : 0,
+      data_ipva,
+      data_compra,
+      detalhes_veiculo,
+      blindagem ? 1 : 0,
+      String(quilometragem),
+      cor_id,
+      aro_id,
+      categoria_id,
+      marca_id,
+      modelo_id,
+      combustivel_id,
+      cambio_id,
+      idConcessionaria
     ];
 
+    console.log(params)
     const resultado = await executarQuery(sql, params);
-
+    console.log(resultado)
     if (resultado.affectedRows === 0) {
       throw new AppError('Erro ao cadastrar carro.', 500, 'CARRO_INSERT_ERROR');
     }

@@ -5,10 +5,10 @@ import {
   apresentarCarroPorId,
   apresentarCarroPorNome,
   apresentarCarrosPorConcessionaria,
-  
+
 } from '../servicos/anuncioCarro/apresentar.js';
 
-import {  apresentarImagemPorId, apresentarImagemPorIdAnuncio  } from '../servicos/imagensCarro/apresentar.js';
+import { apresentarImagemPorId, apresentarImagemPorIdAnuncio } from '../servicos/imagensCarro/apresentar.js';
 
 import { adicionarCarro } from '../servicos/anuncioCarro/adicionar.js';
 import { deletarAnuncioCarro } from '../servicos/anuncioCarro/deletar.js';
@@ -136,7 +136,7 @@ const routeAnuncioCarro = express.Router();
 routeAnuncioCarro.post('/:idConcessionaria', upload.array('imagensCarro', 7), async (req, res, next) => {
   const { idConcessionaria } = req.params;
   const {
-    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem, 
+    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem,
     cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id
   } = req.body;
   const imagensCarro = req.files;
@@ -146,10 +146,29 @@ routeAnuncioCarro.post('/:idConcessionaria', upload.array('imagensCarro', 7), as
       throw new AppError('ID da concessionária é obrigatório e deve ser um número.', 400, 'INVALID_CONCESSIONARIA_ID');
     }
 
-    const validacao = await validarCarro({
-      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem, 
-      cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id
-    });
+    const dadosConvertidos = {
+      nome,
+      ano: parseInt(ano),
+      condicao,
+      valor: parseFloat(valor),
+      ipva_pago: ipva_pago === 'true' || ipva_pago === '1',
+      data_ipva,
+      data_compra,
+      detalhes_veiculo,
+      blindagem: blindagem === 'true' || blindagem === '1',
+      quilometragem,
+      cor_id: parseInt(cor_id),
+      aro_id: parseInt(aro_id),
+      categoria_id: parseInt(categoria_id),
+      marca_id: parseInt(marca_id),
+      modelo_id: parseInt(modelo_id),
+      combustivel_id: parseInt(combustivel_id),
+      cambio_id: parseInt(cambio_id),
+      idConcessionaria: parseInt(idConcessionaria)
+    };
+
+
+    const validacao = await validarCarro(dadosConvertidos);
 
     if (!validacao.status) {
       throw new AppError(validacao.mensagem, 400, 'VALIDATION_ERROR');
@@ -163,10 +182,7 @@ routeAnuncioCarro.post('/:idConcessionaria', upload.array('imagensCarro', 7), as
       throw new AppError('Número máximo de imagens é 7.', 400, 'MAX_IMAGES_EXCEEDED');
     }
 
-    await adicionarCarro({
-      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem, 
-      cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, concessionaria_id: idConcessionaria
-    }, imagensCarro);
+    await adicionarCarro(dadosConvertidos, imagensCarro);
 
     res.status(201).send('Carro cadastrado com sucesso!');
   } catch (error) {
@@ -266,7 +282,7 @@ routeAnuncioCarro.post('/:idConcessionaria', upload.array('imagensCarro', 7), as
 routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res, next) => {
   const { id } = req.params;
   const {
-    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem, 
+    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem,
     cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id
   } = req.body;
   const imagensCarro = req.files;
@@ -277,7 +293,7 @@ routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res, 
     }
 
     const validacao = await validarCarro({
-      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem, 
+      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem,
       cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id
     });
 
@@ -294,7 +310,7 @@ routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res, 
     }
 
     const resultado = await editarAnuncioCarro({
-      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem, 
+      nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem,
       cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, id
     }, imagensCarro);
 
@@ -389,7 +405,7 @@ routeAnuncioCarro.put('/:id', upload.array('imagensCarro', 7), async (req, res, 
 routeAnuncioCarro.patch('/:id', upload.array('imagensCarro', 7), async (req, res, next) => {
   const { id } = req.params;
   const {
-    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem, 
+    nome, ano, condicao, valor, ipva_pago, data_ipva, data_compra, detalhes_veiculo, blindagem, quilometragem,
     cor_id, aro_id, categoria_id, marca_id, modelo_id, combustivel_id, cambio_id, concessionaria_id,
     imagensExcluidas
   } = req.body;
