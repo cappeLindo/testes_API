@@ -179,7 +179,7 @@ routerCor.get('/', async (req, res) => {
   if (nome) {
     const resultado = await apresentarCorPorNome(nome);
     if (!resultado.length) {
-      throw new AppError('Cor com esse nome não encontrada', 404, 'COR_NOT_FOUND');
+      res.status(404).json(resultado);
     }
     res.status(200).json(resultado);
   } else {
@@ -224,7 +224,7 @@ routerCor.get('/:id', async (req, res) => {
   if (id) {
     const resultado = await apresentarCorPorId(id);
     if (!resultado.length) {
-      throw new AppError('Cor não encontrada', 404, 'COR_NOT_FOUND');
+      res.status(404).json(resultado);
     }
     res.status(200).json(resultado);
   } else {
