@@ -16,7 +16,12 @@ async function executarQuery(sql, params = []) {
 
 async function apresentarConcessionaria() {
   try {
-    const sql = `SELECT id, nome, cnpj, email, senha, telefone, endereco_id FROM concessionaria`;
+    const sql = `
+      SELECT c.id, c.nome, c.cnpj, c.email, c.senha, c.telefone,
+             e.estado, e.cidade, e.bairro, e.rua, e.numero, e.cep
+      FROM concessionaria c
+      JOIN endereco e ON c.endereco_id = e.id
+    `;
     const resultado = await executarQuery(sql);
     return resultado;
   } catch (error) {
@@ -30,7 +35,13 @@ async function apresentarConcessionariaPorId(id) {
   }
 
   try {
-    const sql = `SELECT id, nome, cnpj, email, senha, telefone, endereco_id FROM concessionaria WHERE id = ?`;
+    const sql = `
+      SELECT c.id, c.nome, c.cnpj, c.email, c.senha, c.telefone,
+             e.estado, e.cidade, e.bairro, e.rua, e.numero, e.cep
+      FROM concessionaria c
+      JOIN endereco e ON c.endereco_id = e.id
+      WHERE c.id = ?
+    `;
     const resultado = await executarQuery(sql, [parseInt(id, 10)]);
     return resultado;
   } catch (error) {
@@ -44,7 +55,13 @@ async function apresentarConcessionariaPorEmail(email) {
   }
 
   try {
-    const sql = `SELECT id, nome, cnpj, email, senha, telefone, endereco_id FROM concessionaria WHERE email LIKE ?`;
+    const sql = `
+      SELECT c.id, c.nome, c.cnpj, c.email, c.senha, c.telefone,
+             e.estado, e.cidade, e.bairro, e.rua, e.numero, e.cep
+      FROM concessionaria c
+      JOIN endereco e ON c.endereco_id = e.id
+      WHERE c.email LIKE ?
+    `;
     const resultado = await executarQuery(sql, [`%${email}%`]);
     return resultado;
   } catch (error) {
@@ -58,7 +75,13 @@ async function apresentarConcessionariaPorNome(nome) {
   }
 
   try {
-    const sql = `SELECT id, nome, cnpj, email, senha, telefone, endereco_id FROM concessionaria WHERE nome LIKE ?`;
+    const sql = `
+      SELECT c.id, c.nome, c.cnpj, c.email, c.senha, c.telefone,
+             e.estado, e.cidade, e.bairro, e.rua, e.numero, e.cep
+      FROM concessionaria c
+      JOIN endereco e ON c.endereco_id = e.id
+      WHERE c.nome LIKE ?
+    `;
     const resultado = await executarQuery(sql, [`%${nome}%`]);
     return resultado;
   } catch (error) {

@@ -184,7 +184,11 @@ routeAnuncioCarro.post('/:idConcessionaria', upload.array('imagensCarro', 7), as
 
     await adicionarCarro(dadosConvertidos, imagensCarro);
 
-    res.status(201).send('Carro cadastrado com sucesso!');
+    res.status(201).json({
+      mensagem: 'Carro cadastrado com sucesso!',
+      status: 201
+    });
+
   } catch (error) {
     next(error);
   }

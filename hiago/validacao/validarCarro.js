@@ -33,10 +33,10 @@ function validarCarro(dados) {
     return { status: false, mensagem: 'Blindagem deve ser um booleano.' };
   }
 
-  if (!data_ipva || isNaN(Date.parse(data_ipva))) {
+  if (data_ipva && isNaN(Date.parse(data_ipva))) {
     return { status: false, mensagem: 'Data do IPVA inválida.' };
   }
-  if (!data_compra || isNaN(Date.parse(data_compra))) {
+  if (data_compra && isNaN(Date.parse(data_compra))) {
     return { status: false, mensagem: 'Data de compra inválida.' };
   }
   if (!detalhes_veiculo || typeof detalhes_veiculo !== 'string') {
