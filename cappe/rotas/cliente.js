@@ -265,8 +265,8 @@ routerCliente.get('/imagem/:idImagem', async (req, res) => {
  *       500:
  *         description: Erro no servidor
  */
-routerCliente.put('/', upload.single('imagem'), async (req, res, next) => {
-  const { id } = req.user;
+routerCliente.put('/:id', upload.single('imagem'), async (req, res, next) => {
+  const { id } = req.params;
   const { nome, cpf, email, senha, telefone } = req.body;
   const imagem = req.file ? req.file.buffer : null;
 
@@ -335,8 +335,8 @@ routerCliente.put('/', upload.single('imagem'), async (req, res, next) => {
  *       500:
  *         description: Erro no servidor
  */
-routerCliente.patch('/', upload.single('imagem'), async (req, res, next) => {
-  const { id } = req.user;
+routerCliente.patch('/:id', upload.single('imagem'), async (req, res, next) => {
+  const { id } = req.params;
   const { nome, cpf, email, senha, telefone } = req.body;
   const imagem = req.file ? req.file.buffer : null;
 
