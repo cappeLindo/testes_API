@@ -1,5 +1,6 @@
 import pool from '../../../config.js';
 import AppError from '../../utils/AppError.js';
+import { apresentarImagemPorIdAnuncio } from '../imagensCarro/apresentar.js';
 
 async function executarQuery(sql, params = []) {
   let conexao;
@@ -25,23 +26,68 @@ const sqlPadrao = `
   JOIN cliente cl ON f.cliente_id = cl.id
 `;
 
+// Buscar todos os favoritos de todos os clientes
 async function buscarFavoritosCarros() {
-  return await executarQuery(sqlPadrao);
+  const resultado = await executarQuery(sqlPadrao);
+  const resultadoComImagens = await Promise.all(resultado.map(async (carro) => {
+    const imagens = await apresentarImagemPorIdAnuncio(carro.carro_id);
+    return {
+      ...carro,
+      imagens: imagens.map(img => img.id)
+    };
+  }));
+  return resultadoComImagens;
 }
 
+// Buscar todos os favoritos de um cliente
 async function buscarFavoritosCarrosByIdCliente(idCliente) {
   const sql = `${sqlPadrao} WHERE f.cliente_id = ?`;
-  return await executarQuery(sql, [idCliente]);
+  const resultado = await executarQuery(sql, [idCliente]);
+  
+  const resultadoComImagens = await Promise.all(resultado.map(async (carro) => {
+    const imagens = await apresentarImagemPorIdAnuncio(carro.carro_id);
+    return {
+      ...carro,
+      imagens: imagens.map(img => img.id)
+    };
+  }));
+  
+  return resultadoComImagens;
 }
 
+// Buscar todos os clientes que favoritaram um carro específico
 async function buscarFavoritosCarrosByIdCarro(idCarro) {
   const sql = `${sqlPadrao} WHERE f.carro_id = ?`;
-  return await executarQuery(sql, [idCarro]);
+  const resultado = await executarQuery(sql, [idCarro]);
+
+  const resultadoComImagens = await Promise.all(resultado.map(async (carro) => {
+    const imagens = await apresentarImagemPorIdAnuncio(carro.carro_id);
+    return {
+      ...carro,
+      imagens: imagens.map(img => img.id)
+    };
+  }));
+
+  return resultadoComImagens;
 }
 
+// Buscar se um cliente favoritou um carro específico
 async function buscarFavoritosCarrosByIdClienteAndIdCarro(idCliente, idCarro) {
   const sql = `${sqlPadrao} WHERE f.cliente_id = ? AND f.carro_id = ?`;
-  return await executarQuery(sql, [idCliente, idCarro]);
+  const resultado = await executarQuery(sql, [idCliente, idCarro]);
+
+  if (resultado.length === 0) return null;
+
+  const imagens = await apresentarImagemPorIdAnuncio(resultado[0].carro_id);
+  return {
+    ...resultado[0],
+    imagens: imagens.map(img => img.id)
+  };
 }
 
-export { buscarFavoritosCarros, buscarFavoritosCarrosByIdCarro, buscarFavoritosCarrosByIdClienteAndIdCarro, buscarFavoritosCarrosByIdCliente };
+export {
+  buscarFavoritosCarros,
+  buscarFavoritosCarrosByIdCliente,
+  buscarFavoritosCarrosByIdCarro,
+  buscarFavoritosCarrosByIdClienteAndIdCarro
+};

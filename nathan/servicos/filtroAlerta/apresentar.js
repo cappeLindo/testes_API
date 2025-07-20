@@ -1,6 +1,6 @@
 import pool from '../../../config.js';
 
-export async function executarQuery(sql, params = []) {
+async function executarQuery(sql, params = []) {
   let conexao;
   try {
     conexao = await pool.getConnection();
@@ -102,5 +102,80 @@ export async function apresentarFiltroAlertaPorIDcleinte(id) {
     return await executarQuery(sql, [id]);
   } catch (error) {
     throw new AppError('Erro ao buscar filtro de alerta por ID do cliente', 500, 'FILTRO_ALERTA_CLIENTE_ID_ERROR', error.message);
+  }
+}
+
+export async function compararCarroComFiltros(idCarro) {
+  if (!idCarro) {
+    throw new AppError('ID do carro é obrigatório.', 400, 'MISSING_CAR_ID');
+  }
+
+  try {
+    // 1. Buscar dados do carro
+    const carroSql = `
+      SELECT * FROM webcars_db.carro WHERE id = ?
+    `;
+    const [carro] = await executarQuery(carroSql, [idCarro]);
+
+    if (!carro) {
+      throw new AppError('Carro não encontrado.', 404, 'CAR_NOT_FOUND');
+    }
+
+    // 2. Buscar todos os filtros e dados do cliente
+    const filtrosSql = `
+      SELECT fa.*, cs.nome AS cliente_nome, cs.email AS cliente_email
+      FROM webcars_db.filtroAlerta fa
+      INNER JOIN webcars_db.cliente cs ON fa.cliente_id = cs.id
+    `;
+    const filtros = await executarQuery(filtrosSql);
+
+    const comparacoes = filtros.map(filtro => {
+      let totalCampos = 0;
+      let camposIguais = 0;
+
+      // Lista de campos comparáveis entre carro e filtro
+      const camposComparaveis = [
+        'ano', 'condicao', 'ipva_pago', 'blindagem', 'modelo_id',
+        'combustivel_id', 'aro_id', 'categoria_id', 'marca_id',
+        'cambio_id', 'cor_id'
+      ];
+
+      camposComparaveis.forEach(campo => {
+        if (filtro[campo] !== null && filtro[campo] !== undefined) {
+          totalCampos++;
+          if (String(filtro[campo]) === String(carro[campo])) {
+            camposIguais++;
+          }
+        }
+      });
+
+      // Verificação de valor entre mínimo e máximo
+      if (filtro.valor_minimo !== null || filtro.valor_maximo !== null) {
+        totalCampos++;
+        const precoOk =
+          (filtro.valor_minimo === null || carro.valor >= filtro.valor_minimo) &&
+          (filtro.valor_maximo === null || carro.valor <= filtro.valor_maximo);
+        if (precoOk) camposIguais++;
+      }
+
+      // Percentual de compatibilidade
+      const porcentagem = totalCampos > 0 ? Math.round((camposIguais / totalCampos) * 100) : 0;
+
+      return {
+        filtro_id: filtro.id,
+        nome_filtro: filtro.nome,
+        cliente_nome: filtro.cliente_nome,
+        cliente_email: filtro.cliente_email,
+        porcentagem_similaridade: porcentagem,
+        filtro
+      };
+    });
+
+    // Ordenar em ordem decrescente de compatibilidade
+    comparacoes.sort((a, b) => b.porcentagem_similaridade - a.porcentagem_similaridade);
+
+    return comparacoes;
+  } catch (error) {
+    throw new AppError('Erro ao comparar carro com filtros.', 500, 'CAR_FILTER_MATCH_ERROR', error.message);
   }
 }

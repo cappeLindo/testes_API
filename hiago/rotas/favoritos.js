@@ -62,18 +62,6 @@ routerFavoritosCarros.get('/', async (req, res, next) => {
  *       500:
  *         description: Erro interno do servidor
  */
-routerFavoritosCarros.get('/cliente/meuPerfil', verifyToken, async (req, res, next) => {
-  const idCliente = req.user.id;
-  try {
-    const resultado = await buscarFavoritosCarrosByIdCliente(idCliente);
-    res.status(200).json({
-      mensagem: 'Consulta feita com sucesso.',
-      dados: resultado,
-    });
-  } catch (error) {
-    next(error);
-  }
-});
 
 /**
  * @swagger
@@ -255,9 +243,9 @@ routerFavoritosCarros.post('/adm', verifyToken, isAdmin, async (req, res, next) 
  *       500:
  *         description: Erro interno do servidor
  */
-routerFavoritosCarros.post('/', verifyToken, validarIdCarroBody, async (req, res, next) => {
+routerFavoritosCarros.post('/:id', async (req, res, next) => {
   const { idCarro } = req.body;
-  const idCliente = req.user.id;
+  const idCliente = req.params.id;
   try {
     const erroValidacao = await validarRelacaoFavoritosCarro({ idCarro, idCliente });
     if (erroValidacao) {
@@ -370,7 +358,7 @@ routerFavoritosCarros.delete('/cliente', verifyToken, async (req, res, next) => 
  *       500:
  *         description: Erro interno do servidor
  */
-routerFavoritosCarros.delete('/clienteECarro/:idCliente/:idCarro', verifyToken, async (req, res, next) => {
+routerFavoritosCarros.delete('/clienteECarro/:idCliente/:idCarro', async (req, res, next) => {
   const { idCarro, idCliente } = req.params;
   try {
     const resultado = await deletarFavoritosCarrosByCarroAndCliente(idCarro, idCliente);

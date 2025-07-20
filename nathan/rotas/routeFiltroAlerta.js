@@ -5,7 +5,8 @@ import {
   apresentarFiltroAlerta, 
   apresentarFiltroAlertaPorID, 
   apresentarFiltroAlertaPorNome, 
-  apresentarFiltroAlertaPorIDcleinte 
+  apresentarFiltroAlertaPorIDcleinte,
+  compararCarroComFiltros 
 } from '../servicos/filtroAlerta/apresentar.js';
 import { adicionarFiltroAlerta } from '../servicos/filtroAlerta/adicionar.js';
 import { editarFiltroAlerta } from '../servicos/filtroAlerta/editar.js';
@@ -106,6 +107,17 @@ routerFiltroAlerta.post('/', async (req, res, next) => {
     next(error);
   }
 });
+
+routerFiltroAlerta.get('/comparar/:idCarro', async (req, res, next) => {
+  try {
+    const { idCarro } = req.params;
+    const resultado = await compararCarroComFiltros(idCarro);
+    res.status(200).json(resultado);
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 /**
  * @swagger
