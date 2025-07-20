@@ -9,7 +9,7 @@ import {
   compararCarroComFiltros 
 } from '../servicos/filtroAlerta/apresentar.js';
 import { adicionarFiltroAlerta } from '../servicos/filtroAlerta/adicionar.js';
-import { editarFiltroAlerta } from '../servicos/filtroAlerta/editar.js';
+import { editarFiltroAlerta, editarFiltroAlertaParcial } from '../servicos/filtroAlerta/editar.js';
 import { deletarFiltroAlerta } from '../servicos/filtroAlerta/deletar.js';
 
 const routerFiltroAlerta = express.Router();
@@ -211,6 +211,27 @@ routerFiltroAlerta.put('/:id', async (req, res, next) => {
     return res.status(200).send("Filtro de alerta atualizado com sucesso!");
   } catch (error) {
     next(error);
+  }
+});
+
+
+routerFiltroAlerta.patch('/:id', async (req, res, next) => {
+  const { id } = req.params;
+  const dadosAtualizados = req.body;
+
+  try {
+    if (Object.keys(dadosAtualizados).length === 0) {
+      throw new AppError('Nenhum campo foi enviado para atualização', 400, 'FILTRO_ALERTA_SEM_DADOS');
+    }
+
+    const resultado = await editarFiltroAlertaParcial(id, dadosAtualizados);
+
+    res.status(200).json({
+      mensagem: 'Filtro de alerta atualizado com sucesso',
+      resultado,
+    });
+  } catch (error) {
+    next(error); // Passa para o middleware de erro
   }
 });
 

@@ -1,5 +1,5 @@
 import pool from '../../../config.js';
-
+import AppError from '../../utils/AppError.js';
 async function executarQuery(sql, params = []) {
     let conexao;
     try {

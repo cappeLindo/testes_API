@@ -182,11 +182,10 @@ routeAnuncioCarro.post('/:idConcessionaria', upload.array('imagensCarro', 7), as
       throw new AppError('Número máximo de imagens é 7.', 400, 'MAX_IMAGES_EXCEEDED');
     }
 
-    await adicionarCarro(dadosConvertidos, imagensCarro);
+    const resultado = await adicionarCarro(dadosConvertidos, imagensCarro);
 
     res.status(201).json({
-      mensagem: 'Carro cadastrado com sucesso!',
-      status: 201
+      resultado
     });
 
   } catch (error) {
