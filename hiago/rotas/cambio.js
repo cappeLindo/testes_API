@@ -177,7 +177,7 @@ routerCambio.get('/', async (req, res) => {
   if (nome) {
     const resultado = await apresentarCambioPorNome(nome);
     if (!resultado.length) {
-      throw new AppError('Câmbio com esse nome não encontrado', 404, 'CAMBIO_NOT_FOUND');
+      res.status(404).json(resultado);
     }
     res.status(200).json(resultado);
   } else {
@@ -219,7 +219,7 @@ routerCambio.get('/:id', async (req, res) => {
 
   const resultado = await apresentarCambioPorId(id);
   if (!resultado.length) {
-    throw new AppError('Câmbio não encontrado', 404, 'CAMBIO_NOT_FOUND');
+    res.status(404).json(resultado);
   }
   res.status(200).json(resultado);
 });

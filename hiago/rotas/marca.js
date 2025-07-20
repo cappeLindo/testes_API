@@ -92,7 +92,7 @@ routerMarca.get('/', async (req, res) => {
     if (nome) {
         const resultado = await apresentarMarcaPorNome(nome);
         if (!resultado.length) {
-            throw new AppError('Marca com esse nome não encontrada', 404, 'MARCA_NOT_FOUND');
+            res.status(404).json(resultado);
         }
         res.status(200).json(resultado);
     } else {
@@ -126,7 +126,7 @@ routerMarca.get('/:id', async (req, res) => {
     if (id) {
         const resultado = await apresentarMarcaPorId(id);
         if (!resultado.length) {
-            throw new AppError('Marca não encontrada', 404, 'MARCA_NOT_FOUND');
+            res.status(404).json(resultado);
         }
         res.status(200).json(resultado);
     } else {

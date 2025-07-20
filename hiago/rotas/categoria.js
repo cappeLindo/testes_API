@@ -182,7 +182,7 @@ routerCategoria.get('/', async (req, res, next) => {
     if (nome) {
       const resultado = await apresentarCategoriaPorNome(nome);
       if (!resultado.length) {
-        throw new AppError('Categoria com esse nome não encontrada', 404, 'CATEGORIA_NOT_FOUND');
+        res.status(404).json(resultado);
       }
       res.status(200).json(resultado);
     } else {
@@ -230,7 +230,7 @@ routerCategoria.get('/:id', async (req, res, next) => {
   try {
     const resultado = await apresentarCategoriaPorId(id);
     if (!resultado.length) {
-      throw new AppError('Categoria não encontrada', 404, 'CATEGORIA_NOT_FOUND');
+      res.status(404).json(resultado);
     }
     res.status(200).json(resultado);
   } catch (error) {

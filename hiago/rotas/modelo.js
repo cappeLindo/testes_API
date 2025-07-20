@@ -77,10 +77,11 @@ const routerModelo = express.Router();
  *                   type: string
  *                   example: INTERNAL_ERROR
  */
-routerModelo.post('/', async (req, res, next) => {
+routerModelo.post('/', async (req, res) => {
     const { nome, marca_id, categoria_id } = req.body;
 
     try {
+        console.log(nome, marca_id, categoria_id)
         if (!nome || !marca_id || !categoria_id) {
             throw new AppError('Nome, marca_id e categoria_id são obrigatórios.', 400, 'MISSING_DATA');
         }
@@ -95,7 +96,7 @@ routerModelo.post('/', async (req, res, next) => {
 
         return res.status(201).send('Modelo cadastrado com sucesso!');
     } catch (error) {
-        next(error instanceof AppError ? error : new AppError('Erro ao cadastrar modelo.', 500, 'INTERNAL_ERROR', error.message));
+        throw new AppError('Erro ao cadastrar modelo.', 500, 'INTERNAL_ERROR', error.message);
     }
 });
 
@@ -463,7 +464,7 @@ routerModelo.get('/', async (req, res, next) => {
         const resultado = nome ? await apresentarModeloPorNome(nome) : await apresentarModelo();
 
         if (nome && !resultado.length) {
-            throw new AppError('Nenhum modelo encontrado com o nome fornecido.', 404, 'MODELO_NOT_FOUND');
+            res.status(404).json(resultado);
         }
 
         return res.status(200).json(resultado);
@@ -546,7 +547,7 @@ routerModelo.get('/:id', async (req, res, next) => {
         const resultado = await apresentarModeloPorId(id);
 
         if (!resultado.length) {
-            throw new AppError('Modelo não encontrado.', 404, 'MODELO_NOT_FOUND');
+            res.status(404).json(resultado);
         }
 
         return res.status(200).json(resultado);

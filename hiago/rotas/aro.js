@@ -183,7 +183,7 @@ routerAro.get('/', async (req, res, next) => {
     if (nome) {
       const resultado = await apresentarAroPorNome(nome);
       if (!resultado.length) {
-        throw new AppError('Aro com esse nome não encontrado.', 404, 'ARO_NOT_FOUND');
+        res.status(404).json(resultado);
       }
       res.status(200).json({
         mensagem: 'Consulta feita com sucesso.',
@@ -235,7 +235,7 @@ routerAro.get('/:id', async (req, res, next) => {
   try {
     const resultado = await apresentarAroPorId(id);
     if (!resultado.length) {
-      throw new AppError('Aro não encontrado.', 404, 'ARO_NOT_FOUND');
+      res.status(404).json(resultado);
     }
     res.status(200).json(resultado);
   } catch (error) {

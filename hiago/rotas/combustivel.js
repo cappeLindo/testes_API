@@ -95,7 +95,7 @@ routerCombustivel.get('/', async (req, res) => {
   if (nome) {
     const resultado = await apresentarCombustivelPorNome(nome);
     if (!resultado.length) {
-      throw new AppError('Combustível com esse nome não encontrado', 404, 'COMBUSTIVEL_NOT_FOUND');
+      res.status(404).json(resultado);
     }
     res.status(200).json(resultado);
   } else {
@@ -131,7 +131,7 @@ routerCombustivel.get('/:id', async (req, res) => {
   if (id) {
     const resultado = await apresentarCombustivelPorId(id);
     if (!resultado.length) {
-      throw new AppError('Combustível não encontrado', 404, 'COMBUSTIVEL_NOT_FOUND');
+      res.status(404).json(resultado);
     }
     res.status(200).json(resultado);
   } else {
