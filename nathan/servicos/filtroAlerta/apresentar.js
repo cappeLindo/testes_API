@@ -47,7 +47,9 @@ const sqlPadrao = `SELECT
     fa.data_ipva, 
     fa.data_compra, 
     fa.valor_maximo, 
-    fa.valor_minimo 
+    fa.valor_minimo,
+    CONVERT_TZ(fa.criado_em, '+00:00', '-03:00') AS criado_em_brasil,
+    CONVERT_TZ(fa.atualizado_em, '+00:00', '-03:00') AS atualizado_em_brasil
 FROM 
     webcars_db.filtroAlerta fa 
     INNER JOIN webcars_db.cliente cs ON fa.cliente_id = cs.id 

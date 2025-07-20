@@ -23,6 +23,7 @@ async function executarQuery(sql, params = []) {
 
 export async function adicionarFiltroAlerta(dados) {
     try {
+        console.log(dados)
         if (!dados.nome || !dados.cliente_id) {
             throw new AppError('Nome e cliente_id são obrigatórios', 400, 'MISSING_DATA');
         }

@@ -1,5 +1,5 @@
 export async function validarFiltroAlerta(dados) {
-    if (!dados.nome_filtroAlerta || dados.nome_filtroAlerta.trim() === '') {
+    if (!dados.nome || dados.nome.trim() === '') {
         return { status: false, mensagem: 'Nome do filtro é obrigatório' };
     }
     

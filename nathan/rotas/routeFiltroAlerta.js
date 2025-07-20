@@ -98,11 +98,12 @@ routerFiltroAlerta.post('/', async (req, res, next) => {
 
     const validacao = await validarFiltroAlerta(req.body);
     if (!validacao.status) {
+      console.log(req.body)
       throw new AppError(validacao.mensagem, 400, 'INVALID_VALUE');
     }
 
     const resultado = await adicionarFiltroAlerta(req.body);
-    return res.status(201).send("Filtro de alerta cadastrado com sucesso!");
+    return res.status(201).json({mensagem: "Filtro de alerta cadastrado com sucesso!"});
   } catch (error) {
     next(error);
   }
